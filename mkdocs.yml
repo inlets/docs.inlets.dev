@@ -93,6 +93,7 @@ nav:
       - Kubernetes Ingress: /tutorial/kubernetes-ingress
       - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel
       - Tunnel SSH: /tutorial/ssh-tcp-tunnel
+      - Community tutorials: /tutorial/community
   - Reference:
       - Overview: reference.md
       - Inlets Operator: /reference/inlets-operator

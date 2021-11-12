@@ -1,6 +1,15 @@
 # Community tutorials and guides
 
-These tutorials may have been written by a third party user of inlets.
+Note: Any material not hosted on `inlets.dev` may be written by a third-party.
+
+If you have a tutorial or video to submit, feel free to [send a Pull Request](https://github.com/inlets/docs.inlets.dev/)
+
+## Case studies
+
+You can read testimonials on the [main homepage](https://inlets.dev/)
+
+* [Connecting my boat to the Internet with inlets by Mark Sharpley](https://inlets.dev/blog/2021/07/13/inlets-narrowboat.html)
+* [How Riskfuel is using Inlets to build machine learning models at scale by Addison van den Hoeven](https://inlets.dev/blog/2021/07/22/riskfuel.html)
 
 ## Videos
 
@@ -27,3 +36,6 @@ Walk-through videos:
 * [Get kubectl access to your private cluster from anywhere](https://blog.alexellis.io/get-private-kubectl-access-anywhere/) (Jan 2020) by Alex Ellis
 * [Exploring Kubernetes Operator Pattern](https://iximiuz.com/en/posts/kubernetes-operator-pattern/) (Jan 2021) by Ivan Velichko
 
+## Official blog posts
+
+See [inlets.dev/blog](https://inlets.dev/blog)
