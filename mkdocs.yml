@@ -12,7 +12,7 @@ copyright: |
   Copyright &copy; 2021 OpenFaaS Ltd
 theme:
   name: material
-  custom_dir: docs/theme
+  # custom_dir: docs/theme
   logo: images/logo.svg
 
   palette:
