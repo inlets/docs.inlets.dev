@@ -98,3 +98,8 @@ nav:
       - Overview: reference.md
       - Inlets Operator: /reference/inlets-operator
       - inletsctl: /reference/inletsctl
+
+extra:
+  analytics:
+    provider: google
+    property: UA-60759269-5
