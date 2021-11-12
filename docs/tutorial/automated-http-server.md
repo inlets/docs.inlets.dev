@@ -167,7 +167,7 @@ You can close the lid on your laptop, and open it again in Starbucks or your fav
 
 I used this technique to test a live demo for the KubeCon conference. I then took a flight from London to San Diego and was able to receive traffic to my Raspberry Pi whilst tethering on a local SIM card.
 
-![Tethering my Raspberry Pi with K3s in San Diego](/images/2021-08-08-private-tunnel/tethering-k3s.jpeg)
+![Tethering my Raspberry Pi with K3s in San Diego](/images/tethering-k3s.jpeg)
 > Tethering my Raspberry Pi with K3s in San Diego
 
 ## Wrapping up
