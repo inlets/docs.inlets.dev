@@ -1,0 +1,99 @@
+site_name: Inlets
+site_description: Inlets Secure Tunnels From Dev to Cloud
+site_author: OpenFaaS Ltd
+site_url: https://docs.inlets.dev/
+
+# Repository
+repo_name: inlets/inlets
+repo_url: https://github.com/inlets
+edit_uri: ""
+
+copyright: |
+  Copyright &copy; 2021 OpenFaaS Ltd
+theme:
+  name: material
+  custom_dir: docs/theme
+  logo: images/logo.svg
+
+  palette:
+  - scheme: default
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to dark mode
+  - scheme: slate
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to light mode
+
+  font:
+    text: Roboto, Helvetica
+    code: Roboto Mono
+  features:
+    - navigation.tracking
+    - navigation.sections
+    - toc.integrate
+    # - navigation.instant
+
+  include_search_page: false
+  search_index_only: true
+
+  language: en
+
+  # favicon: images/favicon.ico
+  logo: images/logo.svg
+
+extra:
+  search:
+    languages: "en"
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/inlets/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/inletsdev
+
+plugins:
+  - search
+  
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - markdown.extensions.admonition
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - markdown.extensions.def_list
+  - markdown.extensions.footnotes
+  - markdown.extensions.meta
+  - markdown.extensions.toc:
+      permalink: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+nav:
+  - Overview:
+      - Introduction: index.md
+      - FAQ: /reference/faq
+  - Tutorials:
+      - Manual HTTP tunnel server: /tutorial/manual-http-server
+      - Automated HTTP tunnel server: /tutorial/automated-http-server
+      - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels
+      - Kubernetes Ingress: /tutorial/kubernetes-ingress
+      - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel
+      - Tunnel SSH: /tutorial/ssh-tcp-tunnel
+  - Reference:
+      - Overview: reference.md
+      - Inlets Operator: /reference/inlets-operator
+      - inletsctl: /reference/inletsctl
