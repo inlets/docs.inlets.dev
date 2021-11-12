@@ -6,6 +6,10 @@
 
 > You can visit the inlets homepage at [https://inlets.dev/](https://inlets.dev/)
 
+!!! note
+
+    Welcome to the new inlets documentation site [launched Nov 2021](https://twitter.com/alexellisuk/status/1459109546232848398?s=20). This rewrite aims to be less verbose, to connect you with practical task-driven examples and to make it easier to find what you need. If you have comments, questions or suggestions, [please let us know on GitHub](https://github.com/inlets/docs.inlets.dev/).
+
 With inlets you are in control of your data, unlike with a SaaS tunnel where shared servers mean your data may be at risk. You can use inlets for local development and in your production environment. It works just as well on bare-metal as in VMs, containers and Kubernetes clusters.
 
 inlets is not just compatible with tricky networks and Cloud Native architecture, it was purpose-built for them.
