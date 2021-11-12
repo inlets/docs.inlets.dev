@@ -175,7 +175,7 @@ Caddy also supports multiple domains within the same file, so that you can expos
 
 ```Caddyfile
 {
-  email "alex@openfaas.com"
+  email "webmaster@example.com"
 }
 
 blog.example.com {
