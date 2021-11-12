@@ -1,8 +1,8 @@
 ## Setting up a HTTP tunnel server manually
 
-In this tutorial we will set up a HTTP tunnel serve manually, without any provisioning tools like inletsctl.
+In this tutorial we will set up an inlets HTTP tunnel server to serve a local website over HTTPS using Let's Encrypt. The steps will be manual, but usually, we would use a provisioning tool like [inletsctl](/reference/inletsctl) to automate everything for us.
 
-This may be useful for understanding how the server binary works, and how to use it on existing servers that you may have.
+This may be useful for understanding how the server binary works, and how to use it on existing servers that you may have. Or perhaps you want to run inlets across an internal or private network.
 
 ## Pre-reqs
 
@@ -22,7 +22,7 @@ First generate an authentication token that the client will use to log in:
 TOKEN="$(head -c 32 /dev/urandom | base64 | cut -d "-" -f1)"
 ```
 
-We'll use the built-in support for Let's Encrypt to get a valid HTTPS certificate for any services you wish to expose via your tunnel server.
+We'll use the built-in support for Let's Encrypt to get a valid HTTPS certificate for any services you wish to expose via your tunnel server. It is also possible to turn off Let's Encrypt support and use your own reverse proxy such as Caddy or Nginx.
 
 ```bash
 export DOMAIN="example.com"
