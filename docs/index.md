@@ -21,6 +21,8 @@ Common use-cases include:
 * Deploying and monitoring apps across multiple locations
 * Remote customer support
 
+> What is your strategy for connecting existing applications to the public cloud? Read: [The Simple Way To Connect Existing Apps to Public Cloud](https://inlets.dev/blog/2021/04/07/simple-hybrid-cloud.html).
+
 ## How does it work?
 
 Inlets tunnels connect to each other over a secure websocket with TLS encryption. Over that private connection, you can then tunnel HTTPS or TCP traffic to computers in another network or to the Internet.

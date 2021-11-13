@@ -11,6 +11,7 @@ You can read testimonials on the [main homepage](https://inlets.dev/)
 * [Connecting my boat to the Internet with inlets by Mark Sharpley](https://inlets.dev/blog/2021/07/13/inlets-narrowboat.html)
 * [How Riskfuel is using Inlets to build machine learning models at scale by Addison van den Hoeven](https://inlets.dev/blog/2021/07/22/riskfuel.html)
 * [Ingress to ECS Anywhere, from anywhere, using Inlets by Nathan Peck](https://nathanpeck.com/ingress-to-ecs-anywhere-from-anywhere-using-inlets/)
+* [Reliable local port-forwarding from Kubernetes for a Developer at UK Gov](https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html)
 
 ## Videos
 
