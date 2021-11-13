@@ -130,6 +130,18 @@ Tunnel servers are easy to scale through the use of containers, and can benefit 
 
 See also: [How we scaled inlets to thousands of tunnels with Kubernetes](https://inlets.dev/blog/2021/03/15/scaling-inlets.html)
 
+## Does inlets support High Availability (HA)?
+
+For the inlets client, it is possible to connect multiple inlets tunnel clients for the same service, such as a company blog. Traffic will be distributed across the clients and if one of those clients goes down or crashes, the other will continue to serve requests.
+
+For the inlets tunnel server, the easiest option is to run the server in a supervisor that can restart the tunnel service quickly or allow it to run more than one replica. Systemd can be used to restart tunnel servers should they run into issues, likewise you can run the server in a container, or as a Kubernetes Pod.
+
+![HA VIP](https://github.com/inlets/inlets-pro/blob/master/docs/images/inlets-pro-vip-ha.png?raw=true)
+
+> HA example with an AWS ELB
+
+For example, you may place a cloud load-balancer in front of the data-plane port of two inlets server processes. Requests to the stable load-balancer IP address will be distributed between the two virtual machines and their respective inlets server tunnel processes.  
+
 ## What are the advantages of using inlets?
 
 We must first ask, advantages vs. what other tool or service?
@@ -176,12 +188,20 @@ Monitoring in inlets allows for you to monitor the reliability of your clients a
 
 ## How much does inlets cost?
 
-Monthly and annual subscriptions are available via Gumroad's license online server. You can also purchase a static license for offline, or air-gapped usage.
+Monthly and annual subscriptions are available via Gumroad.
+
+You can also purchase a static license for offline or air-gapped environments.
 
 For more, see the [Pricing page](https://inlets.dev/pricing/)
 
-## Can we get professional help?
+## What happens when the license expires?
+
+If you're using a Gumroad license, and keep your billing relationship active, then the software will work for as long as you keep paying. The Gumroad license server needs to be reachable by the inlets client.
+
+If you're using a static license, then the software will continue to run, even after your license has expired, unless you restart the software. You can either rotate the token on your inlets clients in an automated or manual fashion, or purchase a token for a longer period of time up front.
+
+## Can I get professional help?
 
 Inlets is designed to be self-service and is well documented, but perhaps you could use some direction?
 
-Business licenses come with support via email, however you are welcome to [contact us](https://inlets.dev/contact) to ask about a consulting project.
+Business licenses come with support via email, however you are welcome to [contact OpenFaaS Ltd](https://inlets.dev/contact) to ask about a consulting project.
