@@ -14,7 +14,7 @@ The use-case may be that you have a number of OpenFaaS functions running on your
 
 ## Create the HTTPS tunnel server first
 
-Create a HTTPS tunnel server using the [manual tutorial](/tutorial/manual-http-server) or [automated tutorial](/tutorial/automated-http-server).
+Create a HTTPS tunnel server using the [manual tutorial](/tutorial/manual-http-server/) or [automated tutorial](/tutorial/automated-http-server/).
 
 Once it's running, check you can connect to it, and then log in with SSH.
 

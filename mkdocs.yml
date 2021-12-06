@@ -85,20 +85,20 @@ markdown_extensions:
 nav:
   - Overview:
       - Introduction: index.md
-      - FAQ: /reference/faq
+      - FAQ: /reference/faq/
   - Tutorials:
-      - Manual HTTP tunnel server: /tutorial/manual-http-server
-      - Automated HTTP tunnel server: /tutorial/automated-http-server
-      - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels
-      - Custom reverse proxy with Caddy: /tutorial/caddy-http-tunnel
-      - Kubernetes Ingress: /tutorial/kubernetes-ingress
-      - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel
-      - Tunnel SSH: /tutorial/ssh-tcp-tunnel
-      - Community tutorials: /tutorial/community
+      - Manual HTTP tunnel server: /tutorial/manual-http-server/
+      - Automated HTTP tunnel server: /tutorial/automated-http-server/
+      - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels/
+      - Custom reverse proxy with Caddy: /tutorial/caddy-http-tunnel/
+      - Kubernetes Ingress: /tutorial/kubernetes-ingress/
+      - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel/
+      - Tunnel SSH: /tutorial/ssh-tcp-tunnel/
+      - Community tutorials: /tutorial/community/
   - Reference:
       - Overview: reference.md
-      - Inlets Operator: /reference/inlets-operator
-      - inletsctl: /reference/inletsctl
+      - Inlets Operator: /reference/inlets-operator/
+      - inletsctl: /reference/inletsctl/
 
 extra:
   analytics:

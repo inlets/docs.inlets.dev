@@ -1,6 +1,6 @@
 ## Setting up a HTTP tunnel server manually
 
-In this tutorial we will set up an inlets HTTP tunnel server to serve a local website over HTTPS using Let's Encrypt. The steps will be manual, but usually, we would use a provisioning tool like [inletsctl](/reference/inletsctl) to automate everything for us.
+In this tutorial we will set up an inlets HTTP tunnel server to serve a local website over HTTPS using Let's Encrypt. The steps will be manual, but usually, we would use a provisioning tool like [inletsctl](/reference/inletsctl/) to automate everything for us.
 
 This may be useful for understanding how the server binary works, and how to use it on existing servers that you may have. Or perhaps you want to run inlets across an internal or private network.
 

@@ -56,7 +56,7 @@ You can also use [the container image from ghcr.io](https://github.com/orgs/inle
 
 ### Running a HTTP tunnel server manually
 
-* [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server)
+* [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
 
 ### Your first HTTPS tunnel with an automated tunnel server
 
@@ -66,7 +66,7 @@ You can also use [the container image from ghcr.io](https://github.com/orgs/inle
 
 The easiest way to scale out inlets tunnels is through the Kubernetes helm chart (see below), however you can manually set up a TCP and HTTPS tunnel on the same machine.
 
-* [Advanced: Setting up dual TCP and HTTPS tunnels](/tutorial/dual-tunnels)
+* [Advanced: Setting up dual TCP and HTTPS tunnels](/tutorial/dual-tunnels/)
 
 ### Local port forwarding
 
@@ -109,11 +109,11 @@ Learn how to set up the inlets-operator for Kubernetes, which provisions public 
 
 For news, use-cases and guides check out the blog:
 
-* [Official Inlets blog](https://inlets.dev/blog)
+* [Official Inlets blog](https://inlets.dev/blog/)
 
 Watch a video, or read a blog post from the community:
 
-* [Community tutorials](/tutorial/community)
+* [Community tutorials](/tutorial/community/)
 
 Open Source tools for managing inlets tunnels:
 

@@ -10,7 +10,7 @@ One or more client tunnels connect to a tunnel server and advertise which servic
 
 > The tunnel server may also be referred to as an "exit" server because it is the connection point for the client to another network or the Internet.
 
-If you install and run the inlets server on a computer, it can be referred to as a *tunnel server* or *exit server*. These servers can also be automated through cloud-init, terraform, or tools maintained by the inlets community such as [inletsctl](/reference/inletsctl).
+If you install and run the inlets server on a computer, it can be referred to as a *tunnel server* or *exit server*. These servers can also be automated through cloud-init, terraform, or tools maintained by the inlets community such as [inletsctl](/reference/inletsctl/).
 
 ![Conceptual architecture](/images/conceptual.png)
 
