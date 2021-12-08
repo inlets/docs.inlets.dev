@@ -125,8 +125,6 @@ Open Source tools for managing inlets tunnels:
 
 Who built inlets? Inlets &reg; is a commercial solution developed and supported by OpenFaaS Ltd.
 
-We operate an `#inlets` channel for discussion in the [OpenFaaS Slack](https://slack.openfaas.io) for community support and to meet other users.
-
 You can also contact the team via [the contact page](https://inlets.dev/contact/).
 
 The code for this website is open source and available [on GitHub](https://github.com/inlets/docs.inlets.dev/)
