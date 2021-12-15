@@ -54,21 +54,21 @@ inlets is available for Windows, MacOS (including M1) and Linux (including ARM):
 
 You can also use [the container image from ghcr.io](https://github.com/orgs/inlets/packages/container/package/inlets-pro): `ghcr.io/inlets/inlets-pro:latest`
 
-### Running a HTTP tunnel server manually
-
-* [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
-
-### Your first HTTPS tunnel with an automated tunnel server
+### Your first HTTPS tunnel with an automated tunnel server (Intermediate)
 
 * [Tutorial: Expose one or more local HTTP services via HTTPS](https://inlets.dev/blog/2021/08/08/private-tunnel.html)
 
-### Running multiple tunnel servers on the same host
+### Running a HTTP tunnel server manually (Advanced)
+
+* [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
+
+### Running multiple tunnel servers on the same host (Advanced)
 
 The easiest way to scale out inlets tunnels is through the Kubernetes helm chart (see below), however you can manually set up a TCP and HTTPS tunnel on the same machine.
 
 * [Advanced: Setting up dual TCP and HTTPS tunnels](/tutorial/dual-tunnels/)
 
-### Local port forwarding
+### Local port forwarding (Intermediate)
 
 * [Case-study: Reliable local port-forwarding from Kubernetes](https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html)
 
