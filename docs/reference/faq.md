@@ -2,6 +2,51 @@
 
 Inlets concepts and Frequently Asked Questions (FAQ)
 
+## Why did we build inlets?
+
+We built inlets to make it easy to expose a local service on the Internet and to overcome limitations with SaaS tunnels and VPNs. 
+
+* It was built to overcome limitations in SaaS tunnels - such as lack of privacy, control and rate-limits
+* It doesn't just integrate with containers and Kubernetes, it was purpose-built to run in them
+* It's easy to run on Windows, Linux and MacOS with a self-contained binary
+* It doesn't need to run as root, doesn't depend on iptables, doesn't need a tun device or NET_ADMIN capability
+
+There are many different networking tools available such as VPNs and SaaS tunnels - each with its own set of pros and cons, and use-cases. It's very likely that you will use several tools together to get the best out of each of them.
+
+## How does inlets compare to other tools and solutions?
+
+Are you curious about the advantages of using inlets vs. alternatives? We must first ask, advantages vs. what other tool or service.
+
+SaaS tunnels provide a convenient way to expose services for the purposes of development, however they are often:
+
+* blocked by corporate IT
+* running on shared infrastructure (servers) with other customers
+* subject to stringent rate-limits that affect productivity
+* priced per subdomain
+* unable to obtain high value TCP ports like 22, 80, 443 and so on
+
+You run inlets on your own servers, so you do not run into those restrictions. Your data remains your own and is kept private.
+
+When compared to VPNs such as Wireguard, Tailscale and OpenVPN, we have to ask what the use-case is.
+
+A traditional VPN is built *to connect hosts and entire IP ranges together*. This can potentially expose a large number of machines and users to each other and requires complex Access Control Lists or authorization rules. If this is your use-case, a traditional VPN is probably the right tool for the job.
+
+Inlets is designed to connect or expose services between networks - either HTTP or TCP.
+
+For example:
+
+* Receiving webhooks to a local application
+* Sharing a blog post draft with a colleague or client
+* Providing remote access to your homelab when away from home
+* Self-hosting websites or services on Kubernetes clusters
+* Getting working LoadBalancers with public IPs for local Kubernetes clusters
+
+You can also use inlets to replace Direct Connect or a VPN when you just need to connect a number of services privately and not an entire network range.
+
+Many of the inlets community use a VPN alongside inlets, because they are different tools for different use-cases.
+
+> We often write about use-cases for public and private inlets tunnels [on the blog](https://inlets.dev/blog/).
+
 ## What is the networking model for inlets?
 
 Whilst some networking tools such as Bittorrent use a peer-to-peer network, inlets uses a more traditional client/server model.
@@ -17,6 +62,19 @@ If you install and run the inlets server on a computer, it can be referred to as
 > Pictured: the website `http://127.0.0.1:3000` is exposed through an encrypted tunnel to users at: `https://example.com`
 
 For remote forwarding, the client tends to be run within a private network, with an `--upstream` flag used to specify where incoming traffic needs to be routed. The tunnel server can then be run on an Internet-facing network, or any other network reachable by the client.
+
+## What kind of layers and protocols are supported?
+
+Inlets works at a higher level than traditional VPNs because it is designed to connect services together, rather than hosts directly.
+
+* HTTP - Layer 7 of the OSI model, used for web traffic such as websites and RESTful APIs
+* TCP - Layer 4 of the OSI model, used for TCP traffic like SSH, TLS, databases, RDP, etc
+
+Because VPNs are designed to connect hosts together over a shared IP space, they also involve tedious IP address management and allocation.
+
+Inlets connects services, so for TCP traffic, you need only think about TCP ports.
+
+For HTTP traffic, you need only to think about domain names.
 
 ## Do I want a TCP or HTTPS tunnel?
 
@@ -41,19 +99,6 @@ Once you have an inlets tunnel established, you can use it to tunnel traffic to 
 Most VPNs tend to use UDP for communication due to its low overhead which results in lower latency and higher throughput. Certain tools and products such as OpenVPN, SSH and Tailscale can be configured to emulate a TCP stack over a TCP connection, this can lead to [unexpected issues](http://sites.inka.de/~bigred/devel/tcp-tcp.html).
 
 Inlets connections send data, rather than emulating a TCP over TCP stack, so doesn't suffer from this problem.
-
-## What kind of layers and protocols are supported?
-
-Inlets works at a higher level than traditional VPNs because it is designed to connect services together, rather than hosts directly.
-
-* HTTP - Layer 7 of the OSI model, used for web traffic such as websites and RESTful APIs
-* TCP - Layer 4 of the OSI model, used for TCP traffic like SSH, TLS, databases, RDP, etc
-
-Because VPNs are designed to connect hosts together over a shared IP space, they also involve tedious IP address management and allocation.
-
-Inlets connects services, so for TCP traffic, you need only think about TCP ports.
-
-For HTTP traffic, you need only to think about domain names.
 
 ## Are both remote and local forwarding supported?
 
@@ -141,38 +186,6 @@ For the inlets tunnel server, the easiest option is to run the server in a super
 > HA example with an AWS ELB
 
 For example, you may place a cloud load-balancer in front of the data-plane port of two inlets server processes. Requests to the stable load-balancer IP address will be distributed between the two virtual machines and their respective inlets server tunnel processes.  
-
-## What are the advantages of using inlets?
-
-We must first ask, advantages vs. what other tool or service?
-
-SaaS tunnels provide a convenient way to expose services for the purposes of development, however they are often:
-
-* blocked by corporate IT
-* running on shared infrastructure (servers)
-* subject to stringent rate-limits that affect productivity
-* priced per subdomain
-* unable to obtain high value TCP ports like 22, 80, 443 and so on
-
-Inlets does not have these restrictions, because you run inlets on privately operated servers.
-
-When compared to VPNs such as Wireguard, Tailscale and OpenVPN, we have to ask what the use-case is.
-
-A traditional VPN is built to connect hosts and entire IP ranges together, potentially exposing a large number of machines and users to each other. If this is your use-case, a traditional VPN is probably the right tool for the job.
-
-Inlets is designed to connect or expose services between networks - either HTTP or TCP.
-
-For example:
-
-* Receiving webhooks to a local application
-* Sharing a blog post draft with a colleague or client
-* Providing remote access to your homelab when away from home
-* Self-hosting websites or services on Kubernetes clusters
-* Getting working LoadBalancers with public IPs for local Kubernetes clusters
-
-You can also use inlets to replace Direct Connect or a VPN when you just need to connect a number of services privately and not an entire network range.
-
-Many of the inlets community use a VPN alongside inlets, because they are different tools for different use-cases.
 
 ## Is IPv6 supported?
 

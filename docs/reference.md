@@ -18,4 +18,3 @@ Learn how to set up the inlets-operator for Kubernetes, which provisions public 
 * [inlets-operator](https://github.com/inlets/inlets-operator)
 * [inletsctl](https://github.com/inlets/inletsctl)
 * [inlets helm charts](https://github.com/inlets/inlets-pro/tree/master/chart)
-

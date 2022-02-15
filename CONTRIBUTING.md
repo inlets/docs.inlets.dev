@@ -22,7 +22,7 @@ The [Derek bot](https://github.com/alexellis/derek) will enforce this policy, if
 
 #### License
 
-This project is licensed under the MIT License.
+This documentation is licensed under the MIT License. inlets is licensed under the inlets EULA.
 
 ### Reporting a suspected vulnerability / security issue
 
