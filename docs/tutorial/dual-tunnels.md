@@ -100,7 +100,6 @@ ssh -p 2222 pi@46.101.128.5
 
 ## Wrapping up
 
-You know have a TCP and HTTPS tunnel running on the same server by changing the control-plane port and auto-TLS path of the second server and installing a new systemd service.
+You now have a TCP and HTTPS tunnel server running on the same host. This was made possibly by changing the control-plane port and auto-TLS path for the second server, and having it start automatically through a separate systemd service.
 
-This technique may save you a few dollars per month, but it may not be worth your time compared to creating two separate servers with `inletsctl create`. Only you can decide.
-
+This technique may save you a few dollars per month, but it may not be worth your time compared to how quick and easy it is to create two separate servers with `inletsctl create`.
