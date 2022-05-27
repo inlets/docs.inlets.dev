@@ -87,7 +87,9 @@ You can also specify more than one domain and upstream for the same tunnel, so y
 
 Update the `inletsctl create` command with multiple domains such as: `--letsencrypt-domain openfaas.example.com --letsencrypt-domain grafana.example.com`
 
-Then for the `inlets-pro client` command, update the upstream in the same way: `--upstream openfaas.example.com=http://127.0.0.1:8080,grafana.example.com=http://192.168.0.100:3000`
+Then for the `inlets-pro client` command, update the upstream in the same way by repeating the flag once per upstream mapping: `--upstream openfaas.example.com=http://127.0.0.1:8080` `--upstream grafana.example.com=http://192.168.0.100:3000`.
+
+> Note that in previous inlets versions, multiple upstream values were given in a single flag, separated by commas, this has now been deprecated for the above syntax.
 
 ### Create a HTTP tunnel
 
