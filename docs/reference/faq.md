@@ -47,6 +47,36 @@ Many of the inlets community use a VPN alongside inlets, because they are differ
 
 > We often write about use-cases for public and private inlets tunnels [on the blog](https://inlets.dev/blog/).
 
+## What's the difference between inlets, inletsctl and inlets-operator?
+
+[inlets-pro](https://github.com/inlets/inlets-pro) aka "inlets" is the command-line tool that contains both the client and server required to set up HTTP and TCP tunnels.
+
+The inlets-pro server is usually set up on a computer with a public IP address, then the inlets-pro client is run on your own machine, or a separate computer that can reach the service or server you want to expose.
+
+You can download inlets-pro and inletsctl with the "curl | sh" commands provided at the start of each tutorial, this works best on a Linux host, or with Git Bash if using Windows.
+
+> Did you know? You can also download binaries for inlets-pro and inletsctl on GitHub, for Windows users you'll want "inlets-pro.exe" and for MacOS, you'll want "inlets-pro-darwin".
+
+For instance, on Windows machines you'll need "inlets-pro.exe"
+
+See also: [inlets-pro releases](https://github.com/inlets/inletsctl/releases)
+
+[inletsctl](https://github.com/inlets/inletsctl) is a tool that can set up a tunnel server for you on around a dozen popular clouds. It exists to make it quicker and more convenience to set up a HTTPS or TCP tunnel to expose a local service.
+
+It has three jobs:
+
+1) Create the VM for you
+2) Install the inlets-pro server in TCP or HTTPS mode (as specified) with systemd
+3) Inform you of the token and connection string
+
+You can download the inletsctl tool with "curl | sh" or from the [inletsctl releases](https://github.com/inlets/inletsctl/releases) page.
+
+Find out more: [inletsctl reference page](/reference/inletsctl)
+
+[inlets-operator](https://github.com/inlets/inlets-operator) is a Kubernetes Operator that will create tunnel servers for you, on your chosen cloud for any LoadBalancers that you expose within a private cluster.
+
+Find out more: [inlets-operator reference page](/reference/inlets-operator)
+
 ## What is the networking model for inlets?
 
 Whilst some networking tools such as Bittorrent use a peer-to-peer network, inlets uses a more traditional client/server model.
