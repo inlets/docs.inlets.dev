@@ -92,6 +92,7 @@ nav:
       - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels/
       - Custom reverse proxy with Caddy: /tutorial/caddy-http-tunnel/
       - Kubernetes Ingress: /tutorial/kubernetes-ingress/
+      - Kubernetes API Server: /tutorial/kubernetes-api-server/
       - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel/
       - Tunnel SSH: /tutorial/ssh-tcp-tunnel/
       - Community tutorials: /tutorial/community/
