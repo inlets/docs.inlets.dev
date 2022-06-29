@@ -169,7 +169,7 @@ apiVersion: v1
 clusters:
 - cluster:
     server: https://k3s.example.com:443
-    tls-server-name: k3s.example.com
+    tls-server-name: kubernetes
 ```
 
 For more details see: [Support TLS Server Name overrides in kubeconfig file #88769](https://github.com/kubernetes/kubernetes/pull/88769)
