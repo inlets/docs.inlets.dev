@@ -3,6 +3,7 @@
 inletsctl is an automation tool for inlets/-pro.
 
 Features:
+
 * `create` / `delete` cloud VMs with inlets/-pro pre-installed via systemd
 * `download [--pro]` - download the inlets/-pro binaries to your local computer
 * `kfwd` - forward services from a Kubernetes cluster to your local machine using inlets/-pro
