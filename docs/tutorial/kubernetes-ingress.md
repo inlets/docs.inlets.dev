@@ -194,12 +194,6 @@ ingress:
 
 Replace the string `expressjs.inlets.dev` with your own sub-domain created earlier i.e. `expressjs.example.com`.
 
-If you are intending to deploy the chart to a Raspberry Pi, also update the image to an ARM version in the `custom.yaml` file:
-
-```yaml
-image: alexellis2/service:0.3.6-armhf
-```
-
 You can download around a dozen other CLI tools using arkade including helm. Use arkade to download helm and put it in your `PATH`:
 
 ```bash
