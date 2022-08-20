@@ -4,7 +4,7 @@ The [inlets/inlets-operator](https://github.com/inlets/inlets-operator) brings L
 
 > It works by creating VMs and running an inlets PRO tunnel server for you, the VM's public IP is then attached to the cluster and an inlets client Pod runs for you.
 
-You can install the inlets-operator using a single command with [arkade](https://get-arkade.dev/) or with helm. arkade is an open-source Kubernetes marketplace and easier to use.
+You can install the inlets-operator using a single command with [arkade](https://arkade.dev/) or with helm. arkade is an open-source Kubernetes marketplace and easier to use.
 
 For each provider, the minimum requirements tend to be:
 
@@ -263,7 +263,7 @@ helm upgrade inlets-operator --install inlets/inlets-operator \
   --set provider=linode,region=us-east,inletsProLicense=$(cat $HOME/inlets-pro-license.txt)
 ```
 
-You can also install the inlets-operator using a single command using [arkade](https://get-arkade.dev/), arkade runs against any Kubernetes cluster.
+You can also install the inlets-operator using a single command using [arkade](https://arkade.dev/), arkade runs against any Kubernetes cluster.
 
 Install with inlets PRO:
 

@@ -1,10 +1,10 @@
 # Tutorial: Expose a local IngressController with the inlets-operator
 
-In this quick-start we will configure the inlets-operator to use inlets-pro (a TCP proxy) to expose NginxIngress so that it can receive HTTPS certificates via LetsEncrypt and [cert-manager](https://github.com/jetstack/cert-manager).
+In this quick-start we will configure the [inlets-operator](https://github.com/inlets/inlets-operator) to use inlets-pro in TCP mode to expose ports 80 and 443 of an Ingress Controller (ingress-nginx) so that it can receive HTTPS certificates via LetsEncrypt and [cert-manager](https://github.com/jetstack/cert-manager).
+
+The inlets-operator creates a VM for each tunnel server in the cloud of your choice, then plumbs in an inlets client to connect to it using a Deployment. There is an alternative approach that we also recommend which involves creating the tunnel server with [inletsctl](https://github.com/inlets/inletsctl), followed by installing the inlets client with Helm: [Fixing Ingress for short-lived local Kubernetes clusters](https://inlets.dev/blog/2021/07/08/short-lived-clusters.html).
 
 > You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
-
-If you don't have a license for inlets PRO, then your IngressController will only be able to serve plaintext HTTP over port 80 and you won't be able to obtain a TLS certificate.
 
 ## Pre-reqs
 
@@ -15,15 +15,15 @@ If you don't have a license for inlets PRO, then your IngressController will onl
 
 ## Install arkade
 
-You can use [arkade](https://get-arkade.dev) or helm to install the various applications we are going to add to the cluster below. arkade provides an apps ecosystem that makes things much quicker.
+You can use [arkade](https://arkade.dev) or helm to install the various applications we are going to add to the cluster below. arkade provides an apps ecosystem that makes things much quicker.
 
 MacOS and Linux users:
 
 ```bash
-curl -sSLf https://dl.get-arkade.dev/ | sudo sh
+curl -sSLf https://get.arkade.dev/ | sudo sh
 ```
 
-Windows users should install [Git Bash](https://git-scm.com/downloads) and run the above without `sudo.
+Windows users should install [Git Bash](https://git-scm.com/downloads) and run the above without `sudo`.
 
 ## Create a Kubernetes cluster with KinD
 
@@ -75,25 +75,23 @@ The above shows one node Ready, so we are ready to move on.
 
 ## Install the inlets-operator
 
-Save an access token for your cloud provider as `$HOME/access-token`, in this example we're using DigitalOcean.
+Save an access token for your cloud provider as `$HOME/access-token`, in this example we're using DigitalOcean. Other providers may also need a secret token in addition to the API key.
 
-Make sure you set `LICENSE_FILE` with the path to your license file, normally saved at: `$HOME/.inlets/LICENSE`.
+Your inlets license should be already saved at: `$HOME/.inlets/LICENSE`, if it's not, you can move it there or use the `--license-file` flag.
 
 ```bash
 export ACCESS_TOKEN=$HOME/access-token
-export LICENSE_FILE="$HOME/LICENSE.txt"
 
 arkade install inlets-operator \
  --provider digitalocean \
  --region lon1 \
  --token-file $ACCESS_TOKEN \
- --license-file "$LICENSE_FILE"
+ --license-file "$HOME/.inlets/LICENSE"
 ```
 
 > You can run `arkade install inlets-operator --help` to see a list of other cloud providers.
 
 * Set the `--region` flag as required, it's best to have low latency between your current location and where the exit-servers will be provisioned.
-* Use your license in `--license`, or omit this flag if you just want to serve port 80 from your IngressController without any TLS
 
 ## Install nginx-ingress
 
@@ -119,7 +117,7 @@ Here's what we have so far:
 
     An IngressController, Traefik or Caddy are also valid options. It comes with a Service of type LoadBalancer that will get a public address via the tunnel
 
-* inlets-operator configured to use inlets-pro
+* inlets-operator configured to use inlets-pro in TCP mode
 
     Provides us with a public VirtualIP for the IngressController service.
 
@@ -144,7 +142,6 @@ Now create a DNS A record in your admin panel, so for example: `expressjs.exampl
 Now when you install a Kubernetes application with an Ingress definition, NginxIngress and cert-manager will work together to provide a TLS certificate.
 
 Create a staging issuer for cert-manager `staging-issuer.yaml` and make sure you edit the `email` value.
-
 
 ```bash
 export EMAIL="you@example.com"
@@ -297,7 +294,8 @@ Be sure to change the above domain name to your domain name for the sample serve
 You can update your deployment using the helm command below:
 
 ```bash
-helm upgrade express expressjs-k8s/expressjs-k8s --values custom-prod.yaml
+helm upgrade express expressjs-k8s/expressjs-k8s \
+  --values custom-prod.yaml
 ```
 
 Here's my example on my own domain:
@@ -344,10 +342,10 @@ Now try your registry:
 
 ```bash
 docker login $DOMAIN
-docker pull alpine:3.11
-docker tag alpine:3.11 $DOMAIN/alpine:3.11
+docker pull alpine:3.16
+docker tag alpine:3.16 $DOMAIN/alpine:3.16
 
-docker push $DOMAIN/alpine:3.11
+docker push $DOMAIN/alpine:3.16
 ```
 
 You can even combine the new private registry with OpenFaaS if you like, [checkout the docs for more](https://docs.openfaas.com/).
@@ -358,4 +356,3 @@ Through the use of inlets-pro we have an encrypted control-plane for the websock
 
 You can now get a green lock and a valid TLS certificate for your local cluster, which also means that this will work with bare-metal Kubernetes, on-premises and with your Raspberry Pi cluster.
 
-> Note if you're just looking for something to use in development, without TLS or encryption, you can install the inlets-operator without the `--license` flag and port 80 will be exposed for you instead. You can still use NginxIngress, but you won't get a certificate and it won't be encrypted e2e.
