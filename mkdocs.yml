@@ -95,6 +95,7 @@ nav:
       - Kubernetes API Server: /tutorial/kubernetes-api-server/
       - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel/
       - Tunnel SSH: /tutorial/ssh-tcp-tunnel/
+      - Measure and monitor tunnels: /tutorial/measure-and-monitor/
       - Community tutorials: /tutorial/community/
   - Reference:
       - Overview: reference.md
