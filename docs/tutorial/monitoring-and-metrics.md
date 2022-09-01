@@ -1,4 +1,4 @@
-# Measure and monitor tunnels
+# Monitoring and metrics
 
 Learn how you can monitor your tunnel servers using the `status` command and Prometheus metrics.
 
