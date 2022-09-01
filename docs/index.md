@@ -91,11 +91,11 @@ inlets is not limited to HTTP connections, you can also tunnel TCP protocols lik
 * [Tutorial: Expose a private SSH server over a TCP tunnel](/tutorial/ssh-tcp-tunnel/)
 * [Tutorial: Tunnel a private Postgresql database](/tutorial/postgresql-tcp-tunnel/)
 
-### Measure and monitor tunnels
+### Monitoring and metrics
 
 Inlets offers you multiple options to monitor your tunnels and get insight in their performance. Find out tunnel statistics, uptime and connected clients with the `inlets-pro status` command or collect the Prometheus metrics from the monitoring endpoint.
 
-* [Measure and monitor tunnels](/tutorial/measure-and-monitor)
+* [Monitoring and metrics](/tutorial/monitoring-and-metrics)
 
 ## Reference documentation
 
