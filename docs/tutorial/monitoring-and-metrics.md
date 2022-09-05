@@ -96,6 +96,67 @@ The server collects metrics for both the data-plane and the control-plane. These
 
 The name of the metrics and the kind of metrics that are exported will depend on the mode that the server is running in. For TCP tunnels the metric name starts with `tcp_` for HTTP tunnels this will be `http_`.
 
+You don’t need to be a Kubernetes user to take advantage of Prometheus. You can run it locally on your machine by [downloading the binary here](https://prometheus.io/download/).
+
+> As an alternative, [Grafana Cloud](https://grafana.com/products/cloud/) can give you a complete monitoring stack for your tunnels without having to worry about finding somewhere to run and maintain Prometheus and Grafana. We have a write up on our blog that shows you how to set this up: [Monitor inlets tunnels with Grafana Cloud](https://inlets.dev/blog/2022/09/02/monitor-inlets-with-grafana.html).
+
+Create a `prometheus.yaml` file to configure Prometheus. Replace TOKEN with the token from your server.
+
+```yaml
+# my global config
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+    - targets: ['localhost:9090']
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'http-tunnel'
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+    static_configs:
+    - targets: ['localhost:8123']
+    scheme: https
+
+    authorization:
+      type: Bearer
+      credentials: TOKEN
+    tls_config:
+      insecure_skip_verify: true
+
+```
+
+Start Prometheus with this command. It will listen on port 9090.
+
+```bash
+$ prometheus --config.file=./prometheus.yaml
+
+level=info ts=2021-08-13T11:25:31.791Z caller=main.go:428 msg="Starting Prometheus" version="(version=2.29.1, branch=HEAD, revision=dcb07e8eac34b5ea37cd229545000b857f1c1637)"
+level=info ts=2021-08-13T11:25:31.931Z caller=main.go:784 msg="Server is ready to receive web requests."
+```
+
 ### Metrics for the control-plane
 The control-plane metrics can give you insights into the number of clients that are connected and the number of http requests made to the different control-plane endpoints.
 
