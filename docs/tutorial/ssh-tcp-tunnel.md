@@ -45,7 +45,7 @@ Run `inletsctl create --help` to see all the options.
 After the machine has been created, `inletsctl` will output a sample command for the `inlets-pro client` command:
 
 ```bash 
-inlets-pro client --url "wss://206.189.114.179:8123/connect" \
+inlets-pro tcp client --url "wss://206.189.114.179:8123/connect" \
     --token "4NXIRZeqsiYdbZPuFeVYLLlYTpzY7ilqSdqhA0HjDld1QjG8wgfKk04JwX4i6c6F"
 ```
 
@@ -82,7 +82,9 @@ echo $TOKEN
 Start the server:
 
 ```bash
-inlets-pro server \
+inlets-pro \
+  tcp \
+  server \
   --auto-tls \
   --auto-tls-san $IP \
   --token $TOKEN
@@ -147,7 +149,7 @@ export TCP_PORTS="2222"
 export LICENSE_FILE="$HOME/LICENSE.txt"
 export UPSTREAM="localhost"
 
-inlets-pro client --url "wss://$IP:8123/connect" \
+inlets-pro tcp client --url "wss://$IP:8123/connect" \
   --token "4NXIRZeqsiYdbZPuFeVYLLlYTpzY7ilqSdqhA0HjDld1QjG8wgfKk04JwX4i6c6F" \
   --license-file "$LICENSE_FILE" \
   --upstream "$UPSTREAM" \

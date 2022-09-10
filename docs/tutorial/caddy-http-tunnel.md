@@ -114,7 +114,7 @@ The client will look for your license in `$HOME/.inlets/LICENSE`, but you can al
 export IP=""        # take this from the exit-server
 export TOKEN=""     # take this from the exit-server
 
-inlets-pro client \
+inlets-pro tcp client \
   --url wss://$IP:8123/connect \
   --ports 80,443 \
   --token $TOKEN \

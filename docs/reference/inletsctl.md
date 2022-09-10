@@ -133,7 +133,7 @@ export PORTS="3000"
 # Where to route traffic from the inlets server
 export UPSTREAM="localhost"
 
-inlets-pro client --url "wss://188.166.168.90:8123/connect" \
+inlets-pro tcp client --url "wss://188.166.168.90:8123/connect" \
   --token "dZTkeCNYgrTPvFGLifyVYW6mlP78ny3jhyKM1apDL5XjmHMLYY6MsX8S2aUoj8uI" \
   --upstream $UPSTREAM \
   --ports $PORTS
@@ -177,7 +177,7 @@ Command:
   export PORTS="8000"
   export UPSTREAM="localhost"
 
-  inlets-pro client --url "wss://142.93.34.79:8123/connect" \
+  inlets-pro tcp client --url "wss://142.93.34.79:8123/connect" \
         --token "TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb" \
         --license "$LICENSE" \
         --upstream $UPSTREAM \
@@ -208,7 +208,7 @@ export LICENSE="$(cat ~/LICENSE)"
 export PORTS="3306"
 export UPSTREAM="localhost"
 
-inlets-pro client --url "wss://142.93.34.79:8123/connect" \
+inlets-pro tcp client --url "wss://142.93.34.79:8123/connect" \
       --token "TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb" \
       --license "$LICENSE" \
       --upstream $UPSTREAM \

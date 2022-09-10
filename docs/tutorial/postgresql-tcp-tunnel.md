@@ -45,7 +45,7 @@ export LICENSE_FILE="$HOME/LICENSE.txt"
 export TOKEN="KXJ5Iq1Z5Cc8GjFXdXJrqNhUzoScXnZXOSRKeh8x3f6tdGq1ijdENWQ2IfzdCg4U"
 export UPSTREAM="localhost"
 
-inlets-pro client --connect "wss://$EXIT_IP:8123/connect" \
+inlets-pro tcp client --connect "wss://$EXIT_IP:8123/connect" \
   --token "$TOKEN" \
   --upstream $UPSTREAM \
   --ports $TCP_PORTS
