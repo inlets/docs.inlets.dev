@@ -80,7 +80,8 @@ You may have an on-premises Kubernetes cluster that needs ingress. Perhaps you h
 * [Tutorial: Expose Kubernetes services in short-lived clusters with helm](https://inlets.dev/blog/2021/07/08/short-lived-clusters.html)
 
 Some teams want to have dev work like production, with tools Istio working locally just like in the cloud.
-* [Tutorial: "A bit of Istio before tea-time"](https://blog.alexellis.io/a-bit-of-istio-before-tea-time/)
+
+* [Tutorial: Expose an Istio gateway with the inlets-operator](/tutorial/istio-gateway)
 
 See also: [helm charts](https://github.com/inlets/inlets-pro/tree/master/chart)
 
