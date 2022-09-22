@@ -93,6 +93,7 @@ nav:
       - Custom reverse proxy with Caddy: /tutorial/caddy-http-tunnel/
       - Kubernetes Ingress: /tutorial/kubernetes-ingress/
       - Kubernetes API Server: /tutorial/kubernetes-api-server/
+      - Istio Gateway: /tutorial/istio-gateway/
       - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel/
       - Tunnel SSH: /tutorial/ssh-tcp-tunnel/
       - Monitoring and metrics: /tutorial/monitoring-and-metrics/
