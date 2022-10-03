@@ -1,6 +1,6 @@
 # Tutorial: Tunnel a private Postgresql database
 
-In this tutorial we will tunnel Postgresql over inlets PRO to a remote machine. From there you can expose it to the Internet, or bind it to the local network for private VPN-like access.
+In this tutorial we will tunnel Postgresql over inlets Pro to a remote machine. From there you can expose it to the Internet, or bind it to the local network for private VPN-like access.
 
 > You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
 
@@ -30,11 +30,11 @@ export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
 docker run --rm --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=8cb3efe58df984d3ab89bcf4566b31b49b2b79b9 -ti postgres:latest
 ```
 
-## Connect the inlets PRO client
+## Connect the inlets Pro client
 
 Fill in the below with the outputs you received from `inletsctl create`.
 
-Note that `UPSTREAM="localhost"` can be changed to point at a host or IP address accessible from your client. The choice of `localhost` is suitable when you are running Postgresql in Docker on the same computer as the inlets PRO client.
+Note that `UPSTREAM="localhost"` can be changed to point at a host or IP address accessible from your client. The choice of `localhost` is suitable when you are running Postgresql in Docker on the same computer as the inlets Pro client.
 
 The client will look for your license in `$HOME/.inlets/LICENSE`, but you can also use the `--license/--license-file` flag if you wish.
 

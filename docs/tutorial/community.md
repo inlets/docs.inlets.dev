@@ -29,8 +29,8 @@ Walk-through videos:
 ## Tutorials
 
 * [A Tour of Inlets - A Tunnel Built for the Cloud](https://blog.zespre.com/inlets-the-cloud-native-tunnel.html) (Aug 2021) by Zespre Schmidt
-* [Control Access to your on-prem services with Cloud IAP and inlets PRO](https://johansiebens.dev/posts/2020/12/control-access-to-your-on-prem-services-with-cloud-iap-and-inlets-pro/) (Dec 2020) by Johan Siebens
-* [Secure access using HashiCorp Boundary & inlets PRO Better Together](https://johansiebens.dev/posts/2020/10/secure-access-using-hashicorp-boundary-inlets-pro-better-together/) (Oct 2020) by Johan Siebens
+* [Control Access to your on-prem services with Cloud IAP and inlets Pro](https://johansiebens.dev/posts/2020/12/control-access-to-your-on-prem-services-with-cloud-iap-and-inlets-pro/) (Dec 2020) by Johan Siebens
+* [Secure access using HashiCorp Boundary & inlets Pro Better Together](https://johansiebens.dev/posts/2020/10/secure-access-using-hashicorp-boundary-inlets-pro-better-together/) (Oct 2020) by Johan Siebens
 * [Quake III Arena, k3s and a Raspberry Pi](https://johansiebens.dev/posts/2020/11/quake-iii-arena-k3s-and-a-raspberry-pi/) (Nov 2020) by Johan Siebens
 * [Argo CD for your private Raspberry Pi k3s cluster](https://johansiebens.dev/posts/2020/08/argo-cd-for-your-private-raspberry-pi-k3s-cluster/) (Aug 2020) by Johan Siebens
 * [Get a TLS-enabled Docker registry in 5 minutes](https://blog.alexellis.io/get-a-tls-enabled-docker-registry-in-5-minutes/) (Feb 2020) by Alex Ellis

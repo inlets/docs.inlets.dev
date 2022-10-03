@@ -44,7 +44,7 @@ Example:
 
 ```ini
 [Unit]
-Description=inlets PRO TCP Server
+Description=inlets Pro TCP Server
 After=network.target
 
 [Service]

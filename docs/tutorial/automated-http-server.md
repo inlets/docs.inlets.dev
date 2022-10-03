@@ -1,4 +1,4 @@
-## Automated HTTP tunnel server
+## Automate a HTTP tunnel server
 
 Learn how to serve traffic from your private network over a private tunnel server.
 

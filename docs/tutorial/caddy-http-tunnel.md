@@ -100,7 +100,7 @@ If you have more than one website, you can add them to the Caddyfile on new line
 
 ## Start the inlets-pro client on your local side
 
-Downloads the inlets PRO client:
+Downloads the inlets Pro client:
 
 ```sh
 sudo inletsctl download

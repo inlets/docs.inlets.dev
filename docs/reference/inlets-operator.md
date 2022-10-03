@@ -2,13 +2,13 @@
 
 The [inlets/inlets-operator](https://github.com/inlets/inlets-operator) brings LoadBalancers with public IP addresses to your local Kubernetes clusters.
 
-> It works by creating VMs and running an inlets PRO tunnel server for you, the VM's public IP is then attached to the cluster and an inlets client Pod runs for you.
+> It works by creating VMs and running an inlets Pro tunnel server for you, the VM's public IP is then attached to the cluster and an inlets client Pod runs for you.
 
 You can install the inlets-operator using a single command with [arkade](https://arkade.dev/) or with helm. arkade is an open-source Kubernetes marketplace and easier to use.
 
 For each provider, the minimum requirements tend to be:
 
-* An access token - for the operator to create VMs for inlets PRO servers
+* An access token - for the operator to create VMs for inlets Pro servers
 * A region - where to create the VMs
 
 > You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
@@ -56,7 +56,7 @@ View the code and chart on GitHub: [inlets/inlets-operator](https://github.com/i
 
 ### Create tunnel servers on DigitalOcean
 
-Install with inlets PRO on [DigitalOcean](https://m.do.co/c/8d4e75e9886f).
+Install with inlets Pro on [DigitalOcean](https://m.do.co/c/8d4e75e9886f).
 
 Assuming you have created an API key and saved it to `$HOME/Downloads/do-access-token`, run:
 
@@ -135,7 +135,7 @@ echo $ACCESS_KEY_JSON | jq -r .AccessKey.AccessKeyId > access-key
 echo $ACCESS_KEY_JSON | jq -r .AccessKey.SecretAccessKey > secret-access-key
 ```
 
-Install with inlets PRO:
+Install with inlets Pro:
 
 ```bash
 arkade install inlets-operator \
@@ -265,7 +265,7 @@ helm upgrade inlets-operator --install inlets/inlets-operator \
 
 You can also install the inlets-operator using a single command using [arkade](https://arkade.dev/), arkade runs against any Kubernetes cluster.
 
-Install with inlets PRO:
+Install with inlets Pro:
 
 ```bash
 arkade install inlets-operator \

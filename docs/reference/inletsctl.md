@@ -116,7 +116,7 @@ Host: 248561704, status:
 ...
 [11/500] Host: 248561704, status: active
 
-inlets PRO (0.7.0) exit-server summary:
+inlets Pro (0.7.0) exit-server summary:
   IP: 188.166.168.90
   Auth-token: dZTkeCNYgrTPvFGLifyVYW6mlP78ny3jhyKM1apDL5XjmHMLYY6MsX8S2aUoj8uI
 ```
@@ -168,7 +168,7 @@ inletsctl create \
 Note the output:
 
 ```bash
-inlets PRO (0.7.0) exit-server summary:
+inlets Pro (0.7.0) exit-server summary:
   IP: 142.93.34.79
   Auth-token: TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb
 
@@ -620,7 +620,7 @@ inletsctl delete \
 
 kfwd runs an inlets-pro server on your local computer, then deploys an inlets client in your Kubernetes cluster using a Pod. This enables your local computer to access services from within the cluster as if they were running on your laptop.
 
-inlets PRO allows you to access any TCP service within the cluster, using an encrypted link:
+inlets Pro allows you to access any TCP service within the cluster, using an encrypted link:
 
 Forward the `figlet` pod from `openfaas-fn` on port `8080`:
 
@@ -644,7 +644,7 @@ prints out a connection string.
 
 Are you unable to connect your client to the exit server?
 
-### Troubleshooting inlets PRO
+### Troubleshooting inlets Pro
 
 If using auto-tls (the default), check that port 8123 is accessible. It should be serving a file with a self-signed certificate, run the following:
 

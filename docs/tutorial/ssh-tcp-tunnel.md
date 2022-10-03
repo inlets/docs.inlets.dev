@@ -8,15 +8,15 @@ Scenario: You want to allow SSH access to a computer that doesn't have a public 
 
 ## Setup your tunnel server with `inletsctl`
 
-For this tutorial you will need to have an account and API key with one of the [supported providers](https://github.com/inlets/inletsctl#featuresbacklog), or you can create an exit-server manually and install inlets PRO there yourself.
+For this tutorial you will need to have an account and API key with one of the [supported providers](https://github.com/inlets/inletsctl#featuresbacklog), or you can create an exit-server manually and install inlets Pro there yourself.
 
 For this tutorial, the [DigitalOcean provider will be used](https://m.do.co/c/8d4e75e9886f). You can get [free credits on DigitalOcean with this link](https://m.do.co/c/8d4e75e9886f).
 
 Create an API key in the DigitalOcean dashboard with Read and Write permissions, and download it to a file called `do-access-token` in your home directory.
 
-You need to know the IP of the machine you to connect to on your local network, for instance `192.168.0.35` or `127.0.0.1` if you are running inlets PRO on the same host as SSH.
+You need to know the IP of the machine you to connect to on your local network, for instance `192.168.0.35` or `127.0.0.1` if you are running inlets Pro on the same host as SSH.
 
-You can use the `inletsctl` utility to provision exit-servers with inlets PRO preinstalled, it can also download the `inlets-pro` CLI.
+You can use the `inletsctl` utility to provision exit-servers with inlets Pro preinstalled, it can also download the `inlets-pro` CLI.
 
 ```bash
 curl -sLSf https://inletsctl.inlets.dev | sh
@@ -92,7 +92,7 @@ inlets-pro \
 
 If running the inlets client on the same host as SSH, you can simply set `PROXY_TO_HERE` to `localhost`. Or if you are running SSH on a different computer to the inlets client, then you can specify a DNS entry or an IP address like `192.168.0.15`.
 
-If using this manual approach to install inlets PRO, you should create a systemd unit file.
+If using this manual approach to install inlets Pro, you should create a systemd unit file.
 
 The easiest option is to run the server with the `--generate=systemd` flag, which will generate a systemd unit file to stdout. You can then copy the output to `/etc/systemd/system/inlets-pro.service` and enable it with `systemctl enable inlets-pro`.
 
@@ -133,7 +133,7 @@ ssh -p 22 $IP "uptime"
 ssh -p 2222 $IP "uptime"
 ```
 
-## Start the inlets PRO client
+## Start the inlets Pro client
 
 First download the inlets-pro client onto the private SSH server:
 
@@ -174,5 +174,5 @@ You can also use other compatible tools like `sftp`, `scp` and `rsync`, just mak
 
 The principles in this tutorial can be adapted for other protocols that run over TCP such as MongoDB or PostgreSQL, just adapt the port number as required.
 
-* [Quick-start: Tunnel a private database over inlets PRO](https://docs.inlets.dev/#/get-started/quickstart-tcp-database)
+* [Quick-start: Tunnel a private database over inlets Pro](https://docs.inlets.dev/#/get-started/quickstart-tcp-database)
 * [Purchase inlets for personal or commercial use](https://inlets.dev/pricing)
