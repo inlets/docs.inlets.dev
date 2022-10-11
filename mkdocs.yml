@@ -115,5 +115,5 @@ nav:
 extra:
   analytics:
     provider: google
-    property: UA-60759269-5
+    property: G-8Y4J12YZ52
     anonymize_ip: true
