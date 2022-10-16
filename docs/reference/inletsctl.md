@@ -495,7 +495,14 @@ Prerequisites:
 
 Generate Azure auth file 
 ```sh
-az ad sp create-for-rbac --sdk-auth > ~/Downloads/client_credentials.json
+SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
+az ad sp create-for-rbac --role Contributor --scopes "/subscriptions/$SUBSCRIPTION_ID" --sdk-auth \
+  > $HOME/Downloads/client_credentials.json
+```
+
+List Azure available regions
+```sh
+az account list-locations -o table
 ```
 
 Create
