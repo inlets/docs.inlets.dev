@@ -204,7 +204,8 @@ Prerequisites:
 Generate Azure authentication file:
 
 ```sh
-az ad sp create-for-rbac --sdk-auth\
+SUBSCRIPTION_ID="YOUR_SUBSCRIPTION_ID"
+az ad sp create-for-rbac --role Contributor --scopes "/subscriptions/$SUBSCRIPTION_ID" --sdk-auth \
   > $HOME/Downloads/client_credentials.json
 ```
 
