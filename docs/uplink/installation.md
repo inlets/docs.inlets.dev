@@ -21,24 +21,14 @@ Learn why we created Inlets Uplink and how it might be a good fit for you in the
 
 Create a cluster with at least 3 nodes 2-4GB of RAM each
 
-## Deploy with Kubernetes Ingress
+## Install cert-manager
 
-### Install the IngressController
-
-This installs nginx-ingress using its Helm chart:
-
-```bash
-arkade install ingress-nginx
-```
-
-### Install cert-manager
-
-Install [cert-manager](https://cert-manager.io/docs/), which can be integrated with NginxIngress to manage TLS certificates.
+Install [cert-manager](https://cert-manager.io/docs/), which is used to manage TLS certificates for inlets-uplink.
 ```bash
 arkade install cert-manager
 ```
 
-### Deploy inlets-uplink with Helm
+## Deploy inlets-uplink
 
 Make sure to create the target namespace for you installation first.
 
@@ -52,6 +42,16 @@ Create the required secret with your inlets-uplink license.
 kubectl create secret generic \
   -n inlets inlets-uplink-license \
   --from-file license=$HOME/.inlets/LICENSE_UPLINK
+```
+
+There are two options for deploying inlets-uplink. Option A uses Kubernetes Ingress. With option B Ingress is handled by Istio.
+
+### A) Install with Kubernetes Ingress
+
+Install nginx-ingress using arkade:
+
+```bash
+arkade install ingress-nginx
 ```
 
 Create a `values.yaml` file for the inlets-uplink chart:
@@ -72,50 +72,17 @@ clientRouter:
       class: "nginx"      
 ```
 
-Make sure to replace the domain and email with your acatual domain name and email address.
+Make sure to replace the domain and email with your actual domain name and email address.
 
-Deploy inlets-uplink with your configuration values:
+### B) Install with Istio
 
-```
-helm upgrade --install inlets-uplink \
-  oci://ghcr.io/inlets/inlets-uplink-operator \
-  --namespace inlets \
-  --values ./values.yaml
-```
-
-## Install with Istio
 We have added support in the inlets-uplink chart for Istio to make it as simple as possible to configure with a HTTP01 challenge.
 
-### Install Istio
 If you don't have Istio setup already you can deploy it with arkade.
 
 ```bash
 arkade install istio
 ```
-
-### Install cert-manager
-
-Install [cert-manager](https://cert-manager.io/docs/), which can be integrated with Istio gateways to manage TLS certificates.
-```bash
-arkade install cert-manager
-```
-
-### Deploy inlets-uplink with Helm
-
-Make sure to create the target namespace for you installation first.
-
-```bash
-kubectl create namespace inlets
-```
-
-Create the required secret with your inlets-uplink license.
-
-```bash
-kubectl create secret generic \
-  -n inlets inlets-uplink-license \
-  --from-file license=$HOME/.inlets/LICENSE_UPLINK
-```
-
 Create a `values.yaml` file for the inlets-uplink chart:
 
 ```yaml
@@ -125,8 +92,6 @@ clientRouter:
   domain: uplink.example.com
 
   tls:
-    issuerName: "letsencrypt-prod"
-
     issuer:
       # Email address used for ACME registration
       email: "user@example.com"
@@ -135,9 +100,11 @@ clientRouter:
       enabled: true
 ```
 
-Make sure to replace the domain and email with your acatual domain name and email address.
+Make sure to replace the domain and email with your actual domain name and email address.
 
-Deploy inlets-uplink with your configuration values:
+### Deploy with Helm
+
+Deploy inlets-uplink with your configuration values using Helm:
 
 ```
 helm upgrade --install inlets-uplink \
