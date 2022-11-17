@@ -203,7 +203,10 @@ Try it out:
 ```bash
 export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
 
-kubectl run -it -env PGPORT=5432 -env PGPASSWORD=$PASSWORD --rm postgres:latest psql -U postgres -h prod-database.acmeco
+kubectl run -i -t psql \
+  -env PGPORT=5432 \
+  -env PGPASSWORD=$PASSWORD --rm \
+  --image postgres:latest -- psql -U postgres -h prod-database.acmeco
 ```
 
 Try a command such as `CREATE database websites (url TEXT)`, `\dt` or `\l`.
