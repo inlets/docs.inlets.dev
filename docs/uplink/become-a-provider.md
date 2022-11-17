@@ -1,34 +1,43 @@
-# Install inlets-uplink
+# Become an inlets uplink provider
 
-Inlets Uplink is a self-hosted solution for managing many tunnels for a team or company.
+inlets uplink makes it easy for Service Providers and SaaS companies to deliver their product and services to customer networks.
 
-Learn why we created Inlets Uplink and how it might be a good fit for you in the announcement blog post:
+To become a provider, you'll need a Kubernetes cluster, an inlets uplink subscription and to install the inlets-uplink-provider Helm chart.
 
-- [Inlets Uplink for SaaS & Service Providers](https://inlets.dev/blog/2022/11/16/service-provider-uplinks.html)
+- [Read the Inlets Uplink announcement](https://inlets.dev/blog/2022/11/16/service-provider-uplinks.html)
 
-## Pre-reqs
+## Before you start
+
+Before you start, you'll need the following:
+
 * A Kubernetes cluster with LoadBalancer capabilities (i.e. public cloud).
 * A domain name clients can use to connect to the tunnel control plane.
-* [arkade](https://github.com/alexellis/arkade), a simple CLI tool that provides a quick way to install various apps and download common binaries much quicker
-    
+* An inlets uplink license (an inlets-pro license cannot be used)
+* Optional: [arkade](https://github.com/alexellis/arkade) - a tool for installing popular Kubernetes tools
+
     To install arkade run:
 
     ```bash
     curl -sSLf https://get.arkade.dev/ | sudo sh
     ```
 
+Any existing inlets pro subscribers can convert to an [inlets uplink subscription](https://openfaas.gumroad.com/l/inlets-uplink).
+
 ## Create a Kubernetes cluster
 
-Create a cluster with at least 3 nodes 2-4GB of RAM each
+We recommend creating a Kubernetes cluster with a minimum of three nodes. Each node should have a minimum of 2GB of RAM and 2 CPU cores.
 
 ## Install cert-manager
 
 Install [cert-manager](https://cert-manager.io/docs/), which is used to manage TLS certificates for inlets-uplink.
+
+You can use Helm, or arkade:
+
 ```bash
 arkade install cert-manager
 ```
 
-## Deploy inlets-uplink
+## Create a namespace for the inlets-uplink-provider and install your license
 
 Make sure to create the target namespace for you installation first.
 
@@ -44,17 +53,25 @@ kubectl create secret generic \
   --from-file license=$HOME/.inlets/LICENSE_UPLINK
 ```
 
-There are two options for deploying inlets-uplink. Option A uses Kubernetes Ingress. With option B Ingress is handled by Istio.
+## Setup up ingress for customer tunnels
+
+Tunnels on your customers' network will connect to your own inlets-uplink-provider.
+
+There are two options for deploying the inlets-uplink-provider.
+
+Use Option A if you're not sure, if your team already uses Istio or prefers Istio, use Option B.
 
 ### A) Install with Kubernetes Ingress
 
-Install nginx-ingress using arkade:
+We recommend ingress-nginx, and have finely tuned the configuration to work well for the underlying websocket for inlets. That said, you can change the IngressController if you wish.
+
+Install ingress-nginx using arkade or Helm:
 
 ```bash
 arkade install ingress-nginx
 ```
 
-Create a `values.yaml` file for the inlets-uplink chart:
+Create a `values.yaml` file for the inlets-uplink-provider chart:
 
 ```yaml
 clientRouter:
@@ -83,6 +100,14 @@ If you don't have Istio setup already you can deploy it with arkade.
 ```bash
 arkade install istio
 ```
+
+Label the `inlets` namespace so that Istio can inject its sidecars:
+
+```bash
+kubectl label namespace inlets \
+  istio-injection=enabled --overwrite
+```
+
 Create a `values.yaml` file for the inlets-uplink chart:
 
 ```yaml
@@ -104,14 +129,18 @@ Make sure to replace the domain and email with your actual domain name and email
 
 ### Deploy with Helm
 
-Deploy inlets-uplink with your configuration values using Helm:
+The Helm chart is called *inlets-uplink-provider*, you can deploy it using the custom values.yaml file created above:
 
-```
+```bash
 helm upgrade --install inlets-uplink \
-  oci://ghcr.io/inlets/inlets-uplink-operator \
+  oci://ghcr.io/inlets/inlets-uplink-provider \
   --namespace inlets \
   --values ./values.yaml
 ```
+
+If you want to pin the version of the Helm chart, you can do so with the `--version` flag.
+
+You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/inlets/inlets-uplink-provider)
 
 ## Verify the installation
 
@@ -142,3 +171,7 @@ $ kubectl get -n inlets cert/client-router-cert
 NAME                 READY   SECRET               AGE
 client-router-cert   True    client-router-cert   30m
 ```
+
+## Setup the first customer tunnel
+
+Continue the setup here: [Manage customer tunnels](./uplink/manage-tunnels)

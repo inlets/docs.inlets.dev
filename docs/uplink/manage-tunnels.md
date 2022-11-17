@@ -1,6 +1,30 @@
-# Manage tunnels
+# Manage customer tunnels
+
+## Create separate namespace(s) for your tunnels
+
+We recommend deploying customer tunnels into a one or more separate namespaces, that means you can keep the `inlets` namespace for the software coordinates the tunnels.
+
+You could create a single namespace for customers i.e.
+
+```bash
+kubectl create namespace tunnels
+```
+
+Or you could create one per customer:
+
+```bash
+kubectl create namespace acmeco
+```
+
+Remember, that if you're an Istio user, you should label each namespace:
+
+```bash
+kubectl label namespace inlets \
+  istio-injection=enabled --overwrite
+```
 
 ## Create a tunnel for a customer using the Custom Resource
+
 `Tunnel` describes an inlets-uplink tunnel server. The specification describes a set of ports to use for TCP tunnels.
 
 For example the following Tunnel configuration sets up a http tunnel on port `8000` by default and adds port `8080` for use with TCP tunnels. The `licenceRef` needs to reference a secret containing an inlets-uplink license.
@@ -9,31 +33,34 @@ For example the following Tunnel configuration sets up a http tunnel on port `80
 apiVersion: uplink.inlets.dev/v1alpha1
 kind: Tunnel
 metadata:
-  name: team
-  namespace: inlets
+  name: acmeco
+  namespace: tunnels
 spec:
   licenseRef:
     name: inlets-uplink-license
-    namespace: inlets
+    namespace: tunnels
   tcpPorts:
   - 8080 
 ```
 
-### How to create a pre-defined token
-By default a new token is created when a tunnel is deployed. It is also possible to create the token for a tunnel yourself and reference it from the tunnel CRD.
+### Define a pre-existing token for your customers
 
-You can use `openssl` to generate a token:
+By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to precreate the tokens for each tunnel.
+
+Make sure the secret is in the same namespace as the Tunnel Custom Resource.
+
+You can use `openssl` to generate a secure token:
 
 ```bash
-openssl rand -base64 32 > pre-defined-token.txt
+openssl rand -base64 32 > token.txt
 ```
 
 Create a Kubernetes secret for the token named `custom-token`:
 
 ```bash
 kubectl create secret generic \
-  -n inlets pre-defined-token \
-  --from-file token=./pre-defined-token.txt
+  -n tunnels acmeco-token \
+  --from-file token=./token.txt
 ```
 
 Reference the token when creating a tunnel:
@@ -42,14 +69,14 @@ Reference the token when creating a tunnel:
 apiVersion: uplink.inlets.dev/v1alpha1
 kind: Tunnel
 metadata:
-  name: team
-  namespace: inlets
+  name: acmeco
+  namespace: tunnels
 spec:
   licenseRef:
     name: inlets-uplink-license
     namespace: inlets
   tokenRef:
-    name: pre-defined-token
+    name: acmeco-token
     namespace: inlets
   tcpPorts:
   - 8080
@@ -67,41 +94,46 @@ There are several ways to get the binary:
 - Get it with [arkade](https://github.com/alexellis/arkade): `arakde get inlets-pro`
 - Use the [inlets-pro docker image](https://github.com/orgs/inlets/packages/container/package/inlets-pro)
 
+### Exampe: Tunnel a customer HTTP service
 
-### Tunnel http services
-Inlets-pro has a built in file server that we can use to quickly spin up a http server for this example.
+We'll use inlets-pro's built in fileserver as an example of how to tunnel a HTTP service.
+
+Run this command on a private network or on your workstation:
 
 ```bash
-$ inlets-pro fileserver -w ./ -a
+mkdir -p /tmp/share
+cd /tmp/share
+echo "Hello World" > README.md
+
+inlets-pro fileserver -w /tmp/share -a
 
 Starting inlets Pro fileserver. Version: 0.9.10-rc1-1-g7bc49ae - 7bc49ae494bd9ec789fc5e9eaf500f2b1fe60786
-Serving files from: ./
+Serving files from: /tmp/share
 Listening on: 127.0.0.1:8080, allow browsing: true, auth: false
 ```
 
-Once the server is running connect to your tunnel using the inlets-uplink client. We will connect to the tunnel called `team` (see the example in [Create a tunnel for a customer using the Custom Resource](#Create a tunnel for a customer using the Custom Resource) to create this tunnel).
+Once the server is running connect to your tunnel using the inlets-uplink client. We will connect to the tunnel called `acmeco` (see the example in [Create a tunnel for a customer using the Custom Resource](#Create a tunnel for a customer using the Custom Resource) to create this tunnel).
 
 Retrieve the token for the tunnel:
 
 ```bash
-kubectl get secret -n inlets team -o jsonpath="{.data.token}" | base64 --decode > token.txt 
+kubectl get secret -n tunnels acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
 ```
 
 Start the tunnel client:
 ```
 inlets-pro uplink client \
-  --url wss://uplink.welteki.dev/inlets/team \
+  --url wss://uplink.welteki.dev/tunnels/acmeco \
   --upstream http://127.0.0.1:8080 \
   --token-file ./token.txt
 ```
 
-Run a container in the cluster to check the file server is accessible through the http tunnel using curl: `curl -i team.inlets:8000`
+Run a container in the cluster to check the file server is accessible through the http tunnel using curl: `curl -i acmeco.tunnels:8000`
 
 ```bash
 $ kubectl run -t -i curl --rm --image ghcr.io/openfaas/curl:latest /bin/sh   
 
-If you don't see a command prompt, try pressing enter.
-~ $ curl -i team.inlets:8000
+$ curl -i acmeco.tunnels:8000
 HTTP/1.1 200 OK
 Content-Type: text/html; charset=utf-8
 Date: Thu, 17 Nov 2022 08:39:48 GMT
@@ -113,10 +145,11 @@ Content-Length: 973
 </pre>
 ```
 
-### Tunnel TCP services
-Imagine that you’d want to forwarded a Postgres database from a customer site `acmeco` to your cloud Kubernetes cluster.
+### Tunnel a customer's TCP service
 
-#### Creat a tunnel for the customer
+Perhaps you need to access a customer's Postgres database from their private network?
+
+#### Create a TCP tunnel using a Custom Resouce
 
 Example Custom Resource to deploy a tunnel for acmeco’s production Postgres database:
 
@@ -124,7 +157,7 @@ Example Custom Resource to deploy a tunnel for acmeco’s production Postgres da
 apiVersion: uplink.inlets.dev/v1alpha1
 kind: Tunnel
 metadata:
-  name: prod
+  name: prod-database
   namespace: acmeco
 spec:
   licenseRef:
@@ -135,7 +168,8 @@ spec:
 ```
 
 #### Run postgresql on your private server
-We can run a Postgresql instance using Docker:
+
+The quickest way to spin up a Postgres instance on your own machine would be to use Docker:
 
 ```bash
 head -c 16 /dev/urandom |shasum 
@@ -143,27 +177,37 @@ head -c 16 /dev/urandom |shasum
 
 export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
 
-kubectl run -t -i psql --env PGPORT=5432 --env PGPASSWORD=$PASSWORD --rm --image postgres:latest -- psql -U postgres -h prod.acmeco
+docker run --rm --name postgres \
+  -p 5432:5432 \
+  -e POSTGRES_PASSWORD=8cb3efe58df984d3ab89bcf4566b31b49b2b79b9 \
+  -ti postgres:latest
 ```
 
-#### Connect the inlets uplink client
+#### Connect with an inlets uplink client
 
-```
+```bash
 export UPLINK_DOMAIN="uplink.example.com"
-export TOKEN_FILE="./token.txt"
 
 inlets-pro uplink client \
-  --url wss://${UPLINK_DOMAIN}/acmeco/prod \
+  --url wss://${UPLINK_DOMAIN}/acmeco/prod-database \
   --upstream 127.0.0.1:5432 \
-  --token-file ${TOKEN_FILE}
+  --token-file ./token.txt
 ```
 
-#### Access the database from your cluster
+#### Access the customer database from within Kubernetes
+
+Now that the tunnel is established, you can connect to the customer's Postgres database from within Kubernetes using its ClusteRIP `prod-database.acmeco.svc.cluster.local`:
+
+Try it out:
 
 ```bash
 export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
 
-kubectl run -it -env PGPORT=5432 -env PGPASSWORD=$PASSWORD --rm postgres:latest psql -U postgres -h potgres-prod.acmeco
+kubectl run -it -env PGPORT=5432 -env PGPASSWORD=$PASSWORD --rm postgres:latest psql -U postgres -h prod-database.acmeco
 ```
 
-Try a command such as `CREATE database` or `\l`.
+Try a command such as `CREATE database websites (url TEXT)`, `\dt` or `\l`.
+
+## Getting help
+
+Feel free to [reach out to our team via email](mailto:support@openfaas.com) for technical support.

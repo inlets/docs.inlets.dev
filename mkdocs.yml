@@ -107,8 +107,8 @@ nav:
       - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
       - Istio Gateway: /tutorial/istio-gateway/
   - Inlets Uplink:
-      - Installation: /uplink/installation/
-      - Manage tunnels: /uplink/manage-tunnels/
+      - Become a provider: /uplink/installation/
+      - Manage customer tunnels: /uplink/manage-tunnels/
   - Reference:
       - Overview: reference.md
       - Inlets Operator: /reference/inlets-operator/
