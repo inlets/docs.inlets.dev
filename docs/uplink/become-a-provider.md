@@ -172,6 +172,6 @@ NAME                 READY   SECRET               AGE
 client-router-cert   True    client-router-cert   30m
 ```
 
-## Setup the first customer Tunnel
+## Setup the first customer tunnel
 
 Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
