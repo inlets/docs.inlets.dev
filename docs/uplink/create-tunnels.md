@@ -117,11 +117,15 @@ Once the server is running connect to your tunnel using the inlets-uplink client
 Retrieve the token for the tunnel:
 
 ```bash
-kubectl get secret -n tunnels acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
+kubectl get -n tunnels \
+  secret/acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
 ```
 
+The contents will be saved in token.txt.
+
 Start the tunnel client:
-```
+
+```bash
 inlets-pro uplink client \
   --url wss://uplink.welteki.dev/tunnels/acmeco \
   --upstream http://127.0.0.1:8080 \
@@ -131,7 +135,8 @@ inlets-pro uplink client \
 Run a container in the cluster to check the file server is accessible through the http tunnel using curl: `curl -i acmeco.tunnels:8000`
 
 ```bash
-$ kubectl run -t -i curl --rm --image ghcr.io/openfaas/curl:latest /bin/sh   
+$ kubectl run -t -i curl --rm \
+  --image ghcr.io/openfaas/curl:latest /bin/sh   
 
 $ curl -i acmeco.tunnels:8000
 HTTP/1.1 200 OK
