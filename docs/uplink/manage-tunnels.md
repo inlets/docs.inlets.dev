@@ -1,10 +1,8 @@
 # Manage customer tunnels
 
-## Manage tunnels with kubectl
-
 You can use all the `kubectl` commands you would expect to manage tunnels.
 
-### List tunnels
+## List tunnels
 
 List tunnels across all namespaces:
 
@@ -22,7 +20,7 @@ To list the tunnels within a namespace:
 $ kubectl get tunnels -n customer1
 ```
 
-### Delete a tunnel
+## Delete a tunnel
 
 To delete a tunnel run `kubectl delete`:
 
@@ -35,7 +33,7 @@ This will remove all resources for the tunnel.
 
 Do also remember to stop the customer's inlets uplink client.
 
-### Update the ports or domains for a tunnel
+## Update the ports or domains for a tunnel
 
 You can update a tunnel and configure its TCP ports or domain names by editing the Tunnel Custom Resource:
 

@@ -1,6 +1,6 @@
 # Create a tunnel for a customer
 
-## Create separate namespaces for your tunnels
+## Use separate namespaces for your tunnels
 
 We recommend deploying customer tunnels into a one or more separate namespaces, that means you can keep the `inlets` namespace for the software coordinates the tunnels.
 
@@ -43,9 +43,9 @@ spec:
   - 8080 
 ```
 
-### Define a pre-existing token for your customers
+### Use a pre-existing token for a tunnel
 
-By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to precreate the tokens for each tunnel.
+By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to pre-create the tokens for each tunnel.
 
 Make sure the secret is in the same namespace as the Tunnel Custom Resource.
 
@@ -94,7 +94,7 @@ There are several ways to get the binary:
 - Get it with [arkade](https://github.com/alexellis/arkade): `arakde get inlets-pro`
 - Use the [inlets-pro docker image](https://github.com/orgs/inlets/packages/container/package/inlets-pro)
 
-### Exampe: Tunnel a customer HTTP service
+### Example: Tunnel a customer HTTP service
 
 We'll use inlets-pro's built in fileserver as an example of how to tunnel a HTTP service.
 
@@ -154,7 +154,7 @@ Content-Length: 973
 
 Perhaps you need to access a customer's Postgres database from their private network?
 
-#### Create a TCP tunnel using a Custom Resouce
+#### Create a TCP tunnel using a Custom Resource
 
 Example Custom Resource to deploy a tunnel for acmeco’s production Postgres database:
 
@@ -201,7 +201,7 @@ inlets-pro uplink client \
 
 #### Access the customer database from within Kubernetes
 
-Now that the tunnel is established, you can connect to the customer's Postgres database from within Kubernetes using its ClusteRIP `prod-database.acmeco.svc.cluster.local`:
+Now that the tunnel is established, you can connect to the customer's Postgres database from within Kubernetes using its ClusterIP `prod-database.acmeco.svc.cluster.local`:
 
 Try it out:
 
