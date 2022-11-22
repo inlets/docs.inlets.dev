@@ -1,216 +1,76 @@
 # Manage customer tunnels
 
-## Create separate namespace(s) for your tunnels
+## Manage tunnels with kubectl
 
-We recommend deploying customer tunnels into a one or more separate namespaces, that means you can keep the `inlets` namespace for the software coordinates the tunnels.
+You can use all the `kubectl` commands you would expect to manage tunnels.
 
-You could create a single namespace for customers i.e.
+### List tunnels
 
-```bash
-kubectl create namespace tunnels
-```
-
-Or you could create one per customer:
+List tunnels across all namespaces:
 
 ```bash
-kubectl create namespace acmeco
+$ kubectl get tunnels -A
+
+NAMESPACE   NAME     AUTHTOKENNAME   DEPLOYMENTNAME   TCP PORTS   DOMAINS
+inlets      team     team            team             [8080]
+tunnels     acmeco   acmeco          acmeco           [8080]      
+tunnels     ssh      ssh             ssh              [50035]
 ```
 
-Remember, that if you're an Istio user, you should label each namespace:
+### Delete a tunnel
+
+To delete a tunnel run `kubectl delete`:
 
 ```bash
-kubectl label namespace inlets \
-  istio-injection=enabled --overwrite
+kubectl delete tunnel/acmeco -n tunnels
 ```
 
-## Create a tunnel for a customer using the Custom Resource
+### Update a tunnel
 
-`Tunnel` describes an inlets-uplink tunnel server. The specification describes a set of ports to use for TCP tunnels.
+To update a tunnel and change or add TCP ports you can either edit the Tunnel Custom Resource and run `kubectl apply` or use:
 
-For example the following Tunnel configuration sets up a http tunnel on port `8000` by default and adds port `8080` for use with TCP tunnels. The `licenceRef` needs to reference a secret containing an inlets-uplink license.
-
-```yaml
-apiVersion: uplink.inlets.dev/v1alpha1
-kind: Tunnel
-metadata:
-  name: acmeco
-  namespace: tunnels
-spec:
-  licenseRef:
-    name: inlets-uplink-license
-    namespace: tunnels
-  tcpPorts:
-  - 8080 
+```
+kubectl edit tunnel/acmeco \
+  -n tunnels
 ```
 
-### Define a pre-existing token for your customers
+## Check logs for a tunnel
 
-By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to precreate the tokens for each tunnel.
+The logs for tunnels can be usefull for troubleshooting or to see if clients are connecting successfully.
 
-Make sure the secret is in the same namespace as the Tunnel Custom Resource.
-
-You can use `openssl` to generate a secure token:
+Get the logs for a tunnel deployment: 
 
 ```bash
-openssl rand -base64 32 > token.txt
+$ kubectl logs deploy/acmeco -n tunnels -f
+
+2022/11/22 12:07:38 Inlets Uplink For SaaS & Service Providers (Inlets Uplink for 5x Customers)
+2022/11/22 12:07:38 Licensed to: user@example.com
+inlets (tm) uplink server
+All rights reserved OpenFaaS Ltd (2022)
+
+Metrics on: 0.0.0.0:8001
+Control-plane on: 0.0.0.0:8123
+HTTP data-plane on: 0.0.0.0:8000
+time="2022/11/22 12:33:34" level=info msg="Added upstream: * => http://127.0.0.1:9090 (9355de15c687471da9766cbe51423e54)"
+time="2022/11/22 12:33:34" level=info msg="Handling backend connection request [9355de15c687471da9766cbe51423e54]"
 ```
 
-Create a Kubernetes secret for the token named `custom-token`:
+## Rotate a tunnel's secret
+
+If you inadvertently leaked the token for your tunnel, then you can rotate it. To rotate a token for a tunnel you can delete the secret holding the token. The inlets uplink controller will automatically create a new secret.
+
+We will rotate the token for the acmeco tunnel in the tunnels namespace. The default secret has the same name as the tunnel.
 
 ```bash
-kubectl create secret generic \
-  -n tunnels acmeco-token \
-  --from-file token=./token.txt
+kubectl delete secret/acmeco -n tunnels
 ```
 
-Reference the token when creating a tunnel:
-
-```yaml
-apiVersion: uplink.inlets.dev/v1alpha1
-kind: Tunnel
-metadata:
-  name: acmeco
-  namespace: tunnels
-spec:
-  licenseRef:
-    name: inlets-uplink-license
-    namespace: inlets
-  tokenRef:
-    name: acmeco-token
-    namespace: inlets
-  tcpPorts:
-  - 8080
-```
-
-Clients can now connect to the tunnel using the custom token.
-
-## Connect to tunnels
-
-The `uplink client` command is part of the inlets-pro binary. It is used to connect to tunnels and expose services over the tunnel.
-
-There are several ways to get the binary:
-
-- Download it from the [GitHub releases](https://github.com/inlets/inlets-pro/releases)
-- Get it with [arkade](https://github.com/alexellis/arkade): `arakde get inlets-pro`
-- Use the [inlets-pro docker image](https://github.com/orgs/inlets/packages/container/package/inlets-pro)
-
-### Exampe: Tunnel a customer HTTP service
-
-We'll use inlets-pro's built in fileserver as an example of how to tunnel a HTTP service.
-
-Run this command on a private network or on your workstation:
+The tunnel has to be restarted to use the new token. 
 
 ```bash
-mkdir -p /tmp/share
-cd /tmp/share
-echo "Hello World" > README.md
-
-inlets-pro fileserver -w /tmp/share -a
-
-Starting inlets Pro fileserver. Version: 0.9.10-rc1-1-g7bc49ae - 7bc49ae494bd9ec789fc5e9eaf500f2b1fe60786
-Serving files from: /tmp/share
-Listening on: 127.0.0.1:8080, allow browsing: true, auth: false
+kubectl rollout restart -n tunnels deploy/acmeco
 ```
 
-Once the server is running connect to your tunnel using the inlets-uplink client. We will connect to the tunnel called `acmeco` (see the example in [Create a tunnel for a customer using the Custom Resource](#Create a tunnel for a customer using the Custom Resource) to create this tunnel).
+Any connected tunnels will disconnect at this point, and won’t be able to reconnect until you configure them with the updated token.
 
-Retrieve the token for the tunnel:
-
-```bash
-kubectl get secret -n tunnels acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
-```
-
-Start the tunnel client:
-```
-inlets-pro uplink client \
-  --url wss://uplink.welteki.dev/tunnels/acmeco \
-  --upstream http://127.0.0.1:8080 \
-  --token-file ./token.txt
-```
-
-Run a container in the cluster to check the file server is accessible through the http tunnel using curl: `curl -i acmeco.tunnels:8000`
-
-```bash
-$ kubectl run -t -i curl --rm --image ghcr.io/openfaas/curl:latest /bin/sh   
-
-$ curl -i acmeco.tunnels:8000
-HTTP/1.1 200 OK
-Content-Type: text/html; charset=utf-8
-Date: Thu, 17 Nov 2022 08:39:48 GMT
-Last-Modified: Mon, 14 Nov 2022 20:52:53 GMT
-Content-Length: 973
-
-<pre>
-<a href="README.md">README.md</a>
-</pre>
-```
-
-### Tunnel a customer's TCP service
-
-Perhaps you need to access a customer's Postgres database from their private network?
-
-#### Create a TCP tunnel using a Custom Resouce
-
-Example Custom Resource to deploy a tunnel for acmeco’s production Postgres database:
-
-```yaml
-apiVersion: uplink.inlets.dev/v1alpha1
-kind: Tunnel
-metadata:
-  name: prod-database
-  namespace: acmeco
-spec:
-  licenseRef:
-    name: inlets-uplink-license
-    namespace: acmeco
-  tcpPorts:
-  - 5432
-```
-
-#### Run postgresql on your private server
-
-The quickest way to spin up a Postgres instance on your own machine would be to use Docker:
-
-```bash
-head -c 16 /dev/urandom |shasum 
-8cb3efe58df984d3ab89bcf4566b31b49b2b79b9
-
-export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
-
-docker run --rm --name postgres \
-  -p 5432:5432 \
-  -e POSTGRES_PASSWORD=8cb3efe58df984d3ab89bcf4566b31b49b2b79b9 \
-  -ti postgres:latest
-```
-
-#### Connect with an inlets uplink client
-
-```bash
-export UPLINK_DOMAIN="uplink.example.com"
-
-inlets-pro uplink client \
-  --url wss://${UPLINK_DOMAIN}/acmeco/prod-database \
-  --upstream 127.0.0.1:5432 \
-  --token-file ./token.txt
-```
-
-#### Access the customer database from within Kubernetes
-
-Now that the tunnel is established, you can connect to the customer's Postgres database from within Kubernetes using its ClusteRIP `prod-database.acmeco.svc.cluster.local`:
-
-Try it out:
-
-```bash
-export PASSWORD="8cb3efe58df984d3ab89bcf4566b31b49b2b79b9"
-
-kubectl run -i -t psql \
-  -env PGPORT=5432 \
-  -env PGPASSWORD=$PASSWORD --rm \
-  --image postgres:latest -- psql -U postgres -h prod-database.acmeco
-```
-
-Try a command such as `CREATE database websites (url TEXT)`, `\dt` or `\l`.
-
-## Getting help
-
-Feel free to [reach out to our team via email](mailto:support@openfaas.com) for technical support.
+Retrieve the new token for the tunnel and save it to a file:
