@@ -1,6 +1,6 @@
-# Create tunnels
+# Create a tunnel for a customer
 
-## Create separate namespace(s) for your tunnels
+## Create separate namespaces for your tunnels
 
 We recommend deploying customer tunnels into a one or more separate namespaces, that means you can keep the `inlets` namespace for the software coordinates the tunnels.
 

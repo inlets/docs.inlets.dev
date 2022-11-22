@@ -174,4 +174,4 @@ client-router-cert   True    client-router-cert   30m
 
 ## Setup the first customer Tunnel
 
-Continue the setup here: [Create a customer tunnel](./uplink/create-tunnels.md)
+Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
