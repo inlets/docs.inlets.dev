@@ -1,35 +1,73 @@
 # Manage customer tunnels
 
-You can use all the `kubectl` commands you would expect to manage tunnels.
+You can use `kubectl` or the tunnel plugin for the `inlets-pro` CLI to manage tunnels.
 
 ## List tunnels
 
 List tunnels across all namespaces:
 
-```bash
-$ kubectl get tunnels -A
+=== "kubectl"
 
-NAMESPACE     NAME     AUTHTOKENNAME   DEPLOYMENTNAME   TCP PORTS   DOMAINS
-tunnels       acmeco   acmeco          acmeco           [8080]      
-customer1     ssh      ssh             ssh              [50035]
-```
+    ```bash
+    $ kubectl get tunnels -A
+
+    NAMESPACE     NAME         AUTHTOKENNAME   DEPLOYMENTNAME   TCP PORTS   DOMAINS
+    tunnels       acmeco       acmeco          acmeco           [8080]      
+    customer1     ssh          ssh             ssh              [50035]
+    customer1     prometheus   prometheus      prometheus       []         [prometheus.customer1.example.com]
+    ```
+
+=== "cli"
+
+    ```bash
+    $ inlets-pro tunnel list -n ""
+
+    TUNNEL     DOMAINS                              PORTS   CREATED
+    acmeco     []                                   [8080]  2022-11-22 11:51:35 +0100 CET
+    ssh        []                                   [50035] 2022-11-24 18:19:01 +0100 CET
+    prometheus [prometheus.customer1.example.com]   []      2022-11-24 11:43:23 +0100 CET
+    ```
+
 
 To list the tunnels within a namespace:
 
-```bash
-$ kubectl get tunnels -n customer1
-```
+=== "kubectl"
+
+    ```bash
+    $ kubectl get tunnels -n customer1
+
+    NAME         AUTHTOKENNAME   DEPLOYMENTNAME   TCP PORTS   DOMAINS
+    ssh          ssh             ssh              [50035]
+    ```
+
+=== "cli"
+
+    ```bash
+    $ inlets-pro tunnel list -n customer1
+
+    TUNNEL     DOMAINS   PORTS   CREATED
+    ssh        []        [50035] 2022-11-22 11:51:35 +0100 CET
+    ```
 
 ## Delete a tunnel
 
-To delete a tunnel run `kubectl delete`:
+Deleting a tunnel will remove all resources for the tunnel.
 
-```bash
-kubectl delete -n tunnels \
-  tunnel/acmeco 
-```
+To remove a tunnel run:
 
-This will remove all resources for the tunnel.
+=== "kubectl"
+
+    ```bash
+    kubectl delete -n tunnels \
+      tunnel/acmeco 
+    ```
+
+=== "cli"
+
+    ```bash
+    inlets-pro tunnel remove acmeco \
+      -n tunnels
+    ```
 
 Do also remember to stop the customer's inlets uplink client.
 
@@ -84,29 +122,49 @@ time="2022/11/22 12:33:34" level=info msg="Handling backend connection request [
 
 ## Rotate the secret for a tunnel
 
-You may want to rotate a secret for a customer if you think the secret has been leaked. To rotate a token for a tunnel you can delete the secret holding the token. The inlets uplink controller will automatically create a new secret.
+You may want to rotate a secret for a customer if you think the secret has been leaked. The token can be rotated manually using `kubectl` or with a single command using the `tunnel` CLI plugin.
 
-We will rotate the token for the acmeco tunnel in the tunnels namespace. The default secret has the same name as the tunnel.
+=== "kubectl"
 
-```bash
-kubectl delete -n tunnels \
-  secret/acmeco 
-```
+    Delete the token secret. The default secret has the same name as the tunnel. The inlets uplink controller will automatically create a new secret.
 
-The tunnel has to be restarted to use the new token. 
+    ```bash
+    kubectl delete -n tunnels \
+      secret/acmeco 
+    ```
 
-```bash
-kubectl rollout restart -n tunnels \
-  deploy/acmeco
-```
+    The tunnel has to be restarted to use the new token. 
+
+    ```bash
+    kubectl rollout restart -n tunnels \
+      deploy/acmeco
+    ```
+
+=== "cli"
+
+    Rotate the tunnel token:
+
+    ```bash
+    inlets-pro tunnel rotate acmeco \
+      -n tunnels
+    ```
 
 Any connected tunnels will disconnect at this point, and won’t be able to reconnect until you configure them with the updated token.
 
 Retrieve the new token for the tunnel and save it to a file:
 
-```bash
-kubectl get -n tunnels secret/acmeco \
-  -o jsonpath="{.data.token}" | base64 --decode > token.txt 
-```
+=== "kubectl"
+
+    ```bash
+    kubectl get -n tunnels secret/acmeco \
+      -o jsonpath="{.data.token}" | base64 --decode > token.txt 
+    ```
+
+=== "cli"
+
+    ```bash
+    inlets-pro tunnel token acmeco \
+      -n tunnels --quiet > token.txt
+    ```
 
 The contents will be saved in `token.txt`
