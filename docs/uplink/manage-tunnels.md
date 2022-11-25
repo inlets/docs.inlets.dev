@@ -164,7 +164,7 @@ Retrieve the new token for the tunnel and save it to a file:
 
     ```bash
     inlets-pro tunnel token acmeco \
-      -n tunnels --quiet > token.txt
+      -n tunnels > token.txt
     ```
 
 The contents will be saved in `token.txt`
