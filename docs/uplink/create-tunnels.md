@@ -43,6 +43,14 @@ spec:
   - 8080 
 ```
 
+Alternatively the CLI can be used to create a tunnel:
+
+```bash
+inlets-pro tunnel create acmeco \
+  -n tunnels
+  --port 8080
+```
+
 ### Use a pre-existing token for a tunnel
 
 By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to pre-create the tokens for each tunnel.
@@ -91,12 +99,12 @@ The `uplink client` command is part of the inlets-pro binary. It is used to conn
 There are several ways to get the binary:
 
 - Download it from the [GitHub releases](https://github.com/inlets/inlets-pro/releases)
-- Get it with [arkade](https://github.com/alexellis/arkade): `arakde get inlets-pro`
+- Get it with [arkade](https://github.com/alexellis/arkade): `arkade get inlets-pro`
 - Use the [inlets-pro docker image](https://github.com/orgs/inlets/packages/container/package/inlets-pro)
 
 ### Example: Tunnel a customer HTTP service
 
-We'll use inlets-pro's built in fileserver as an example of how to tunnel a HTTP service.
+We'll use inlets-pro's built in file server as an example of how to tunnel a HTTP service.
 
 Run this command on a private network or on your workstation:
 
@@ -116,10 +124,19 @@ Once the server is running connect to your tunnel using the inlets-uplink client
 
 Retrieve the token for the tunnel:
 
-```bash
-kubectl get -n tunnels \
-  secret/acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
-```
+=== "kubectl"
+
+    ```bash
+    kubectl get -n tunnels \
+      secret/acmeco -o jsonpath="{.data.token}" | base64 --decode > token.txt 
+    ```
+
+=== "cli"
+
+    ```bash
+    inlets-pro tunnel token acmeco \
+      -n tunnels --quiet > token.txt
+    ```
 
 The contents will be saved in token.txt.
 
@@ -127,10 +144,30 @@ Start the tunnel client:
 
 ```bash
 inlets-pro uplink client \
-  --url wss://uplink.welteki.dev/tunnels/acmeco \
+  --url wss://uplink.example.com/tunnels/acmeco \
   --upstream http://127.0.0.1:8080 \
   --token-file ./token.txt
 ```
+
+!!! tip "Tip: get connection instructions"
+    The tunnel plugin for the inlets-pro CLI can be used to get connection instructions for a tunnel.
+
+    ```bash
+    inlets-pro tunnel connect acmeco \
+      --domain uplink.example.com \
+      --upstream http://127.0.0.1:8080
+    ```
+
+    Running the command above will print out the instructions to connect to the tunnel:
+    
+    ```bash
+    # Access your tunnel via ClusterIP: acmeco.tunnels
+    inlets-pro uplink client \
+      --url=wss://uplink.example.com/tunnels/acmeco \
+      --upstream=http://127.0.0.1:8080 \
+      --token=z4oubxcamiv89V0dy8ytmjUEPwAmY0yFyQ6uaBmXsIQHKtAzlT3PcGZRgK
+    ```
+
 
 Run a container in the cluster to check the file server is accessible through the http tunnel using curl: `curl -i acmeco.tunnels:8000`
 
@@ -170,6 +207,14 @@ spec:
     namespace: acmeco
   tcpPorts:
   - 5432
+```
+
+Alternatively the cli can be used to create a new tunnel:
+
+```bash
+inlets-pro tunnel create prod-database \
+  -n acmeco
+  --port 5432
 ```
 
 #### Run postgresql on your private server

@@ -172,6 +172,23 @@ NAME                 READY   SECRET               AGE
 client-router-cert   True    client-router-cert   30m
 ```
 
+## Download the tunnel CLI
+
+We provide a CLI to help you create and manage tunnels. It is available as a plugin for the inlets-pro CLI. 
+
+Download the `inlets-pro` binary:
+
+- Download it from the [GitHub releases](https://github.com/inlets/inlets-pro/releases)
+- Get it with [arkade](https://github.com/alexellis/arkade): `arkade get inlets-pro`
+
+Get the tunnel plugin:
+
+```bash
+inlets-pro plugin get tunnel
+```
+
+Run `inlets-pro tunnel --help` to see all available commands.
+
 ## Setup the first customer tunnel
 
 Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
