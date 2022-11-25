@@ -135,7 +135,7 @@ Retrieve the token for the tunnel:
 
     ```bash
     inlets-pro tunnel token acmeco \
-      -n tunnels --quiet > token.txt
+      -n tunnels > token.txt
     ```
 
 The contents will be saved in token.txt.
