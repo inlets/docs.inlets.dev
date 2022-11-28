@@ -20,7 +20,7 @@ List tunnels across all namespaces:
 === "cli"
 
     ```bash
-    $ inlets-pro tunnel list -n ""
+    $ inlets-pro tunnel list -A
 
     TUNNEL     DOMAINS                              PORTS   CREATED
     acmeco     []                                   [8080]  2022-11-22 11:51:35 +0100 CET
