@@ -133,7 +133,7 @@ The Helm chart is called *inlets-uplink-provider*, you can deploy it using the c
 
 ```bash
 helm upgrade --install inlets-uplink \
-  oci://ghcr.io/inlets/inlets-uplink-provider \
+  oci://ghcr.io/openfaasltd/inlets-uplink-provider
   --namespace inlets \
   --values ./values.yaml
 ```
@@ -147,11 +147,12 @@ You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/inlets
 Once you've installed inlets-uplink, you can verify it is deployed correctly by checking the `inlets` namespace for running pods:
 
 ```bash
-$ kubectl get pods --namespace inlets  
+$ kubectl get pods --namespace inlets
 
-NAME                              READY   STATUS    RESTARTS   AGE
-client-router-b5857cf6f-p554d     1/1     Running   0          31m
-cloud-operator-5495c59bf9-p7ntm   1/1     Running   0          31m
+NAME                               READY   STATUS    RESTARTS   AGE
+client-router-b5857cf6f-7vrdh      1/1     Running   0          92s
+prometheus-74d8d7db9b-2hptm        1/1     Running   0          16s
+uplink-operator-7fccc9bdbc-twd2q   1/1     Running   0          92s
 ```
 
 You should see the `client-router` and `cloud-operator` in a `Running` state.
