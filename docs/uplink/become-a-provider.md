@@ -192,3 +192,33 @@ Run `inlets-pro tunnel --help` to see all available commands.
 ## Setup the first customer tunnel
 
 Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
+
+## Configuration reference
+
+Overview of inlets-uplink parameters in `values.yaml`.
+
+| Parameter                | Description                                                                            | Default                        |
+| ------------------------ | -------------------------------------------------------------------------------------- | ------------------------------ |
+| `pullPolicy` | The a imagePullPolicy applied to inlets-uplink components. | `Always` |
+| `operator.image` | Container image used for the uplink operator. | `ghcr.io/openfaasltd/uplink-operator:0.1.5` |
+| `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.1.5` |
+| `clientRouter.domain` | Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel. | `""` |
+| `clientRouter.tls.issuerName` | Name of cert-manager Issuer for the clientRouter domain. | `letsencrypt-prod` |
+| `clientRouter.tls.issuer.enabled` | Create a cert-manager Issuer for the clientRouter domain. | `true` |
+| `clientRouter.tls.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
+| `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `enabled` |
+| `clientRouter.tls.ingress.class` | Ingress class for client router ingress. | `nginx` |
+| `clientRouter.tls.ingress.annotations` | Annotations to be added to the client router ingress resource. | `{}` |
+| `clientRouter.tls.istio.enabled` | Use an Istio Gateway for incoming traffic to the client router. | `false` |
+| `tunnelsNamespace` | Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces. | `""` |
+| `inletsVersion` | Inlets Pro release version for tunnel server Pods. | `0.9.12` |
+| `clientApi.enabled` | Enable tunnel management REST API. | `false` |
+| `clientApi.image` | Container image used for the client API. | `ghcr.io/openfaasltd/uplink-api:0.1.5` |
+| `prometheus.create` | Create the Prometheus monitoring component. | `true` |
+| `prometheus.resources` | Resource limits and requests for prometheus containers. | `{}` |
+| `prometheus.image` | Container image used for prometheus. | `prom/prometheus:v2.40.1` |
+| `nodeSelector` | Node labels for pod assignment. | `{}` |
+| `affinity`| Node affinity for pod assignments. | `{}` |
+| `tolerations` | Node tolerations for pod assignment. | `[]` |
+
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`
