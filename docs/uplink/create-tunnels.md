@@ -92,6 +92,32 @@ spec:
 
 Clients can now connect to the tunnel using the custom token.
 
+### Node selection and annotations for tunnels
+
+The tunnel spec has a `nodeSelector` field that can be used to assign tunnel pods to Nodes. See [Assign Pods to Nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/) from the kubernetes docs for more information.
+
+It is also possible to set additional annotations on the tunnel pod using the `podAnnotations` field in the tunnel spec.
+
+The following example adds an annotation with the customer name to the tunnel pod and uses the node selector to specify a target node with a specific region label.
+
+```yaml
+apiVersion: uplink.inlets.dev/v1alpha1
+kind: Tunnel
+metadata:
+  name: acmeco
+  namespace: tunnels
+spec:
+  licenseRef:
+    name: inlets-uplink-license
+    namespace: tunnels
+  tcpPorts:
+  - 8080
+  podAnnotations:
+    cutomer: acmeco
+  nodeSelector:
+    region: east
+```
+
 ## Connect to tunnels
 
 The `uplink client` command is part of the inlets-pro binary. It is used to connect to tunnels and expose services over the tunnel.
