@@ -140,7 +140,7 @@ helm upgrade --install inlets-uplink \
 
 If you want to pin the version of the Helm chart, you can do so with the `--version` flag.
 
-You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/inlets/inlets-uplink-provider)
+You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/openfaasltd/inlets-uplink-provider)
 
 ## Verify the installation
 
