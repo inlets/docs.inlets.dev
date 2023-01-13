@@ -473,17 +473,26 @@ gcloud iam service-accounts keys create key.json \
 --iam-account $SERVICEACCOUNT
 ```
 
-* Run inlets OSS or inlets-pro
+* Create a tunnel using the service account and project ID
 
 ```sh
-# Create a tunnel with inlets OSS
-inletsctl create -p gce --project-id=$PROJECTID -f=key.json
+# Create a TCP tunnel server
+inletsctl create --provider gce \
+  --project-id=$PROJECTID \
+    -f=key.json \
+  --tcp
 
-## Create a TCP tunnel with inlets-pro
-inletsctl create -p gce -p $PROJECTID -f=key.json
+# Create a HTTP / HTTPS tunnel server
+inletsctl create \
+  -p gce \
+  --project-id=$PROJECTID \
+  -f=key.json
 
 # Or specify any valid Google Cloud Zone optional zone, by default it get provisioned in us-central1-a
-inletsctl create -p gce --project-id=$PROJECTID -f key.json --zone=us-central1-a
+inletsctl create -p gce \
+  --project-id=$PROJECTID \
+  -f key.json \
+  --zone=us-central1-a
 ```
 
 ### Example usage with Azure
