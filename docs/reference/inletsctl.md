@@ -479,7 +479,7 @@ gcloud iam service-accounts keys create key.json \
 # Create a TCP tunnel server
 inletsctl create --provider gce \
   --project-id=$PROJECTID \
-    -f=key.json \
+  -f=key.json \
   --tcp
 
 # Create a HTTP / HTTPS tunnel server
