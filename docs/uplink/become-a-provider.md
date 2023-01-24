@@ -133,7 +133,7 @@ The Helm chart is called *inlets-uplink-provider*, you can deploy it using the c
 
 ```bash
 helm upgrade --install inlets-uplink \
-  oci://ghcr.io/openfaasltd/inlets-uplink-provider
+  oci://ghcr.io/openfaasltd/inlets-uplink-provider \
   --namespace inlets \
   --values ./values.yaml
 ```
