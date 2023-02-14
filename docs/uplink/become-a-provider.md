@@ -23,7 +23,7 @@ Before you start, you'll need the following:
 
 Inlets uplink has its own independent subscription from inlets-pro.
 
-Sign-up here: [inlets uplink plans](https://openfaas-subscribe.lemonsqueezy.com/checkout/buy/85e0989f-3aad-46e3-8da9-bbea3ba1414c?discount=0).
+Sign-up here: [inlets uplink plans](https://subscribe.openfaas.com/).
 
 ## Create a Kubernetes cluster
 
