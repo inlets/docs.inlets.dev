@@ -114,6 +114,7 @@ nav:
       - Create a tunnel: /uplink/create-tunnels/
       - Manage tunnels: /uplink/manage-tunnels/
       - Monitoring tunnels: /uplink/monitoring-tunnels/
+      - Ingress for tunnels: /uplink/ingress-for-tunnels/
   - Reference:
       - Overview: reference.md
       - Inlets Operator: /reference/inlets-operator/
