@@ -230,6 +230,49 @@ Content-Length: 973
 </pre>
 ```
 
+#### How to tunnel multiple HTTP services from a customer
+
+The following example shows how to access more than one HTTP service over the same tunnel. It is possible to expose multiple upstream services over a single tunnel.
+
+Start a tunnel client and add multiple upstreams:
+
+```bash
+inlets-pro uplink client \
+  --url wss://uplink.example.com/tunnels/acmeco \
+  --upstream prometheus=http://127.0.0.1:9090 \
+  --upstream gateway=http://127.0.0.1:8080 \
+  --token-file ./token.txt
+
+```
+
+Access both services using `curl`:
+
+```bash
+$ kubectl run -t -i curl --rm \
+  --image ghcr.io/openfaas/curl:latest /bin/sh   
+
+$ curl -i -H "Host: prometheus" acmeco.tunnels:8000
+HTTP/1.1 302 Found
+Content-Length: 29
+Content-Type: text/html; charset=utf-8
+Date: Thu, 16 Feb 2023 16:29:09 GMT
+Location: /graph
+
+<a href="/graph">Found</a>.
+
+
+$ curl -i -H "Host: gateway" acmeco.tunnels:8000
+HTTP/1.1 301 Moved Permanently
+Content-Length: 39
+Content-Type: text/html; charset=utf-8
+Date: Thu, 16 Feb 2023 16:29:11 GMT
+Location: /ui/
+
+<a href="/ui/">Moved Permanently</a>.
+```
+
+Note that the `Host` header has to be set in the request so the tunnel knows which upstream to send the request to.
+
 ### Tunnel a customer's TCP service
 
 Perhaps you need to access a customer's Postgres database from their private network?
