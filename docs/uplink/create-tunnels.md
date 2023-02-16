@@ -2,28 +2,45 @@
 
 ## Use separate namespaces for your tunnels
 
-We recommend deploying customer tunnels into a one or more separate namespaces, that means you can keep the `inlets` namespace for the software coordinates the tunnels.
+The `inlets` namespace contains the control plane for inlets uplink, so you'll need to create at least one additional namespace for your customer tunnels.
 
-You could create a single namespace for customers i.e.
+1. Create a namespace per customer (recommended)
 
-```bash
-kubectl create namespace tunnels
-```
+    This approach avoids conflicts on names, and gives better isolation between tenants.
 
-Or you could create one per customer:
+    ```bash
+    kubectl create namespace acmeco
+    ```
 
-```bash
-kubectl create namespace acmeco
-```
+    Then, create a copy of the license secret in the new namespace:
 
-Remember, that if you're an Istio user, you should label each namespace:
+    ```bash
+    export NS="n1"
+    export LICENSE=$(kubectl get secret -n inlets inlets-uplink-license -o jsonpath='{.data.license}')
+
+    kubectl create secret generic \
+      -n $NS \
+      inlets-uplink-license \
+      --from-literal license=$LICENSE
+    ```
+
+2. A single namespace for all customer tunnels (not recommended)
+
+    For development purposes, you could create a single namespace for all your customers.
+
+    ```bash
+    kubectl create namespace tunnels
+    ```
+
+Finally, if you're using Istio, then you need to label each additional namespace to enable sidecar injection:
+
 
 ```bash
 kubectl label namespace inlets \
   istio-injection=enabled --overwrite
 ```
 
-## Create a tunnel for a customer using the Custom Resource
+## Create a Tunnel with an auto-generated token
 
 `Tunnel` describes an inlets-uplink tunnel server. The specification describes a set of ports to use for TCP tunnels.
 
@@ -51,9 +68,9 @@ inlets-pro tunnel create acmeco \
   --port 8080
 ```
 
-### Use a pre-existing token for a tunnel
+## Create a Tunnel with a pre-defined token
 
-By default a token is generated for tunnels, however if you are using a GitOps workflow, or store your tunnel YAML files in Git, you may want to pre-create the tokens for each tunnel.
+If you delete a Tunnel with an auto-generated token, and re-create it later, the token will change. So we recommend that you pre-define your tokens. This style works well for GitOps and automated deployments with Helm.
 
 Make sure the secret is in the same namespace as the Tunnel Custom Resource.
 
