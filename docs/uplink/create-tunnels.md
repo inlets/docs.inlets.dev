@@ -304,6 +304,59 @@ kubectl run -i -t psql \
 
 Try a command such as `CREATE database websites (url TEXT)`, `\dt` or `\l`.
 
+## Deploy the client in a Kubernetes cluster
+
+The following resources are meant to be applied in the customers cluster.
+
+1. Create a secret with the token for the customer tunnel.
+
+    ```bash
+    kubectl create secret generic \
+      inlets-token \
+      --from-file token=./token.txt
+    ```
+
+2. Create a deployment for the client.
+  
+    For example the following configuration will deploy the tunnel client and connect to the acmeco tunnel in the inlets uplink control cluster. It will tunnel the customers OpenFaaS gateway service and make it accessible in the control cluster.
+
+    ```yaml
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: inlets-uplink-client
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: inlets-uplink-client
+      template:
+        metadata:
+          labels:
+            app: inlets-uplink-client
+        spec:
+          containers:
+          - name: inlets-uplink-client
+            image: ghcr.io/inlets/inlets-pro:0.9.13
+            imagePullPolicy: IfNotPresent
+            command: ["inlets-pro"]
+            args:
+            - "uplink"
+            - "client"
+            - "--url=wss://uplink.example.dev/tunnels/acmeco"
+            - "--upstream=http://gateway.openfaas:8080"
+            - "--token-file=/var/inlets/token"
+            volumeMounts:
+            - mountPath: /var/inlets/
+              name: inlets-token-volume
+              readOnly: true
+          volumes:
+          - name: inlets-token-volume
+            secret:
+              defaultMode: 420
+              secretName: acmeco-token
+    ```
+
 ## Getting help
 
 Feel free to [reach out to our team via email](mailto:support@openfaas.com) for technical support.
