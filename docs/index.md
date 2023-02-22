@@ -1,6 +1,6 @@
 # Inlets documentation
 
-[Inlets](https://inlets.dev/) reinvents the concept of a tunnel for a Cloud Native world.
+[Inlets](https://inlets.dev) brings secure tunnels to Cloud Native workloads.
 
 [![Inlets logo](/images/inlets-hero.png){ width="80%"}](https://inlets.dev/)
 
