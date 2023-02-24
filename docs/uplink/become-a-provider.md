@@ -213,6 +213,8 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | `clientRouter.tls.ingress.class` | Ingress class for client router ingress. | `nginx` |
 | `clientRouter.tls.ingress.annotations` | Annotations to be added to the client router ingress resource. | `{}` |
 | `clientRouter.tls.istio.enabled` | Use an Istio Gateway for incoming traffic to the client router. | `false` |
+| `clientRouter.service.type` | Client router service type | `ClusterIP` |
+| `clientRouter.service.nodePort` | Client router service port for NodePort service type, assigned automatically when left empty. (only if clientRouter.service.type is set to "NodePort")| `nil` |
 | `tunnelsNamespace` | Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces. | `""` |
 | `inletsVersion` | Inlets Pro release version for tunnel server Pods. | `0.9.12` |
 | `clientApi.enabled` | Enable tunnel management REST API. | `false` |
@@ -220,6 +222,8 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | `prometheus.create` | Create the Prometheus monitoring component. | `true` |
 | `prometheus.resources` | Resource limits and requests for prometheus containers. | `{}` |
 | `prometheus.image` | Container image used for prometheus. | `prom/prometheus:v2.40.1` |
+| `prometheus.service.type` | Prometheus service type | `ClusterIP` |
+| `prometheus.service.nodePort` | Prometheus service port for NodePort service type, assigned automatically when left empty. (only if prometheus.service.type is set to "NodePort")| `nil` |
 | `nodeSelector` | Node labels for pod assignment. | `{}` |
 | `affinity`| Node affinity for pod assignments. | `{}` |
 | `tolerations` | Node tolerations for pod assignment. | `[]` |
