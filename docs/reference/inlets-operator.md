@@ -21,7 +21,7 @@ arkade install inlets-operator \
  --region $REGION \ # Used with cloud providers that require a region.
  --zone $ZONE \ # Used with cloud providers that require zone (e.g. gce).
  --token-file $HOME/Downloads/key.json \ # Token file/Service Account Key file with the access to the cloud provider.
- --license-file inlets-pro-license.txt # inlets-pro license file. (required)
+ --license-file $HOME/.inlets/LICENSE
 ```
 
 ## Install using helm
@@ -29,16 +29,19 @@ arkade install inlets-operator \
 Checkout the inlets-operator helm chart [README](https://github.com/inlets/inlets-operator/blob/master/chart/inlets-operator/README.md) to know more about the values that can be passed to `--set` and to see provider specific example commands.
 
 ```bash
-# Create the Custom Resource Definition for a "Tunnel"
-kubectl apply -f \
-  https://raw.githubusercontent.com/inlets/inlets-operator/master/artifacts/crds/inlets.inlets.dev_tunnels.yaml
-
 # Create a secret to store the service account key file
 kubectl create secret generic inlets-access-key \
   --from-file=inlets-access-key=key.json
 
 # Add and update the inlets-operator helm repo
 helm repo add inlets https://inlets.github.io/inlets-operator/
+
+# Create a namespace for inlets-operator
+kubectl create namespace inlets
+
+# Create a secret to store the inlets-pro license
+kubectl create secret generic -n inlets \
+  inlets-license --from-file license=$HOME/.inlets/LICENSE
 
 # Update the local repository
 helm repo update
@@ -227,9 +230,6 @@ export AZURE_REGION="ukwest"
 export INLETS_LICENSE="$(cat ~/.inlets/LICENSE)"
 export ACCESS_KEY="$HOME/Downloads/client_credentials.json"
 
-kubectl apply -f \
-  https://raw.githubusercontent.com/inlets/inlets-operator/master/artifacts/crds/inlets.inlets.dev_tunnels.yaml
-
 kubectl create secret generic inlets-access-key \
   --from-file=inlets-access-key=$ACCESS_KEY
 
@@ -238,8 +238,7 @@ helm repo update
 
 helm upgrade inlets-operator --install inlets/inlets-operator \
   --set provider=azure,region=$AZURE_REGION \
-  --set subscriptionID=$SUBSCRIPTION_ID \
-  --set inletsProLicense=$INLETS_LICENSE
+  --set subscriptionID=$SUBSCRIPTION_ID
 ```
 
 ### Create tunnel servers on Linode
@@ -249,8 +248,6 @@ Instructions for [Linode](https://linode.com)
 Install using helm:
 
 ```bash
-kubectl apply -f ./artifacts/crds/
-
 # Create a secret to store the service account key file
 kubectl create secret generic inlets-access-key --from-literal inlets-access-key=<Linode API Access Key>
 
@@ -261,7 +258,8 @@ helm repo update
 
 # Install inlets-operator with the required fields
 helm upgrade inlets-operator --install inlets/inlets-operator \
-  --set provider=linode,region=us-east,inletsProLicense=$(cat $HOME/inlets-pro-license.txt)
+  --set provider=linode \
+  --set region=us-east
 ```
 
 You can also install the inlets-operator using a single command using [arkade](https://arkade.dev/), arkade runs against any Kubernetes cluster.
@@ -272,6 +270,6 @@ Install with inlets Pro:
 arkade install inlets-operator \
  --provider linode \
  --region us-east \
- --access-key <Linode API Access Key> \
- --license $(cat $HOME/inlets-pro-license.txt)
+ --access-key $LINODE_ACCESS_KEY \
+ --license-file $HOME/.inlets/LICENSE
 ```
