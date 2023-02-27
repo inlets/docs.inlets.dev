@@ -113,6 +113,7 @@ nav:
       - Become a provider: /uplink/become-a-provider/
       - Create a tunnel: /uplink/create-tunnels/
       - Manage tunnels: /uplink/manage-tunnels/
+      - Connect to tunnels: /uplink/connect-to-tunnels/
       - Monitoring tunnels: /uplink/monitoring-tunnels/
       - Ingress for tunnels: /uplink/ingress-for-tunnels/
   - Reference:
