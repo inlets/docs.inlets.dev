@@ -1,10 +1,10 @@
 # Inlets Uplink overview
 
-!!! "What's the difference between Inlets Pro and Inlets Uplink?"
+!!! info "What's the difference between Inlets Pro and Inlets Uplink?"
     
     Inlets Pro is a stand-alone binary that can be use to expose local HTTPs and TCP services on a remote machine or network.
 
-    Inlets Uplink is a complete management solution for tunnels for SaaS companies and service providers. It's designed to scale, and to be multi-tenant.
+    Inlets Uplink is a complete management solution for tunnels for SaaS companies and service providers. It's designed for scale, multi-tenancy and easy management.
 
 Inlets Uplink is our answer to the question: "How do you access customer services from within your own product?"
 
