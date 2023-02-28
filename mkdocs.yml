@@ -84,7 +84,6 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
 
-
 nav:
   - Overview:
       - Introduction: index.md
@@ -110,11 +109,12 @@ nav:
       - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
       - Istio Gateway: /tutorial/istio-gateway/
   - Inlets Uplink:
+      - Overview: /uplink/overview/
       - Become a provider: /uplink/become-a-provider/
       - Create a tunnel: /uplink/create-tunnels/
       - Manage tunnels: /uplink/manage-tunnels/
       - Connect to tunnels: /uplink/connect-to-tunnels/
-      - Monitoring tunnels: /uplink/monitoring-tunnels/
+      - Monitor tunnels: /uplink/monitoring-tunnels/
       - Ingress for tunnels: /uplink/ingress-for-tunnels/
   - Reference:
       - Overview: reference.md
