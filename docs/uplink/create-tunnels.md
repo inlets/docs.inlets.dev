@@ -135,6 +135,33 @@ spec:
     region: east
 ```
 
+## Set the inlets version used by tunnels
+
+The inlets version for a tunnel can be set by using the `inletsVersion` field in the tunnel spec. If the field is omitted, the tunnel wil use the inlets version configured in the `values.yaml` file.
+
+```yaml
+apiVersion: uplink.inlets.dev/v1alpha1
+kind: Tunnel
+metadata:
+  name: acmeco
+  namespace: tunnels
+spec:
+  inletsVersion: 0.9.18
+  licenseRef:
+    name: inlets-uplink-license
+    namespace: tunnels
+```
+
+The version can also be set when creating a tunnel with the CLI:
+
+```bash
+inlets-pro tunnel create acmeco \
+  -n tunnels
+  --version "0.9.18"
+```
+
+To prevent mismatches with the inlets uplink client existing tunnels are not automatically updated when the `inletsVersion` parameter in the Chart changes. See [upgrading tunnels](/uplink/manage-tunnels/#upgrade-the-inlets-version-of-a-tunnel).
+
 ## Connect to tunnels
 
 The `uplink client` command is part of the inlets-pro binary. It is used to connect to tunnels and expose services over the tunnel.
