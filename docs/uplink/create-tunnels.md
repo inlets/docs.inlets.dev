@@ -77,8 +77,10 @@ Make sure the secret is in the same namespace as the Tunnel Custom Resource.
 You can use `openssl` to generate a secure token:
 
 ```bash
-openssl rand -base64 32 > token.txt
+openssl rand -base64 32 |tr -d '\n' > token.txt
 ```
+
+Note that the `tr` command is used to remove the newline character from the output, so that there is no new-line within the token.
 
 Create a Kubernetes secret for the token named `custom-token`:
 
@@ -88,7 +90,7 @@ kubectl create secret generic \
   --from-file token=./token.txt
 ```
 
-Reference the token when creating a tunnel:
+Reference the token when creating a tunnel, to expose ports 8080 over TCP.
 
 ```yaml
 apiVersion: uplink.inlets.dev/v1alpha1
