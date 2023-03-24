@@ -16,7 +16,7 @@ The `inlets` namespace contains the control plane for inlets uplink, so you'll n
 
     ```bash
     export NS="n1"
-    export LICENSE=$(kubectl get secret -n inlets inlets-uplink-license -o jsonpath='{.data.license}')
+    export LICENSE=$(kubectl get secret -n inlets inlets-uplink-license -o jsonpath='{.data.license}' | base64 -d)
 
     kubectl create secret generic \
       -n $NS \
