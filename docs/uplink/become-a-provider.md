@@ -49,6 +49,23 @@ kubectl create namespace inlets
 
 Create the required secret with your inlets-uplink license.
 
+!!! note
+
+    There is a known issue with LemonSqueezy where the UI will copy the license key in lower-case, it needs to be converted to upper-case before being used with Inlets Uplink.
+
+Convert the license to upper-case, if it's in lower-case:
+
+```bash
+(
+  mv $HOME/.inlets/LICENSE_UPLINK{,.lower}
+
+  cat $HOME/.inlets/LICENSE_UPLINK.lower | tr '[:lower:]' '[:upper:]' > $HOME/.inlets/LICENSE_UPLINK
+  rm $HOME/.inlets/LICENSE_UPLINK.lower
+)
+```
+
+Create the secret for the license:
+
 ```bash
 kubectl create secret generic \
   -n inlets inlets-uplink-license \
