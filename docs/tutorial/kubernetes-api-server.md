@@ -22,7 +22,7 @@ When a managed cloud provider provisions you a cluster, they'll add additional n
 We have five steps run through to expose the API server:
 
 1. Create a Kubernetes cluster
-2. Create a VM on the public cloud with an inlets TCP server running on it
+2. Create a VM on the public cloud with an inlets TCP server running onit
 3. Create a DNS entry for the public VM's IP address
 4. Configure a TLS SAN, if possible with a new domain name
 5. Set up an inlets client as a Pod to forward traffic to the Kubernetes API Server

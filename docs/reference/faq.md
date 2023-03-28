@@ -65,9 +65,9 @@ See also: [inlets-pro releases](https://github.com/inlets/inletsctl/releases)
 
 It has three jobs:
 
-1) Create the VM for you
-2) Install the inlets-pro server in TCP or HTTPS mode (as specified) with systemd
-3) Inform you of the token and connection string
+1. Create the VM for you
+2. Install the inlets-pro server in TCP or HTTPS mode (as specified) with systemd
+3. Inform you of the token and connection string
 
 You can download the inletsctl tool with "curl | sh" or from the [inletsctl releases](https://github.com/inlets/inletsctl/releases) page.
 
