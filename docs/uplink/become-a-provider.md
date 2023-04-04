@@ -99,8 +99,15 @@ clientRouter:
   domain: uplink.example.com
 
   tls:
+    issuerName: letsencrypt-prod
+
+    # When set, a production issuer will be generated for you
+    # to use a pre-existing issuer, set issuer.enabled=false
     issuer:
-      # Email address used for ACME registration
+      # Create a production issuer as part of the chart installation
+      enabled: true
+
+      # Email address used for ACME registration for the production issuer
       email: "user@example.com"
 
     ingress:
@@ -109,6 +116,10 @@ clientRouter:
 ```
 
 Make sure to replace the domain and email with your actual domain name and email address.
+
+Want to use the staging issuer for testing?
+
+To use the Let's Encrypt staging issuer, pre-create your own issuer, update `clientRouter.tls.issuerName` with the name you have chosen, and then update `clientRouter.tls.issuer.enabled` and set it to false.
 
 ### B) Install with Istio
 
@@ -136,8 +147,15 @@ clientRouter:
   domain: uplink.example.com
 
   tls:
+    issuerName: letsencrypt-prod
+
+    # When set, a production issuer will be generated for you
+    # to use a pre-existing issuer, set issuer.enabled=false
     issuer:
-      # Email address used for ACME registration
+      # Create a production issuer as part of the chart installation
+      enabled: true
+
+      # Email address used for ACME registration for the production issuer
       email: "user@example.com"
 
     istio:
@@ -215,6 +233,10 @@ Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
 
 ## Configuration reference
 
+Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: `helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider`
+
+If you need a configuration option outside of what's already available, feel free to raise an issue on the [inlets-pro repository](https://github.com/inlets/inlets-pro/issues).
+
 Overview of inlets-uplink parameters in `values.yaml`.
 
 | Parameter                | Description                                                                            | Default                        |
@@ -224,7 +246,7 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.1.5` |
 | `clientRouter.domain` | Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel. | `""` |
 | `clientRouter.tls.issuerName` | Name of cert-manager Issuer for the clientRouter domain. | `letsencrypt-prod` |
-| `clientRouter.tls.issuer.enabled` | Create a cert-manager Issuer for the clientRouter domain. | `true` |
+| `clientRouter.tls.issuer.enabled` | Create a cert-manager Issuer for the clientRouter domain. Set to false if you wish to specify your own pre-existing object in the `clientRouter.tls.issuerName` field. | `true` |
 | `clientRouter.tls.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
 | `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `enabled` |
 | `clientRouter.tls.ingress.class` | Ingress class for client router ingress. | `nginx` |
