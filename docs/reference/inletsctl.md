@@ -442,6 +442,8 @@ inletsctl delete \
 
 ### Example usage with Google Compute Engine
 
+Bear in mind that standard GCE VMs are created with an ephemeral IP address, which is subject to change. In order to make your tunnel's address stable, you should [Reserve a static IP address and assign it to your VM](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address). A static IP costs around 2.88 USD / mo.
+
 * One time setup required for a service account key
 
 > It is assumed that you have gcloud installed and configured on your machine.
@@ -495,6 +497,16 @@ inletsctl create -p gce \
   -f key.json \
   --zone=us-central1-a
 ```
+
+If you need the tunnel server for any period of time, remember to [Reserve a static IP address and assign it to your VM](https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address).
+
+Then SSH into the host and make sure you update inlets to make use of it:
+
+Edit `IP=` in `/etc/default/inlets-pro` then run `sudo systemctl daemon-reload && sudo systemctl restart inlets-pro`
+
+The `inlets-pro http/tcp --url wss://...` flag should also be updated with the static IP.
+
+In a future version of inletsctl, we may automate the above.
 
 ### Example usage with Azure
 
