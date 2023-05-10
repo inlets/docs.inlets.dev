@@ -89,10 +89,9 @@ nav:
       - Introduction: index.md
       - FAQ: /reference/faq/
   - Tutorials:
-      - Create a manual HTTP tunnel server: /tutorial/manual-http-server/
-      - Create an automated HTTP tunnel server: /tutorial/automated-http-server/
+      - Automated HTTP tunnel setup: /tutorial/automated-http-server/
+      - Manual HTTP tunnel setup: /tutorial/manual-http-server/
       - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels/
-      - GitHub Actions (ext): https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html
       - IP Allow list (ext): https://inlets.dev/blog/2021/10/15/allow-lists.html
       - Docker Compose (ext): https://inlets.dev/blog/2021/09/09/compose-and-inlets.html
       - Community tutorials: /tutorial/community/
@@ -104,10 +103,10 @@ nav:
   - Kubernetes:
       - Kubernetes Ingress: /tutorial/kubernetes-ingress/
       - Kubernetes API Server: /tutorial/kubernetes-api-server/
+      - Istio Gateway: /tutorial/istio-gateway/
       - Helm charts (ext): https://github.com/inlets/inlets-pro/tree/master/chart
       - Local port forwarding (ext): https://inlets.dev/blog/2022/06/24/fixing-kubectl-port-forward.html
       - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
-      - Istio Gateway: /tutorial/istio-gateway/
   - Inlets Uplink:
       - Overview: /uplink/overview/
       - Become a provider: /uplink/become-a-provider/

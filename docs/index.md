@@ -12,12 +12,14 @@ inlets is not just compatible with tricky networks and Cloud Native architecture
 
 Common use-cases include:
 
-* Exposing local endpoints on the Internet
+* Exposing local HTTPS, TCP, or websocket endpoints on the Internet
+* Replacing SaaS tunnels that are too restrictive
 * Self-hosting from a homelab or on-premises datacenter
 * Deploying and monitoring apps across multiple locations
+* Receiving webhooks and testing OAuth integrations
 * Remote customer support
 
-> What is your strategy for connecting existing applications to the public cloud? Read: [The Simple Way To Connect Existing Apps to Public Cloud](https://inlets.dev/blog/2021/04/07/simple-hybrid-cloud.html).
+> Do you want to connect to hundreds of remote services without exposing them on the Internet? You may be looking for [inlets uplink](https://docs.inlets.dev/uplink/overview/)
 
 ## How does it work?
 
