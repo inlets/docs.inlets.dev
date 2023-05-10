@@ -52,17 +52,31 @@ You can also use [the container image from ghcr.io](https://github.com/orgs/inle
 
 ### Your first HTTPS tunnel with an automated tunnel server (Intermediate)
 
+Expose one or more HTTPS domains from your local machine.
+
 * [Tutorial: Expose one or more local HTTP services via HTTPS](https://inlets.dev/blog/2021/08/08/private-tunnel.html)
 
 ### Running a HTTP tunnel server manually (Advanced)
 
+If you don't want to use automation tools to create a server for the inlets-pro server, then you can follow this manual guide to generate and install a systemd service instead.
+
 * [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
+
+### Tunnelling TCP services
+
+inlets is not limited to HTTP connections, you can also tunnel TCP protocols like RDP, VNC, SSH, TLS and databases.
+
+* [Tutorial: Expose a private SSH server over a TCP tunnel](/tutorial/ssh-tcp-tunnel/)
+* [Tutorial: Tunnel a private Postgresql database](/tutorial/postgresql-tcp-tunnel/)
+* [Tutorial: Tunnel ports 80 and 443 over TCP for a reverse proxy](https://docs.inlets.dev/tutorial/caddy-http-tunnel/)
 
 ### Running multiple tunnel servers on the same host (Advanced)
 
-The easiest way to scale out inlets tunnels is through the Kubernetes helm chart (see below), however you can manually set up a TCP and HTTPS tunnel on the same machine.
+If you want to mix HTTP and TCP tunnels on the same tunnel server, you could either only use TCP ports, or enable both.
 
 * [Advanced: Setting up dual TCP and HTTPS tunnels](/tutorial/dual-tunnels/)
+
+If you're looking to scale inlets to host many tunnels, then Kubernetes is probably a better option.
 
 ### Local port forwarding (Intermediate)
 
@@ -79,14 +93,15 @@ Some teams want to have dev work like production, with tools Istio working local
 
 * [Tutorial: Expose an Istio gateway with the inlets-operator](/tutorial/istio-gateway)
 
+* [Tutorial: Access the Kubernetes API server from anywhere like managed service](/tutorial/kubernetes-api-server/)
+
 See also: [helm charts](https://github.com/inlets/inlets-pro/tree/master/chart)
 
-### Tunnelling TCP services
+### Becoming a tunnel provider or operating a hosting service
 
-inlets is not limited to HTTP connections, you can also tunnel TCP protocols like RDP, VNC, SSH, TLS and databases.
+The Inlets Uplink distribution is a Kubernetes operator that makes it quick and easy to onboard hundreds or thousands of customers, each with their own dedicated tunnel. It can also be used for remote management and command and control of IT systems and IoT devices.
 
-* [Tutorial: Expose a private SSH server over a TCP tunnel](/tutorial/ssh-tcp-tunnel/)
-* [Tutorial: Tunnel a private Postgresql database](/tutorial/postgresql-tcp-tunnel/)
+Learn more: [Inlets Uplink](https://docs.inlets.dev/uplink/overview/)
 
 ### Monitoring and metrics
 
