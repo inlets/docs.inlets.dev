@@ -64,7 +64,7 @@ Alternatively the CLI can be used to create a tunnel:
 
 ```bash
 inlets-pro tunnel create acmeco \
-  -n tunnels
+  -n tunnels \
   --port 8080
 ```
 
