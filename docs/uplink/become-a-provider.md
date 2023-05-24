@@ -231,6 +231,25 @@ Run `inlets-pro tunnel --help` to see all available commands.
 
 Continue the setup here: [Create a customer tunnel](/uplink/create-tunnels)
 
+## Upgrading the chart and components
+
+If you have a copy of values.yaml with pinned image versions, you should update these manually.
+
+Next, run the Helm chart installation command again, and remember to use the sames values.yaml file that you used to install the software originally.
+
+Over time, you may find using a tool like FluxCD or ArgoCD to manage the installation and updates makes more sense than running Helm commands manually.
+
+If the Custom Resource Definition (CRD) has changed, you can extract it from the Chart repo and install it before or after upgrading. As a rule, Helm won't install or upgrade CRDs a second time if there's already an existing version:
+
+```bash
+helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider \
+  --include-crds=true \
+  --output-dir=/tmp
+
+kubectl apply -f /
+  tmp/inlets-uplink-provider/crds/uplink.inlets.dev_tunnels.yaml
+```
+
 ## Configuration reference
 
 Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: `helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider`
