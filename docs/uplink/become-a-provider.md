@@ -179,6 +179,19 @@ If you want to pin the version of the Helm chart, you can do so with the `--vers
 
 You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/openfaasltd/inlets-uplink-provider)
 
+Alternatively, you can get the list of tags, including the latest tag via the crane CLI:
+
+```bash
+arkade get crane
+
+# List versions
+crane ls ghcr.io/openfaasltd/inlets-uplink-provider
+
+# Get the latest version
+LATEST=$(crane ls ghcr.io/openfaasltd/inlets-uplink-provider |tail -n 1)
+echo $LATEST
+```
+
 ## Verify the installation
 
 Once you've installed inlets-uplink, you can verify it is deployed correctly by checking the `inlets` namespace for running pods:
