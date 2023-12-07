@@ -236,15 +236,41 @@ Content-Length: 973
 
 The following example shows how to access more than one HTTP service over the same tunnel. It is possible to expose multiple upstream services over a single tunnel.
 
+You can add upstreamDomains to the Tunnel resource. Uplink wil create additional Services for each domain so the HTTP data plane is available on different domains. 
+```diff
+apiVersion: uplink.inlets.dev/v1alpha1
+kind: Tunnel
+metadata:
+  name: acmeco
+  namespace: tunnels
+spec:
+  licenseRef:
+    name: inlets-uplink-license
+    namespace: tunnels
+  tcpPorts:
+  - 8080
++  upstreamDomains:
++  - gateway
++  - prometheus
+```
+
+Upstreams can also be added while creating a tunnel with with cli:
+
+```bash
+inlets-pro tunnel create acmeco \
+  --namespace tunnels \
+  --upstream gateway \
+  --upstream prometheus
+```
+
 Start a tunnel client and add multiple upstreams:
 
 ```bash
 inlets-pro uplink client \
   --url wss://uplink.example.com/tunnels/acmeco \
-  --upstream prometheus=http://127.0.0.1:9090 \
-  --upstream gateway=http://127.0.0.1:8080 \
+  --upstream prometheus.tunnels=http://127.0.0.1:9090 \
+  --upstream gateway.tunnels=http://127.0.0.1:8080 \
   --token-file ./token.txt
-
 ```
 
 Access both services using `curl`:
@@ -253,7 +279,7 @@ Access both services using `curl`:
 $ kubectl run -t -i curl --rm \
   --image ghcr.io/openfaas/curl:latest /bin/sh   
 
-$ curl -i -H "Host: prometheus" acmeco.tunnels:8000
+$ curl -i gateway.tunnels:8000
 HTTP/1.1 302 Found
 Content-Length: 29
 Content-Type: text/html; charset=utf-8
@@ -263,7 +289,7 @@ Location: /graph
 <a href="/graph">Found</a>.
 
 
-$ curl -i -H "Host: gateway" acmeco.tunnels:8000
+$ curl -i -H prometheus.tunnels:8000
 HTTP/1.1 301 Moved Permanently
 Content-Length: 39
 Content-Type: text/html; charset=utf-8
