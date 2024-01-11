@@ -263,6 +263,22 @@ kubectl apply -f /
   tmp/inlets-uplink-provider/crds/uplink.inlets.dev_tunnels.yaml
 ```
 
+### Upgrading existing customer tunnels
+
+The operator will upgrade the `image:` version of all deployed inlets uplink tunnels automatically based upon the tag set in values.yaml.
+
+If no value is set in your overridden values.yaml file, then whatever the default is in the chart will be used.
+
+```yaml
+inletsVersion: 0.9.23
+```
+
+When a tunnel is upgraded, you'll see a log line like this:
+
+```bash
+2024-01-11T12:25:15.442Z        info    operator/controller.go:860      Upgrading version       {"tunnel": "ce.inlets", "from": "0.9.21", "to": "0.9.23"}
+```
+
 ## Configuration reference
 
 Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: `helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider`
