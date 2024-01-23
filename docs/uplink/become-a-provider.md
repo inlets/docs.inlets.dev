@@ -279,6 +279,10 @@ When a tunnel is upgraded, you'll see a log line like this:
 2024-01-11T12:25:15.442Z        info    operator/controller.go:860      Upgrading version       {"tunnel": "ce.inlets", "from": "0.9.21", "to": "0.9.23"}
 ```
 
+## Telemetry and usage data
+
+The inlets-uplink Kubernetes operator will send telemetry data to OpenFaaS Ltd on a periodic basis. This information is used for calculating accurate usage metrics for billing purposes. This data is sent over HTTPS, does not contain any personal information, and is not shared with any third parties.
+
 ## Configuration reference
 
 Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: `helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider`
