@@ -282,3 +282,153 @@ spec:
     ```
 
 After applying these resources you should be able to access the data plane for both tunnels on their custom domain.
+
+## Wildcard Ingress with the data-router
+
+As an alternative to creating individual sets of Ingress records, DNS A/CNAME entries and TLS certificates for each tunnel, you can use the `data-router` to route traffic to the correct tunnel based on the hostname. This approach uses a wildcard DNS entry and a single TLS certificate for all tunnels.
+
+The following example is adapted from the cert-manager documentation to use DigitalOcean's DNS servers, however you can find [instructions for issuers](https://cert-manager.io/docs/configuration/acme/dns01/) such as AWS Route53, Cloudflare, and Google Cloud DNS listed.
+
+DNS01 challenges require a secret to be created containing the credentials for the DNS provider. The secret is referenced by the issuer resource.
+
+```bash
+kubectl create secret generic \
+  -n inlets digitalocean-dns \
+  --from-file access-token=$HOME/do-access-token
+```
+
+Create a separate `Issuer`, assuming a domain of `t.example.com`, where each tunnel would be i.e. `prometheus.t.example.com` or `api.t.example.com`:
+
+```bash
+export NS="inlets"
+export ISSUER_NAME="inlets-wildcard"
+export DOMAIN="t.example.com"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: $ISSUER_NAME
+  namespace: $NS
+spec:
+  acme:
+    email: webmaster@$DOMAIN
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: $ISSUER_NAME
+    solvers:
+    - dns01:
+        digitalocean:
+            tokenSecretRef:
+              name: digitalocean-dns
+              key: access-token
+EOF
+```
+
+Update values.yaml to enable the dataRouter and to specify the wildcard domain:
+
+```yaml
+## The dataRouter is an option component to enable easy Ingress to connected tunnels.
+## Learn more under "Ingress for Tunnels" in the docs: https://docs.inlets.dev/
+dataRouter:
+  enabled: true
+
+  # Leave out the asterix i.e. *.t.example.com would be: t.example.com
+  wildcardDomain: "t.example.com"
+
+  tls:
+    issuerName: "inlets-wildcard"
+
+    ingress:
+      class: "nginx"
+      annotations:
+        # Apply basic rate limiting.
+        nginx.ingress.kubernetes.io/limit-connections: "300"
+        nginx.ingress.kubernetes.io/limit-rpm: "1000"
+```
+
+Apply the updated values:
+
+```bash
+helm upgrade --install inlets-uplink \
+  oci://ghcr.io/openfaasltd/inlets-uplink-provider \
+  --namespace inlets \
+  --values ./values.yaml
+```
+
+Create a tunnel with an Ingress Domain specified in the `.Spec` field:
+
+```bash
+export TUNNEL_NS="tunnels"
+export DOMAIN="t.example.com"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: uplink.inlets.dev/v1alpha1
+kind: Tunnel
+metadata:
+  name: fileshare
+  namespace: $TUNNEL_NS
+spec:
+  licenseRef:
+    name: inlets-uplink-license
+    namespace: $TUNNEL_NS
+  ingressDomains:
+    - fileshare.$DOMAIN
+EOF
+```
+
+On a private computer, create a new directory, a file to serve and then run the built-in HTTP server:
+
+```bash
+cd /tmp
+mkdir -p ./share
+cd ./share
+echo "Hello from inlets" > index.html
+
+inlets-pro fileserver --port 8080 --allow-browsing --webroot ./
+```
+
+Get the instructions to connect to the tunnel.
+
+The `--domain` flag here is for your uplink control-plane, where tunnels connect, not the data-plane where ingress is served. This is usually i.e. `uplink.example.com`.
+
+```bash
+export TUNNEL_NS="tunnels"
+export UPLINK_DOMAIN="uplink.example.com"
+
+inlets-pro tunnel connect fileshare \
+  --namespace $TUNNEL_NS \
+  --domain $UPLINK_DOMAIN
+```
+
+Add the `--upstream fileshare.t.example.com=fileshare` flag to the command you were given, then run it.
+
+The command below is sample output, do not copy it directly.
+
+```bash
+inlets-pro uplink client \
+  --url=wss://uplink.example.com/tunnels/fileshare \
+  --token=REDACTED \
+  --upstream fileshare.t.example.com=http://127.0.0.1:8080
+```
+
+Now, access the tunneled service via the wildcard domain i.e. `https://fileshare.t.example.com`.
+
+You should see: "Hello from inlets" printed in your browser.
+
+Finally, you can view the logs of the data-router, to see it resolving internal tunnel service names for various hostnames:
+
+```bash
+kubectl logs -n inlets deploy/data-router
+
+2024-01-24T11:29:16.965Z        info    data-router/main.go:51  Inlets (tm) Uplink - data-router: 
+
+2024-01-24T11:29:16.970Z        info    data-router/main.go:90  Listening on: 8080      Tunnel namespace: (all) Kubernetes version: v1.27.4+k3s1
+
+I0124 11:29:58.858772       1 main.go:151] Host: fileshares.t.example.com    Path: /
+I0124 11:29:58.858877       1 roundtripper.go:48] "No ingress found" hostname="fileshares.t.example.com" path="/"
+
+I0124 11:30:03.588993       1 main.go:151] Host: fileshare.t.example.com     Path: /
+I0124 11:30:03.589051       1 roundtripper.go:56] "Resolved" hostname="fileshare.t.example.com" path="/" tunnel="fileshare.tunnels:8000"
+```
+
