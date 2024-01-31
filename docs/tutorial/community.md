@@ -35,7 +35,7 @@ Walk-through videos:
 * [Argo CD for your private Raspberry Pi k3s cluster](https://johansiebens.dev/posts/2020/08/argo-cd-for-your-private-raspberry-pi-k3s-cluster/) (Aug 2020) by Johan Siebens
 * [Get a TLS-enabled Docker registry in 5 minutes](https://blog.alexellis.io/get-a-tls-enabled-docker-registry-in-5-minutes/) (Feb 2020) by Alex Ellis
 * [A bit of Istio before tea-time](https://blog.alexellis.io/a-bit-of-istio-before-tea-time/) (May 2021) by Alex Ellis
-* [Get kubectl access to your private cluster from anywhere](https://blog.alexellis.io/get-private-kubectl-access-anywhere/) (Jan 2020) by Alex Ellis
+* [Access your local cluster like a managed Kubernetes engine](https://inlets.dev/blog/2022/07/07/access-kubernetes-api-server.html) by Alex Ellis
 * [Exploring Kubernetes Operator Pattern](https://iximiuz.com/en/posts/kubernetes-operator-pattern/) (Jan 2021) by Ivan Velichko
 
 ## Official blog posts
