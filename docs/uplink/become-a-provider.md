@@ -283,6 +283,14 @@ When a tunnel is upgraded, you'll see a log line like this:
 
 The inlets-uplink Kubernetes operator will send telemetry data to OpenFaaS Ltd on a periodic basis. This information is used for calculating accurate usage metrics for billing purposes. This data is sent over HTTPS, does not contain any personal information, and is not shared with any third parties.
 
+This data includes the following:
+
+* Number of tunnels deployed
+* Number of namespaces with at least one tunnel contained
+* Kubernetes version
+* Inlets Uplink version
+* Number of installations of Inlets Uplink
+
 ## Configuration reference
 
 Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: `helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider`
