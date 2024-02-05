@@ -49,7 +49,7 @@ kubectl create namespace inlets
 
 Create the required secret with your inlets-uplink license.
 
-!!! note
+!!! note "Check that your license key is in lower-case"
 
     There is a known issue with LemonSqueezy where the UI will copy the license key in lower-case, it needs to be converted to upper-case before being used with Inlets Uplink.
 
@@ -166,6 +166,14 @@ Make sure to replace the domain and email with your actual domain name and email
 
 ### Deploy with Helm
 
+!!! note "The chart is served through a container registry (OCI), not GitHub pages"
+
+    Many Helm charts are served over GitHub pages, from a public repository, making it easy to browse and read the source code. We are using an OCI artifact in a container registry, which makes for a more modern alternative. If you want to browse the source, you can simply run `helm template` instead of `helm upgrade`.
+
+    **Unauthorized?**
+
+    The chart artifacts are public and do not require authentication, however if you run into an "Access denied" or authorization error when interacting with `ghcr.io`, try running `helm registry login ghcr.io` to refresh your credentials, or `docker logout ghcr.io`.
+
 The Helm chart is called *inlets-uplink-provider*, you can deploy it using the custom values.yaml file created above:
 
 ```bash
@@ -177,9 +185,19 @@ helm upgrade --install inlets-uplink \
 
 If you want to pin the version of the Helm chart, you can do so with the `--version` flag.
 
-You can browse [all versions of the Helm chart on GitHub](https://ghcr.io/openfaasltd/inlets-uplink-provider)
+**Where can I see the various options for values.yaml?**
 
-Alternatively, you can get the list of tags, including the latest tag via the crane CLI:
+All of the various options for the Helm chart are documented in the [configuration reference](#configuration-reference).
+
+**How can I view the source code?**
+
+See the note on `helm template` under the [configuration reference](#configuration-reference).
+
+**How can I find the latest version of the chart?**
+
+If you omit a version, Helm will use the latest published OCI artifact, however if you do want to pin it, you can browse [all versions of the Helm chart on GitHub](https://ghcr.io/openfaasltd/inlets-uplink-provider)
+
+As an alternative to using ghcr.io's UI, you can get the list of tags, including the latest tag via the crane CLI:
 
 ```bash
 arkade get crane
