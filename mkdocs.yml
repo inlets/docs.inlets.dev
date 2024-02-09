@@ -89,9 +89,10 @@ nav:
       - Introduction: index.md
       - FAQ: /reference/faq/
   - Tutorials:
-      - Automated HTTP tunnel setup: /tutorial/automated-http-server/
-      - Manual HTTP tunnel setup: /tutorial/manual-http-server/
-      - Dual TCP and HTTP tunnels: /tutorial/dual-tunnels/
+      - Automated HTTPs tunnel server: /tutorial/automated-http-server/
+      - Manual HTTPs tunnel server: /tutorial/manual-http-server/
+      - Manual TCP tunnel server: /tutorial/manual-tcp-server/
+      - Dual TCP and HTTPs server: /tutorial/dual-tunnels/
       - IP Allow list (ext): https://inlets.dev/blog/2021/10/15/allow-lists.html
       - Docker Compose (ext): https://inlets.dev/blog/2021/09/09/compose-and-inlets.html
       - Community tutorials: /tutorial/community/
