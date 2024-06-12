@@ -69,6 +69,27 @@ arkade install inlets-operator \
  --token-file $HOME/Downloads/do-access-token
 ```
 
+If you have `doctl` installed, you can list the available regions and see whether they have available capacity to launch a new VM.
+
+```bash
+doctl compute region ls
+Slug    Name               Available
+nyc1    New York 1         true
+sfo1    San Francisco 1    false
+nyc2    New York 2         false
+ams2    Amsterdam 2        false
+sgp1    Singapore 1        true
+lon1    London 1           true
+nyc3    New York 3         true
+ams3    Amsterdam 3        true
+fra1    Frankfurt 1        true
+tor1    Toronto 1          true
+sfo2    San Francisco 2    true
+blr1    Bangalore 1        true
+sfo3    San Francisco 3    true
+syd1    Sydney 1           true
+```
+
 ### Create tunnel servers on AWS EC2
 
 Instructions for [AWS EC2](https://aws.amazon.com/ec2/)
