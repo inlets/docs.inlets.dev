@@ -20,8 +20,7 @@ arkade install inlets-operator \
  --provider $PROVIDER \ # Name of the cloud provider to provision the exit-node on.
  --region $REGION \ # Used with cloud providers that require a region.
  --zone $ZONE \ # Used with cloud providers that require zone (e.g. gce).
- --token-file $HOME/Downloads/key.json \ # Token file/Service Account Key file with the access to the cloud provider.
- --license-file $HOME/.inlets/LICENSE
+ --token-file $HOME/Downloads/key.json # Token file/Service Account Key file with the access to the cloud provider.
 ```
 
 ## Install using helm
@@ -67,8 +66,7 @@ Assuming you have created an API key and saved it to `$HOME/Downloads/do-access-
 arkade install inlets-operator \
  --provider digitalocean \
  --region lon1 \
- --token-file $HOME/Downloads/do-access-token \
- --license-file $HOME/.inlets/LICENSE
+ --token-file $HOME/Downloads/do-access-token
 ```
 
 ### Create tunnel servers on AWS EC2
@@ -145,8 +143,7 @@ arkade install inlets-operator \
  --provider ec2 \
  --region eu-west-1 \
  --token-file $HOME/Downloads/access-key \
- --secret-key-file $HOME/Downloads/secret-access-key \
- --license-file $HOME/.inlets/LICENSE
+ --secret-key-file $HOME/Downloads/secret-access-key
 ```
 
 ### Create tunnel servers on Google Compute Engine (GCE)
@@ -191,8 +188,7 @@ arkade install inlets-operator \
     --provider gce \
     --project-id $PROJECTID \
     --zone us-central1-a \
-    --token-file key.json \
-    --license-file $HOME/.inlets/LICENSE
+    --token-file key.json
 ```
 
 ### Create tunnel servers on Azure
@@ -270,6 +266,5 @@ Install with inlets Pro:
 arkade install inlets-operator \
  --provider linode \
  --region us-east \
- --access-key $LINODE_ACCESS_KEY \
- --license-file $HOME/.inlets/LICENSE
-```
+ --access-key $LINODE_ACCESS_KEY
+ ```
