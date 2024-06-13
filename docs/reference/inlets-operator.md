@@ -15,7 +15,7 @@ You can install the inlets-operator's Helm chart using a single command with [ar
 
 > You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
 
-## Tunnel Custom Resource Definition (CRD)
+## Tunnel Custom Resource Definition (CRD) and lifecycle
 
 The inlets-operator uses a custom resource definition (CRD) to create tunnels. The CRD is called `Tunnel` and its full name is `tunnels.operator.inlets.dev`
 
@@ -49,6 +49,10 @@ To have the tunnel server re-created, you can delete the tunnel CustomResource, 
 ```bash
 kubectl delete tunnel nginx-1-tunnel
 ```
+
+Bear in mind that if you delete your cluster before you delete the LoadBalancer service, then the inlets-operator will have no way to remove the tunnel servers that have been created for you. Therefore, you should always delete the LoadBalancer service before deleting the cluster. If you should forget, and delete your K3s or KinD cluster, then you can go into your cloud account and delete the VMs manually.
+
+As a rule, the name of the VM will match the name of the service in Kubernetes.
 
 ### Working with another LoadBalancer
 
