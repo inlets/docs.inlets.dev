@@ -4,72 +4,125 @@ The [inlets/inlets-operator](https://github.com/inlets/inlets-operator) brings L
 
 > It works by creating VMs and running an inlets Pro tunnel server for you, the VM's public IP is then attached to the cluster and an inlets client Pod runs for you.
 
-You can install the inlets-operator using a single command with [arkade](https://arkade.dev/) or with helm. arkade is an open-source Kubernetes marketplace and easier to use.
-
 For each provider, the minimum requirements tend to be:
 
 * An access token - for the operator to create VMs for inlets Pro servers
 * A region - where to create the VMs
 
+**Helm or Arkade?**
+
+You can install the inlets-operator's Helm chart using a single command with [arkade](https://arkade.dev/). arkade is an open-source Kubernetes marketplace and easy to use. Helm involves more commands, and is preferred by power users.
+
 > You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
 
-## Install using arkade
+## Tunnel Custom Resource Definition (CRD)
+
+The inlets-operator uses a custom resource definition (CRD) to create tunnels. The CRD is called `Tunnel` and its full name is `tunnels.operator.inlets.dev`
 
 ```bash
+$ kubectl get tunnels -n default
+NAMESPACE   NAME             SERVICE   HOSTSTATUS   HOSTIP        CREATED
+default     nginx-1-tunnel   nginx-1   active       46.101.1.67   2m45s
+```
+
+The CRD can be used to view and monitor tunnels. The `HOSTSTATUS` field shows the status of the tunnel, and the `HOSTIP` field shows the public IP address of the tunnel.
+
+The tunnel's IP address will also be written directly to any `Service` with a type of `LoadBalancer`.
+
+```bash
+$ kubectl get svc -n default
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP               PORT(S)        AGE
+kubernetes   ClusterIP      10.96.0.1     <none>                    443/TCP        6m26s
+nginx-1      LoadBalancer   10.96.94.18   46.101.1.67,46.101.1.67   80:31194/TCP   4m21s
+```
+
+The lifecycle of a tunnel is tied to the Service in Kubernetes.
+
+To delete a tunnel permanently, you can delete the Service:
+
+```bash
+kubectl delete svc nginx-1
+```
+
+To have the tunnel server re-created, you can delete the tunnel CustomResource, this causes the operator to re-create the tunnel:
+
+```bash
+kubectl delete tunnel nginx-1-tunnel
+```
+
+### Working with another LoadBalancer
+
+If you're running metal-lb or kube-vip to provide local IP addresses for LoadBalancer services, then you can annotate the services you wish to expose to the Internet with `operator.inlets.dev/manage=1`, then set `annotatedOnly: true` in the inlets-operator Helm chart.
+
+## Install inlets-operator using arkade
+
+```bash
+export REGION=lon1
+export PROVIDER=digitalocean
+
 arkade install inlets-operator \
  --provider $PROVIDER \ # Name of the cloud provider to provision the exit-node on.
  --region $REGION \ # Used with cloud providers that require a region.
- --zone $ZONE \ # Used with cloud providers that require zone (e.g. gce).
- --token-file $HOME/Downloads/key.json # Token file/Service Account Key file with the access to the cloud provider.
+ --token-file $HOME/Downloads/do-access-token.txt # Token file/Service Account Key file with the access to the cloud provider.
 ```
 
-## Install using helm
+## Install inlets-operator using helm
 
-Checkout the inlets-operator helm chart [README](https://github.com/inlets/inlets-operator/blob/master/chart/inlets-operator/README.md) to know more about the values that can be passed to `--set` and to see provider specific example commands.
+The following instructions are a generic example, you should refer to each specific heading to understand how to create the required API keys for a given cloud provider.
+
+* Some providers require an access key, others also need a secret key.
+* Some providers only use a region, others use a zone and projectID too.
+* There are additional flags you can set via values.yaml or the `--set` flag.
+
+You can view the [inlets-operator chart on GitHub](https://github.com/inlets/inlets-operator/tree/master/chart/inlets-operator) to learn more.
 
 ```bash
-# Create a secret to store the service account key file
-kubectl create secret generic inlets-access-key \
-  --from-file=inlets-access-key=key.json
-
-# Add and update the inlets-operator helm repo
-helm repo add inlets https://inlets.github.io/inlets-operator/
-
 # Create a namespace for inlets-operator
 kubectl create namespace inlets
 
+# Create a secret to store the service account key file
+kubectl create secret generic inlets-access-key \
+  --namespace inlets \
+  --from-file inlets-access-key=$HOME/Downloads/do-access-token.txt
+
 # Create a secret to store the inlets-pro license
-kubectl create secret generic -n inlets \
+kubectl create secret generic \
+  --namespace inlets \
   inlets-license --from-file license=$HOME/.inlets/LICENSE
 
-# Update the local repository
-helm repo update
+# Add and update the inlets-operator helm repo
+# You only need to do this once.
+helm repo add inlets https://inlets.github.io/inlets-operator/
 
-# Install inlets-operator with the required fields
-helm upgrade inlets-operator --install inlets/inlets-operator \
-  --set provider=$PROJECTID,zone=$ZONE,region=$REGION \
-  --set projectID=$PROJECTID \
-  --set inletsProLicense=$LICENSE
+export REGION=lon1
+export PROVIDER=digitalocean
+
+# Update the Helm repository and perform an installation
+helm repo update && \
+  helm upgrade inlets-operator --install inlets/inlets-operator \
+  --namespace inlets \
+  --set provider=$PROVIDER \
+  --set region=$REGION
 ```
-
-View the code and chart on GitHub: [inlets/inlets-operator](https://github.com/inlets/inlets-operator)
 
 ## Instructions per cloud
 
 ### Create tunnel servers on DigitalOcean
 
-Install with inlets Pro on [DigitalOcean](https://m.do.co/c/8d4e75e9886f).
+The [DigitalOcean](https://m.do.co/c/8d4e75e9886f) provider is fast, cost effective and easy to set it. It's recommended for most users.
 
-Assuming you have created an API key and saved it to `$HOME/Downloads/do-access-token`, run:
+Create an API access token with full read/write permissions and save it to: `$HOME/Downloads/do-access-token.txt`.
+
+Now, install the chart with arkade using the above options:
 
 ```bash
 arkade install inlets-operator \
  --provider digitalocean \
  --region lon1 \
- --token-file $HOME/Downloads/do-access-token
+ --token-file $HOME/Downloads/do-access-token.txt
 ```
 
-If you have `doctl` installed, you can list the available regions and see whether they have available capacity to launch a new VM.
+If you have the DigitalOcean CLI (`doctl`) installed, then you can use it to list available regions and their codes to input into the above command. Bear in mind that some regions are showing no availability for starting new VMs.
 
 ```bash
 doctl compute region ls
@@ -153,18 +206,18 @@ The below commands will create a set of credentials and save them into files for
 
 ```bash
 ACCESS_KEY_JSON=$(aws iam create-access-key --user-name inlets-automation)
-echo $ACCESS_KEY_JSON | jq -r .AccessKey.AccessKeyId > access-key
-echo $ACCESS_KEY_JSON | jq -r .AccessKey.SecretAccessKey > secret-access-key
+echo $ACCESS_KEY_JSON | jq -r .AccessKey.AccessKeyId > ~/Downloads/aws-access-key
+echo $ACCESS_KEY_JSON | jq -r .AccessKey.SecretAccessKey > ~/Downloads/aws-secret-access-key
 ```
 
-Install with inlets Pro:
+Install the chart with arkade using the above options:
 
 ```bash
 arkade install inlets-operator \
  --provider ec2 \
  --region eu-west-1 \
- --token-file $HOME/Downloads/access-key \
- --secret-key-file $HOME/Downloads/secret-access-key
+ --token-file $HOME/Downloads/aws-access-key \
+ --secret-key-file $HOME/Downloads/aws-secret-access-key
 ```
 
 ### Create tunnel servers on Google Compute Engine (GCE)
@@ -202,7 +255,7 @@ gcloud iam service-accounts keys create key.json \
   --iam-account $SERVICEACCOUNT
 ```
 
-Install the operator:
+Install the chart with arkade using the above options:
 
 ```bash
 arkade install inlets-operator \
@@ -281,7 +334,7 @@ helm upgrade inlets-operator --install inlets/inlets-operator \
 
 You can also install the inlets-operator using a single command using [arkade](https://arkade.dev/), arkade runs against any Kubernetes cluster.
 
-Install with inlets Pro:
+Install the chart with arkade using the above options:
 
 ```bash
 arkade install inlets-operator \
