@@ -13,7 +13,7 @@ For each provider, the minimum requirements tend to be:
 
 You can install the inlets-operator's Helm chart using a single command with [arkade](https://arkade.dev/). arkade is an open-source Kubernetes marketplace and easy to use. Helm involves more commands, and is preferred by power users.
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
+> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/pricing)
 
 ## Tunnel Custom Resource Definition (CRD) and lifecycle
 
@@ -267,6 +267,17 @@ arkade install inlets-operator \
     --project-id $PROJECTID \
     --zone us-central1-a \
     --token-file key.json
+```
+
+### Create tunnel servers on Hetzner
+
+Create an API key with read/write access, save it to ~/hetzner.txt.
+
+```bash
+arkade install inlets-operator \
+    --provider hetzner \
+    --region eu-central \
+    --token-file ~/hetzner.txt
 ```
 
 ### Create tunnel servers on Azure
