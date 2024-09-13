@@ -84,6 +84,10 @@ Use Option A if you're not sure, if your team already uses Istio or prefers Isti
 
 We recommend ingress-nginx, and have finely tuned the configuration to work well for the underlying websocket for inlets. That said, you can change the IngressController if you wish.
 
+!!! note "Chart configuration changes - Sept 2024"
+
+    The configuration for a built-in issuer, and some ingress configuration has now moved up one level from the clientRouter, dataRouter, clientApi etc, to the top level of values.yaml. This is a breaking change and you will need to update your values.yaml file before upgrading the chart.
+
 Install ingress-nginx using arkade or Helm:
 
 ```bash
@@ -93,6 +97,15 @@ arkade install ingress-nginx
 Create a `values.yaml` file for the inlets-uplink-provider chart:
 
 ```yaml
+ingress:
+  issuer:
+    # When set, a production issuer will be generated for you
+    # to use a pre-existing issuer, set issuer.enabled=false
+    enabled: true
+    # Email address used for ACME registration for the production issuer
+    email: "user@example.com"
+    class: "nginx"
+
 clientRouter:
   # Customer tunnels will connect with a URI of:
   # wss://uplink.example.com/namespace/tunnel
@@ -100,19 +113,8 @@ clientRouter:
 
   tls:
     issuerName: letsencrypt-prod
-
-    # When set, a production issuer will be generated for you
-    # to use a pre-existing issuer, set issuer.enabled=false
-    issuer:
-      # Create a production issuer as part of the chart installation
-      enabled: true
-
-      # Email address used for ACME registration for the production issuer
-      email: "user@example.com"
-
     ingress:
       enabled: true
-      class: "nginx"      
 ```
 
 Make sure to replace the domain and email with your actual domain name and email address.
@@ -141,6 +143,15 @@ kubectl label namespace inlets \
 Create a `values.yaml` file for the inlets-uplink chart:
 
 ```yaml
+ingress:
+  issuer:
+    # When set, a production issuer will be generated for you
+    # to use a pre-existing issuer, set issuer.enabled=false
+    enabled: true
+    # Email address used for ACME registration for the production issuer
+    email: "user@example.com"
+    class: "istio"
+
 clientRouter:
   # Customer tunnels will connect with a URI of:
   # wss://uplink.example.com/namespace/tunnel
@@ -148,16 +159,6 @@ clientRouter:
 
   tls:
     issuerName: letsencrypt-prod
-
-    # When set, a production issuer will be generated for you
-    # to use a pre-existing issuer, set issuer.enabled=false
-    issuer:
-      # Create a production issuer as part of the chart installation
-      enabled: true
-
-      # Email address used for ACME registration for the production issuer
-      email: "user@example.com"
-
     istio:
       enabled: true
 ```
@@ -309,13 +310,13 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | ------------------------ | -------------------------------------------------------------------------------------- | ------------------------------ |
 | `pullPolicy` | The a imagePullPolicy applied to inlets-uplink components. | `Always` |
 | `operator.image` | Container image used for the uplink operator. | `ghcr.io/openfaasltd/uplink-operator:0.1.5` |
+| `ingress.issuer.name` | Name of cert-manager Issuer. | `letsencrypt-prod` |
+| `ingress.issuer.enabled` | Create a cert-manager Issuer. Set to false if you wish to specify your own pre-existing object for each component. | `true` |
+| `ingress.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
+| `ingress.class` |  Ingress class for client router ingress. | `nginx` |
 | `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.1.5` |
 | `clientRouter.domain` | Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel. | `""` |
-| `clientRouter.tls.issuerName` | Name of cert-manager Issuer for the clientRouter domain. | `letsencrypt-prod` |
-| `clientRouter.tls.issuer.enabled` | Create a cert-manager Issuer for the clientRouter domain. Set to false if you wish to specify your own pre-existing object in the `clientRouter.tls.issuerName` field. | `true` |
-| `clientRouter.tls.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
 | `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `enabled` |
-| `clientRouter.tls.ingress.class` | Ingress class for client router ingress. | `nginx` |
 | `clientRouter.tls.ingress.annotations` | Annotations to be added to the client router ingress resource. | `{}` |
 | `clientRouter.tls.istio.enabled` | Use an Istio Gateway for incoming traffic to the client router. | `false` |
 | `clientRouter.service.type` | Client router service type | `ClusterIP` |

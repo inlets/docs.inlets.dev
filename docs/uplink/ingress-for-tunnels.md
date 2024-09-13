@@ -340,7 +340,7 @@ dataRouter:
     issuerName: "inlets-wildcard"
 
     ingress:
-      class: "nginx"
+      enabled: true
       annotations:
         # Apply basic rate limiting.
         nginx.ingress.kubernetes.io/limit-connections: "300"
