@@ -19,11 +19,12 @@ Are you curious about the advantages of using inlets vs. alternatives? We must f
 
 SaaS tunnels provide a convenient way to expose services for the purposes of development, however they are often:
 
+* subject to overreaching terms of service, including licensing your content, censoring, and monitoring your traffic for violations
 * blocked by corporate IT
 * running on shared infrastructure (servers) with other customers
 * subject to stringent rate-limits that affect productivity
 * priced per subdomain
-* unable to obtain high value TCP ports like 22, 80, 443 and so on
+* unable to offer standard TCP ports like 22, 80, 443, etc
 
 You run inlets on your own servers, so you do not run into those restrictions. Your data remains your own and is kept private.
 
