@@ -8,8 +8,11 @@ The `inlets` namespace contains the control plane for inlets uplink, so you'll n
 
     This approach avoids conflicts on names, and gives better isolation between tenants.
 
+    After creating the tunnel, you'll also need to label it `inlets.dev/uplink=1`
+
     ```bash
     kubectl create namespace acmeco
+    kubectl label --overwrite namespace acmeco "inlets.dev/uplink"=1
     ```
 
     Then, create a copy of the license secret in the new namespace:
