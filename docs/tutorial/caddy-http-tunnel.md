@@ -39,7 +39,9 @@ Setup a DNS A record for the site you want to expose using the public IP of the 
 
 ## Run a local server to share files
 
-Do not run this command in your home folder.
+Do not run this command in your home folder, as it will expose your entire home directory.
+
+Instead, create a temporary directory and serve that instead:
 
 ```bash
 mkdir -p /tmp/shared/
@@ -47,56 +49,15 @@ cd /tmp/shared/
 
 echo "Hello world" > WELCOME.txt
 
-# If using Python 2.x
-python -m SimpleHTTPServer
-
-# Python 3.x
-python3 -m http.server
+inlets-pro fileserver --webroot ./ \
+  --allow-browsing
 ```
 
-This will listen on port `8000` by default.
+The command listens on port `8080` by default, but you can change is as desired with `--port`
 
-## Setup Caddy 1.x
+The `--allow-browsing` flag allows directory listing and traversal through the browser.
 
-* Download the latest Caddy 1.x binary from the [Releases page](https://github.com/caddyserver/caddy/releases)
-
-Pick your operating system, for instance Darwin for MacOS, or Linux.
-
-Download the binary, extract it and install it to `/usr/local/bin`:
-
-```bash
-mkdir -p /tmp/caddy
-curl -sLSf https://github.com/caddyserver/caddy/releases/download/v1.0.4/caddy_v1.0.4_darwin_amd64.zip > caddy.tar.gz
-tar -xvf caddy.tar.gz --strip-components=0 -C /tmp/caddy
-
-sudo cp /tmp/caddy/caddy /usr/local/bin/
-```
-
-* Create a Caddyfile
-
-The `Caddyfile` configures which websites Caddy will expose, and which sites need a TLS certificate.
-
-Replace `service.example.com` with your own domain.
-
-Next, edit `proxy / 127.0.0.1:8000` and change the port `8000` to the port of your local webserver, for instance `3000` or `8080`. For our example, keep it as `8000`.
-
-```sh
-service.example.com
-
-proxy / 127.0.0.1:8000 {
-  transparent
-}
-```
-
-Start the Caddy binary, it will listen on port 80 and 443.
-
-```
-sudo ./caddy
-```
-
-If you have more than one website, you can add them to the Caddyfile on new lines.
-
-> You'll need to run caddy as `sudo` so that it can bind to ports 80, and 443 which require additional privileges.
+If you're sharing files with a colleague or friend, you can add `--allow-browsing=false` and share the exact URL with them instead.
 
 ## Start the inlets-pro client on your local side
 
@@ -123,29 +84,9 @@ inlets-pro tcp client \
 
 Note that `--upstream localhost` will connect to Caddy running on your computer, if you are running Caddy on another machine, use its IP address here.
 
-## Check it all worked
-
-You'll see that Caddy can now obtain a TLS certificate.
-
-Go ahead and visit: `https://service.example.com`
-
-Congratulations, you've now served a TLS certificate directly from your laptop. You can close caddy and open it again at a later date. Caddy will re-use the certificate it already obtained and it will be valid for 3 months. To renew, just keep Caddy running or open it again whenever you need it.
-
 ## Setup Caddy 2.x
 
-For Caddy 2.x, the Caddyfile format changes.
-
-Let's say you're running a Node.js service on port 3000, and want to expose it with TLS on the domain "service.example.com":
-
-```
-git clone https://github.com/alexellis/expressjs-k8s/
-cd expressjs-k8s
-
-npm install
-http_port=3000 npm start
-```
-
-The local site will be served at http://127.0.0.1:3000
+Here's an example Caddyfile that will reverse-proxy to the local file-server using the domain name `service.example.com`:
 
 ```Caddyfile
 {
@@ -154,22 +95,26 @@ The local site will be served at http://127.0.0.1:3000
 
 service.example.com
 
-reverse_proxy 127.0.0.1:3000 {
+reverse_proxy 127.0.0.1:8080 {
 }
 ```
 
 Note the `acme_ca` being used will receive a staging certificate, remove it to obtain a production TLS certificate.
 
-Now [download Caddy 2.x](https://caddyserver.com/download) for your operating system.
+Now [download Caddy 2.x](https://caddyserver.com/download) for your operating system. You can get it from the downloads page, or if you're a Linux user on an amd64 or arm64 machine, you can use arkade to do everything required via `arkade system install caddy`. See `arkade system install --help` for more options.
+
+Once you have the binary, you can run it with the following command:
 
 ```bash
 sudo ./caddy run \
   -config ./Caddyfile
 ```
 
-`sudo` - is required to bind to port 80 and 443, although you can potentially update your OS to allow binding to low ports without root access.
+`sudo` - is required to bind to port 80 and 443, although you can potentially update your OS to allow binding to low ports without root access. See this [StackOverflow question for more](https://superuser.com/questions/710253/allow-non-root-process-to-bind-to-port-80-and-443).
 
-You should now be able to access the Node.js website via the `https://service.example.com` URL.
+You should now be able to access the fileserver via the `https://service.example.com` URL.
+
+If you wanted to expose something else like Grafana, you could simply edit your Caddyfile's `reverse_proxy` line, then restart Caddy.
 
 Caddy also supports multiple domains within the same file, so that you can expose multiple internal or private websites through the same tunnel.
 
@@ -187,5 +132,12 @@ openfaas.example.com {
 }
 ```
 
-If you have services running on other machines you can change `127.0.0.1:8080` to a different IP address such as that of your Raspberry Pi if you had something like [OpenFaaS](https://github.com/openfaas/) running there.
+If you have services running on other machines you can change `127.0.0.1:8080` to a different IP address such as that of your Raspberry Pi if you had something like [OpenFaaS CE](https://github.com/openfaas/faas) or [faasd CE](https://github.com/openfaas/faasd) running there.
 
+## Check it all worked
+
+You'll see that Caddy can now obtain a TLS certificate.
+
+Go ahead and visit: `https://service.example.com`
+
+Congratulations, you've now served a TLS certificate directly from your laptop. You can close caddy and open it again at a later date. Caddy will re-use the certificate it already obtained and it will be valid for 3 months. To renew, just keep Caddy running or open it again whenever you need it.
