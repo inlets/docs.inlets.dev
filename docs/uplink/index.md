@@ -1,4 +1,4 @@
-# Inlets Uplink overview
+# Inlets Uplink
 
 !!! info "What's the difference between Inlets Pro and Inlets Uplink?"
     
@@ -28,13 +28,4 @@ With Uplink, you deploy tunnel servers for a customers to your Kubernetes cluste
 
 You can read more about why we created inlets uplink [in the product announcement](https://inlets.dev/blog/2022/11/16/service-provider-uplinks.html).
 
-## Table of Contents
-
-* [Become a provider](/uplink/become-a-provider)
-* [Create a tunnel](/uplink/create-tunnels)
-* [Connect to a tunnel](/uplink/connect-to-tunnels)
-* [Manage tunnels](/uplink/manage-tunnels)
-* [Expose tunnels publicly (optional)](/uplink/ingress-for-tunnels)
-* [Monitor tunnels](/uplink/monitoring-tunnels)
-
-You can reach out to us if you have questions: [Contact the inlets team](https://inlets.dev/contact)
+Reach out to us if you have questions: [Contact the inlets team](https://inlets.dev/contact)
