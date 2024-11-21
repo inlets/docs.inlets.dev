@@ -30,7 +30,10 @@ theme:
     code: Roboto Mono
   features:
     - navigation.tracking
+    - navigation.tabs
     - navigation.sections
+    # - navigation.indexes
+    - navigation.top
     # - toc.integrate
     # - navigation.instant
 
@@ -85,42 +88,43 @@ markdown_extensions:
       alternate_style: true
 
 nav:
-  - Overview:
-      - Introduction: index.md
-      - FAQ: /reference/faq/
-  - Tutorials:
-      - Automated HTTPs tunnel server: /tutorial/automated-http-server/
-      - Manual HTTPs tunnel server: /tutorial/manual-http-server/
-      - Manual TCP tunnel server: /tutorial/manual-tcp-server/
-      - Dual TCP and HTTPs server: /tutorial/dual-tunnels/
+  - Inlets:
+    - Overview: index.md
+    - FAQ: reference/faq.md
+    - Tutorials:
+      - Automated HTTPs tunnel server: tutorial/automated-http-server.md
+      - Manual HTTPs tunnel server: tutorial/manual-http-server.md
+      - Manual TCP tunnel server: tutorial/manual-tcp-server.md
+      - Dual TCP and HTTPs server: tutorial/dual-tunnels.md
+      - GitHub Actions (ext): https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html
       - IP Allow list (ext): https://inlets.dev/blog/2021/10/15/allow-lists.html
       - Docker Compose (ext): https://inlets.dev/blog/2021/09/09/compose-and-inlets.html
-      - Community tutorials: /tutorial/community/
-  - Tutorials for TCP tunnels:
-      - Run Caddy on a private network: /tutorial/caddy-http-tunnel/
+      - Community tutorials: tutorial/community.md
+    - Tutorials for TCP tunnels:
+      - Run Caddy on a private network: tutorial/caddy-http-tunnel.md
       - Local port forwarding: https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html
-      - Tunnel SSH: /tutorial/ssh-tcp-tunnel/
-      - Tunnel Postgresql: /tutorial/postgresql-tcp-tunnel/
-  - Kubernetes:
-      - Kubernetes Ingress: /tutorial/kubernetes-ingress/
-      - Kubernetes API Server: /tutorial/kubernetes-api-server/
-      - Istio Gateway: /tutorial/istio-gateway/
+      - Tunnel SSH: tutorial/ssh-tcp-tunnel.md
+      - Tunnel Postgresql: tutorial/postgresql-tcp-tunnel.md
+    - Kubernetes:
+      - Kubernetes Ingress: tutorial/kubernetes-ingress.md
+      - Kubernetes API Server: tutorial/kubernetes-api-server.md
+      - Istio Gateway: tutorial/istio-gateway.md
       - Helm charts (ext): https://github.com/inlets/inlets-pro/tree/master/chart
       - Local port forwarding (ext): https://inlets.dev/blog/2022/06/24/fixing-kubectl-port-forward.html
       - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
   - Inlets Uplink:
-      - Overview: /uplink/overview/
-      - Become a provider: /uplink/become-a-provider/
-      - Create a tunnel: /uplink/create-tunnels/
-      - Manage tunnels: /uplink/manage-tunnels/
-      - Connect to tunnels: /uplink/connect-to-tunnels/
-      - Monitor tunnels: /uplink/monitoring-tunnels/
-      - Ingress for tunnels: /uplink/ingress-for-tunnels/
+    - Overview: uplink/index.md
+    - Become a provider: uplink/become-a-provider.md
+    - Create a tunnel: uplink/create-tunnels.md
+    - Manage tunnels: uplink/manage-tunnels.md
+    - Connect to tunnels: uplink/connect-to-tunnels.md
+    - Monitor tunnels: uplink/monitoring-tunnels.md
+    - Ingress for tunnels: uplink/ingress-for-tunnels.md
   - Reference:
-      - Overview: reference.md
-      - Inlets Operator: /reference/inlets-operator/
-      - inletsctl: /reference/inletsctl/
-      - Monitoring and metrics: /tutorial/monitoring-and-metrics/
+    - Overview: reference/index.md
+    - Inlets Operator: reference/inlets-operator.md
+    - inletsctl: reference/inletsctl.md
+    - Monitoring and metrics: tutorial/monitoring-and-metrics.md
 
 extra:
   analytics:

@@ -1,4 +1,4 @@
-# Inlets documentation
+# Inlets
 
 [Inlets](https://inlets.dev) brings secure tunnels to Cloud Native workloads.
 
