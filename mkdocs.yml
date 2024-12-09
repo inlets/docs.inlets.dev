@@ -120,6 +120,7 @@ nav:
     - Connect to tunnels: uplink/connect-to-tunnels.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - Ingress for tunnels: uplink/ingress-for-tunnels.md
+    - REST API: uplink/rest-api.md
   - Reference:
     - Overview: reference/index.md
     - Inlets Operator: reference/inlets-operator.md
