@@ -4,16 +4,17 @@
 
     Inlets Uplink is designed to connect customer services to a remote Kubernetes cluster for command and control as part of a SaaS product.
 
-    Any tunnelled service can be accessed directly from within the cluster and does not need to be exposed to the public Internet for access.
+    Any tunnelled service can be accessed directly from within the cluster using a ClusterIP Service and does not need to be exposed to the public Internet in order to be used by a SaaS product.
 
-    Beware: by following these instructions, you are exposing one or more of those tunnels to the public Internet.
+Each inlets uplink tunnel is provisioned with a ClusterIP service that you can access internally within the cluster. The same service can be used to expose the tunnel to the public Internet using an Ingress resource. This approach is recommended for new users for dozens of tunnels.
 
+Alternatively, the data-router component can be used along with a wild-card DNS reocrd and TLS certificate to expose many tunnels with a single Ingress record or Istio Gateway. This approach requires additional setup because the DNS01 challenge requires a special cert-manager Issuer with a secret for the DNS provider's API. It is recommended for users with many tunnels, but is more complex to setup.
 
-Make inlets uplink HTTP tunnels publicly accessible by setting up ingress for the data plane.
+## Quick start
 
 The instructions assume that you want to expose two HTTP tunnels. We will configure ingress for the first tunnel, called `grafana`, on the domain `grafana.example.com`. The second tunnel, called `openfaas`, will use the domain `openfaas.example.com`.
 
-Both tunnels can be created with `kubectl` or the `inlets-pro` cli. See [create tunnels](/uplink/create-tunnels/) for more info:
+Both tunnels can be created with `kubectl` using the Custom Resource Definition, the `inlets-pro` CLI, or the [REST API](/uplink/rest-api/). See [create tunnels](/uplink/create-tunnels/) for more info:
 
 === "kubectl"
 
@@ -53,7 +54,7 @@ Both tunnels can be created with `kubectl` or the `inlets-pro` cli. See [create 
 
 Follow the instruction for Kubernetes Ingress or Istio depending on how you deployed inlets uplink.
 
-## Setup tunnel ingress
+## Expose the Tunnel with Ingress
 
 1. Create a new certificate Issuer for tunnels:
 
@@ -86,7 +87,7 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
     kind: Ingress
     metadata:
       name: grafana-tunnel-ingress
-      namespace: inlets
+      namespace: tunnels
       annotations:
         kubernetes.io/ingress.class: nginx
         cert-manager.io/issuer: tunnels-letsencrypt-prod
@@ -99,7 +100,7 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
             pathType: Prefix
             backend:
               service:
-                name: grafana.tunnels
+                name: grafana
                 port:
                   number: 8000
       tls:
@@ -110,14 +111,14 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
 
     Note that the annotation `cert-manager.io/issuer` is used to reference the certificate issuer created in the first step.
 
-To setup ingress for multiple tunnels simply define multiple ingress resources. For example apply a second ingress resource for the openfaas tunnel:
+To setup ingress for multiple tunnels simply define multiple ingress resources. For example, you could create a second ingress resource for the openfaas tunnel:
 
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: openfaas-tunnel-ingress
-  namespace: inlets
+  namespace: tunnels
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/issuer: tunnels-letsencrypt-prod
@@ -130,7 +131,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: openfaas.tunnels
+            name: openfaas
             port:
               number: 8000
   tls:
@@ -139,8 +140,7 @@ spec:
     secretName: openfaas-cert
 ```
 
-
-## Setup tunnel ingress with an Istio Ingress gateway
+## Expose the Tunnel with an Istio Ingress Gateway
 
 1. Create a new certificate Issuer for tunnels:
 
@@ -203,10 +203,10 @@ spec:
 
     Note that both the certificates and issuer are created in the `istio-system` namespace.
 
-3. Configure the ingress gateway for both tunnels. In this case we create a single resource for both hosts but you could also split the configuration into multiple Gateway resources.
+3. Configure the Ingress Gateway for both tunnels. In this case we create a single resource for both hosts but you could also split the configuration into multiple Gateway resources.
 
     ```yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: Gateway
     metadata:
       name: tunnel-gateway
@@ -240,7 +240,7 @@ spec:
 4. Configure the gateway's traffic routes by defining corresponding virtual services:
 
     ```yaml
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: grafana
@@ -260,7 +260,7 @@ spec:
             port:
               number: 8000
     ---
-    apiVersion: networking.istio.io/v1alpha3
+    apiVersion: networking.istio.io/v1
     kind: VirtualService
     metadata:
       name: openfaas
@@ -287,7 +287,7 @@ After applying these resources you should be able to access the data plane for b
 
 As an alternative to creating individual sets of Ingress records, DNS A/CNAME entries and TLS certificates for each tunnel, you can use the `data-router` to route traffic to the correct tunnel based on the hostname. This approach uses a wildcard DNS entry and a single TLS certificate for all tunnels.
 
-The following example is adapted from the cert-manager documentation to use DigitalOcean's DNS servers, however you can find [instructions for issuers](https://cert-manager.io/docs/configuration/acme/dns01/) such as AWS Route53, Cloudflare, and Google Cloud DNS listed.
+The following example is adapted from the cert-manager documentation to use DigitalOcean's DNS servers, however you can find [instructions for issuers](https://cert-manager.io/docs/configuration/acme/dns01/) such as AWS Route53, Cloudflare, Google Cloud DNS, and AzureDNS being listed.
 
 DNS01 challenges require a secret to be created containing the credentials for the DNS provider. The secret is referenced by the issuer resource.
 
@@ -297,12 +297,12 @@ kubectl create secret generic \
   --from-file access-token=$HOME/do-access-token
 ```
 
-Create a separate `Issuer`, assuming a domain of `t.example.com`, where each tunnel would be i.e. `prometheus.t.example.com` or `api.t.example.com`:
+Create a separate `Issuer`, assuming a domain of `uplink.example.com`, where each tunnel would be i.e. `prometheus.uplink.example.com` or `api.uplink.example.com`:
 
 ```bash
 export NS="inlets"
 export ISSUER_NAME="inlets-wildcard"
-export DOMAIN="t.example.com"
+export DOMAIN="uplink.example.com"
 
 cat <<EOF | kubectl apply -f -
 apiVersion: cert-manager.io/v1
@@ -333,8 +333,8 @@ Update values.yaml to enable the dataRouter and to specify the wildcard domain:
 dataRouter:
   enabled: true
 
-  # Leave out the asterix i.e. *.t.example.com would be: t.example.com
-  wildcardDomain: "t.example.com"
+  # Leave out the asterix i.e. *.uplink.example.com would be: uplink.example.com
+  wildcardDomain: "uplink.example.com"
 
   tls:
     issuerName: "inlets-wildcard"
@@ -360,7 +360,7 @@ Create a tunnel with an Ingress Domain specified in the `.Spec` field:
 
 ```bash
 export TUNNEL_NS="tunnels"
-export DOMAIN="t.example.com"
+export DOMAIN="uplink.example.com"
 
 cat <<EOF | kubectl apply -f -
 apiVersion: uplink.inlets.dev/v1alpha1
@@ -401,7 +401,7 @@ inlets-pro tunnel connect fileshare \
   --domain $UPLINK_DOMAIN
 ```
 
-Add the `--upstream fileshare.t.example.com=fileshare` flag to the command you were given, then run it.
+Add the `--upstream fileshare.uplink.example.com=fileshare` flag to the command you were given, then run it.
 
 The command below is sample output, do not copy it directly.
 
@@ -409,10 +409,10 @@ The command below is sample output, do not copy it directly.
 inlets-pro uplink client \
   --url=wss://uplink.example.com/tunnels/fileshare \
   --token=REDACTED \
-  --upstream fileshare.t.example.com=http://127.0.0.1:8080
+  --upstream fileshare.uplink.example.com=http://127.0.0.1:8080
 ```
 
-Now, access the tunneled service via the wildcard domain i.e. `https://fileshare.t.example.com`.
+Now, access the tunneled service via the wildcard domain i.e. `https://fileshare.uplink.example.com`.
 
 You should see: "Hello from inlets" printed in your browser.
 
@@ -425,10 +425,10 @@ kubectl logs -n inlets deploy/data-router
 
 2024-01-24T11:29:16.970Z        info    data-router/main.go:90  Listening on: 8080      Tunnel namespace: (all) Kubernetes version: v1.27.4+k3s1
 
-I0124 11:29:58.858772       1 main.go:151] Host: fileshares.t.example.com    Path: /
-I0124 11:29:58.858877       1 roundtripper.go:48] "No ingress found" hostname="fileshares.t.example.com" path="/"
+I0124 11:29:58.858772       1 main.go:151] Host: fileshares.uplink.example.com    Path: /
+I0124 11:29:58.858877       1 roundtripper.go:48] "No ingress found" hostname="fileshares.uplink.example.com" path="/"
 
-I0124 11:30:03.588993       1 main.go:151] Host: fileshare.t.example.com     Path: /
-I0124 11:30:03.589051       1 roundtripper.go:56] "Resolved" hostname="fileshare.t.example.com" path="/" tunnel="fileshare.tunnels:8000"
+I0124 11:30:03.588993       1 main.go:151] Host: fileshare.uplink.example.com     Path: /
+I0124 11:30:03.589051       1 roundtripper.go:56] "Resolved" hostname="fileshare.uplink.example.com" path="/" tunnel="fileshare.tunnels:8000"
 ```
 
