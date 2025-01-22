@@ -1,16 +1,16 @@
-# Become an inlets uplink provider
+# Install Inlets Uplink
 
-inlets uplink makes it easy for Service Providers and SaaS companies to deliver their product and services to customer networks.
+Inlets Uplink requires a Kubernetes cluster, and an inlets uplink subscription.
 
-To become a provider, you'll need a Kubernetes cluster, an inlets uplink subscription and to install the inlets-uplink-provider Helm chart.
+The installation is performed through a Helm chart (inlets-uplink-provider)) which is published as an OCI artifact in a container registry.
 
-- [Read the Inlets Uplink announcement](https://inlets.dev/blog/2022/11/16/service-provider-uplinks.html)
+The default installation keeps tunneled services private, with only the control-plane exposed to the public Internet. To expose the data-plane for one or more tunnels, after you've completed the installation, see the page [Expose tunnels](/uplink/expose-tunnels/).
 
 ## Before you start
 
 Before you start, you'll need the following:
 
-* A Kubernetes cluster with LoadBalancer capabilities (i.e. public cloud).
+* A Kubernetes cluster where you can create a LoadBalancer i.e. a managed Kubernetes service like AWS EKS, Azure AKS, Google GKE, etc.
 * A domain name clients can use to connect to the tunnel control plane.
 * An inlets uplink license (an inlets-pro license cannot be used)
 * Optional: [arkade](https://github.com/alexellis/arkade) - a tool for installing popular Kubernetes tools
@@ -21,9 +21,7 @@ Before you start, you'll need the following:
     curl -sSLf https://get.arkade.dev/ | sudo sh
     ```
 
-Inlets uplink has its own independent subscription from inlets-pro.
-
-Sign-up here: [inlets uplink plans](https://subscribe.openfaas.com/).
+You can obtain a subscription for inlets uplink here: [inlets uplink plans](https://inlets.dev/pricing).
 
 ## Create a Kubernetes cluster
 
@@ -31,7 +29,7 @@ We recommend creating a Kubernetes cluster with a minimum of three nodes. Each n
 
 ## Install cert-manager
 
-Install [cert-manager](https://cert-manager.io/docs/), which is used to manage TLS certificates for inlets-uplink.
+Install [cert-manager](https://cert-manager.io/docs/), which is used to manage TLS certificates for inlets-uplink for the control-plane and the REST API.
 
 You can use Helm, or arkade:
 
@@ -39,7 +37,7 @@ You can use Helm, or arkade:
 arkade install cert-manager
 ```
 
-## Create a namespace for the inlets-uplink-provider and install your license
+## Create a namespace for the chart and add the license secret
 
 Make sure to create the target namespace for you installation first.
 
@@ -72,21 +70,15 @@ kubectl create secret generic \
   --from-file license=$HOME/.inlets/LICENSE_UPLINK
 ```
 
-## Setup up ingress for customer tunnels
+## Setup up Ingress for the control-plane
 
-Tunnels on your customers' network will connect to your own inlets-uplink-provider.
+Tunnel clients will connect to the client-router component which needs to be exposed via Ingress.
 
-There are two options for deploying the inlets-uplink-provider.
-
-Use Option A if you're not sure, if your team already uses Istio or prefers Istio, use Option B.
+You can use Kubernetes Ingress or Istio. We recommend using Ingress (Option A), unless your team or organisation is already using Istio (Option B).
 
 ### A) Install with Kubernetes Ingress
 
-We recommend ingress-nginx, and have finely tuned the configuration to work well for the underlying websocket for inlets. That said, you can change the IngressController if you wish.
-
-!!! note "Chart configuration changes - Sept 2024"
-
-    The configuration for a built-in issuer, and some ingress configuration has now moved up one level from the clientRouter, dataRouter, clientApi etc, to the top level of values.yaml. This is a breaking change and you will need to update your values.yaml file before upgrading the chart.
+We recommend [ingress-nginx](https://github.com/kubernetes/ingress-nginx) for Ingress, and have finely tuned the configuration to work well for the underlying websocket for inlets. If your organisation uses a different Ingress Controller, you can alter the `class` fields in the chart.
 
 Install ingress-nginx using arkade or Helm:
 

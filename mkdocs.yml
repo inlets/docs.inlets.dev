@@ -114,12 +114,13 @@ nav:
       - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
   - Inlets Uplink:
     - Overview: uplink/index.md
-    - Become a provider: uplink/become-a-provider.md
+    - Installation: uplink/installation.md
     - Create a tunnel: uplink/create-tunnels.md
     - Manage tunnels: uplink/manage-tunnels.md
-    - Connect to tunnels: uplink/connect-to-tunnels.md
+    - Connect the tunnel client: uplink/connect-tunnel-client.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
-    - Ingress for tunnels: uplink/ingress-for-tunnels.md
+    - Access tunnels privately: uplink/private-tunnels.md
+    - Expose tunnels publicly: uplink/public-tunnels.md
     - REST API: uplink/rest-api.md
   - Reference:
     - Overview: reference/index.md

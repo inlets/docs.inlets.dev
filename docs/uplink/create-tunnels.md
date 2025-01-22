@@ -1,24 +1,27 @@
-# Create a tunnel for a customer
+# Create a tunnel
 
-## Use separate namespaces for your tunnels
+## Create a namespace for the tunnel
 
-The `inlets` namespace contains the control plane for inlets uplink, so you'll need to create at least one additional namespace for your customer tunnels.
+The `inlets` namespace contains the control plane for inlets uplink and should not be used to host tunnels.
 
-1. Create a namespace per customer (recommended)
+So you'll need to create at least one additional namespace for your tunnels.
+
+=== "One namespace per tenant"
 
     This approach avoids conflicts on names, and gives better isolation between tenants.
 
     After creating the tunnel, you'll also need to label it `inlets.dev/uplink=1`
 
     ```bash
-    kubectl create namespace acmeco
-    kubectl label --overwrite namespace acmeco "inlets.dev/uplink"=1
+    export NS="tenant1"
+    kubectl create namespace $NS
+    kubectl label --overwrite namespace $NS "inlets.dev/uplink"=1
     ```
 
     Then, create a copy of the license secret in the new namespace:
 
     ```bash
-    export NS="n1"
+    export NS="tenant1"
     export LICENSE=$(kubectl get secret -n inlets inlets-uplink-license -o jsonpath='{.data.license}' | base64 -d)
 
     kubectl create secret generic \
@@ -27,27 +30,44 @@ The `inlets` namespace contains the control plane for inlets uplink, so you'll n
       --from-literal license=$LICENSE
     ```
 
-2. A single namespace for all customer tunnels (not recommended)
+=== "One namespace for all tunnels"
 
-    For development purposes, you could create a single namespace for all your customers.
+    For development purposes, you could create a single namespace for all your tenants.
+
+    After creating the tunnel, you'll also need to label it `inlets.dev/uplink=1`\
 
     ```bash
-    kubectl create namespace tunnels
+    export NS="tunnels"
+    kubectl create namespace $NS
+    kubectl label --overwrite namespace $NS "inlets.dev/uplink"=1
     ```
 
-Finally, if you're using Istio, then you need to label each additional namespace to enable sidecar injection:
+    Then, create a copy of the license secret in the new namespace:
 
+    ```bash
+    export NS="tunnels"
+    export LICENSE=$(kubectl get secret -n inlets inlets-uplink-license -o jsonpath='{.data.license}' | base64 -d)
+
+    kubectl create secret generic \
+      -n $NS \
+      inlets-uplink-license \
+      --from-literal license=$LICENSE
+    ```
+
+If you're using Istio, then you need to label each additional namespace to enable sidecar injection:
 
 ```bash
-kubectl label namespace inlets \
+export NS="tunnels"
+
+kubectl label namespace $NS \
   istio-injection=enabled --overwrite
 ```
 
 ## Create a Tunnel with an auto-generated token
 
-`Tunnel` describes an inlets-uplink tunnel server. The specification describes a set of ports to use for TCP tunnels.
+The `Tunnel` Custom Resource describes an inlets-uplink tunnel server. You can specify a reference to a pre-existing Kubernetes secret for the token, or have one generated for you.
 
-For example the following Tunnel configuration sets up a http tunnel on port `8000` by default and adds port `8080` for use with TCP tunnels. The `licenceRef` needs to reference a secret containing an inlets-uplink license.
+The below configures a tunnel for a customer called `acmeco` in the `tunnels` namespace. Port 8080 is exposed as a TCP tunnel, and the `licenceRef` needs to reference a secret containing an inlets-uplink license.
 
 ```yaml
 apiVersion: uplink.inlets.dev/v1alpha1
@@ -71,13 +91,19 @@ inlets-pro tunnel create acmeco \
   --port 8080
 ```
 
+Once created, you can check the status of the tunnel, and you will see a secret was generated for the token.
+
+```bash
+kubectl get -n tunnels tunnel/acmeco
+```
+
 ## Create a Tunnel with a pre-defined token
 
 If you delete a Tunnel with an auto-generated token, and re-create it later, the token will change. So we recommend that you pre-define your tokens. This style works well for GitOps and automated deployments with Helm.
 
 Make sure the secret is in the same namespace as the Tunnel Custom Resource.
 
-You can use `openssl` to generate a secure token:
+You can use `openssl` to generate a strong token:
 
 ```bash
 openssl rand -base64 32 |tr -d '\n' > token.txt
@@ -105,14 +131,16 @@ spec:
   licenseRef:
     name: inlets-uplink-license
     namespace: tunnels
-  tokenRef:
-    name: acmeco-token
-    namespace: tunnels
++  tokenRef:
++    name: acmeco-token
++    namespace: tunnels
   tcpPorts:
   - 8080
 ```
 
-Clients can now connect to the tunnel using the custom token.
+The `tokenRef` section is used to reference the secret containing the token.
+
+Clients can now connect to the tunnel using the pre-defined token.
 
 ### Node selection and annotations for tunnels
 
@@ -135,7 +163,7 @@ spec:
   tcpPorts:
   - 8080
   podAnnotations:
-    cutomer: acmeco
+    customer: acmeco
   nodeSelector:
     region: east
 ```

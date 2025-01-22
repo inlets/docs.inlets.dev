@@ -1,4 +1,4 @@
-# Ingress for tunnels
+# How to Expose Tunnels on the Internet
 
 !!! info
 
@@ -8,7 +8,13 @@
 
 Each inlets uplink tunnel is provisioned with a ClusterIP service that you can access internally within the cluster. The same service can be used to expose the tunnel to the public Internet using an Ingress resource. This approach is recommended for new users for dozens of tunnels.
 
+[![Each tunnel's data-plane is exposed via a separate Ingress and Certificate](/images/uplink/ingress-per-data-plane.png)](/images/uplink/ingress-per-data-plane.png)
+> Each tunnel's data-plane is exposed via a separate Ingress and Certificate
+
 Alternatively, the data-router component can be used along with a wild-card DNS record and TLS certificate to expose many tunnels with a single Ingress record or Istio Gateway. This approach requires additional setup because the DNS01 challenge requires a special cert-manager Issuer with a secret for the DNS provider's API. It is recommended for users with many tunnels, but is more complex to setup.
+
+[![A single certificate and Ingress record can be used for multiple tunnels](/images/uplink/wildcard-ingress.png)](/images/uplink/wildcard-ingressplane.png)
+> A single certificate and Ingress record can be used for multiple tunnels
 
 ## Quick start
 
@@ -287,6 +293,8 @@ After applying these resources you should be able to access the data plane for b
 
 As an alternative to creating individual sets of Ingress records, DNS A/CNAME entries and TLS certificates for each tunnel, you can use the `data-router` to route traffic to the correct tunnel based on the hostname. This approach uses a wildcard DNS entry and a single TLS certificate for all tunnels.
 
+To enable the data-router, you will need to modify the values.yaml file you created during the [initial installation](/uplink/installation/) of the Inlets Uplink Helm chart.
+
 The following example is adapted from the cert-manager documentation to use DigitalOcean's DNS servers, however you can find [instructions for issuers](https://cert-manager.io/docs/configuration/acme/dns01/) such as AWS Route53, Cloudflare, Google Cloud DNS, and AzureDNS being listed.
 
 DNS01 challenges require a secret to be created containing the credentials for the DNS provider. The secret is referenced by the issuer resource.
@@ -356,7 +364,7 @@ helm upgrade --install inlets-uplink \
   --values ./values.yaml
 ```
 
-Create a tunnel with an Ingress Domain specified in the `.Spec` field:
+You can now create a new tunnel or modify an existing one and specify the hostname you want to use under the `ingressDomains` field. This field is an array and can take more than one hostname, depending on how many services you want to expose via the tunnel.
 
 ```bash
 export TUNNEL_NS="tunnels"

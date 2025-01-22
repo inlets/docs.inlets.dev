@@ -1,4 +1,4 @@
-# Connect to tunnels
+# Connect the tunnel client
 
 The tunnel plugin for the inlets-pro CLI can be used to get connection instructions for a tunnel.
 

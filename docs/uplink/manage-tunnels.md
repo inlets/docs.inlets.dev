@@ -1,4 +1,4 @@
-# Manage customer tunnels
+# Manage tunnels
 
 You can use `kubectl` or the tunnel plugin for the `inlets-pro` CLI to manage tunnels.
 
