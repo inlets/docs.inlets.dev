@@ -15,9 +15,19 @@ In the first case, of accessing private customer services, you have have already
 
 The first two options involve considerable work both up front and in the long run. VPNs require firewall changes, specific network conditions, additional paperwork, and can have prohibitive costs associated with them.
 
+## Inlets works from behind restrictive networks
+
 The Inlets Uplink runs inside a private network to connect to a public server endpoint using an outbound HTTP connection. Once established, the TLS-encrypted connection is upgraded to a websocket for bi-directional communication. This means it works over NAT, firewalls, and HTTP proxies.
 
-Here are some of the other differences between stand-alone Inlets Pro and Inlets Uplink:
+## Private or Public tunnels
+
+Depending on your use-case, you can keep the data-plane private or expose it to the Internet on a per-tunnel basis.
+
+By default, the data-plane for each inlets-uplink tunnel is kept private and can only be accessed from within the Kubernetes cluster where inlets-uplink is installed.
+
+You can then expose the data-plane for any tunnel to the Public Internet if required.
+
+## Features & benefits
 
 * The management solution is built-in, self-hosted and runs on your own Kubernetes cluster
 * You can create a tunnel almost instantly via CLI, REST API or the "Tunnel" Custom Resource
@@ -27,6 +37,8 @@ Here are some of the other differences between stand-alone Inlets Pro and Inlets
 * All tunnels can be monitored centrally for reliability and usage
 * By default all tunnels are private and only available for access by your own applications
 * Tunnels can also be managed through Helm, ArgoCD or Flux for a GitOps workflow
+
+Support via email is included for the installation and operation of your inlets-uplink installation.
 
 You can read more about why we created inlets uplink [in the product announcement](https://inlets.dev/blog/2022/11/16/service-provider-uplinks.html).
 
