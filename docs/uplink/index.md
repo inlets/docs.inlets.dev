@@ -7,8 +7,8 @@ Inlets Uplink is a complete management solution for tunnels for SaaS companies, 
 
 Inlets Uplink answers two primary questions:
 
-1. "How do you access customer services from within your own product?"
-2. "How to we provide tunnels as a managed service?"
+1. "How do we access private/on-premises customer services from within our own product or APIs?"
+2. "How can we provide tunnels to employees or customers as a managed service?"
 
 In the first case, of accessing private customer services, you have have already considered building your own agent, using a queue, or a VPN.
 
