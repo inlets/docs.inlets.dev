@@ -118,7 +118,7 @@ nav:
     - Create a tunnel: uplink/create-tunnels.md
     - Connect the tunnel client: uplink/connect-tunnel-client.md
     - Access tunnels privately: uplink/private-tunnels.md
-    - Expose tunnels publicly: uplink/public-tunnels.md
+    - Expose tunnels publicly: uplink/expose-tunnels.md
     - Manage tunnels: uplink/manage-tunnels.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
