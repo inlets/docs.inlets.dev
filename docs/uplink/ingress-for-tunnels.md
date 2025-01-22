@@ -8,7 +8,7 @@
 
 Each inlets uplink tunnel is provisioned with a ClusterIP service that you can access internally within the cluster. The same service can be used to expose the tunnel to the public Internet using an Ingress resource. This approach is recommended for new users for dozens of tunnels.
 
-Alternatively, the data-router component can be used along with a wild-card DNS reocrd and TLS certificate to expose many tunnels with a single Ingress record or Istio Gateway. This approach requires additional setup because the DNS01 challenge requires a special cert-manager Issuer with a secret for the DNS provider's API. It is recommended for users with many tunnels, but is more complex to setup.
+Alternatively, the data-router component can be used along with a wild-card DNS record and TLS certificate to expose many tunnels with a single Ingress record or Istio Gateway. This approach requires additional setup because the DNS01 challenge requires a special cert-manager Issuer with a secret for the DNS provider's API. It is recommended for users with many tunnels, but is more complex to setup.
 
 ## Quick start
 
