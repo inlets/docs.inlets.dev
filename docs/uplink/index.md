@@ -2,7 +2,7 @@
 
 Inlets Uplink is a complete management solution for tunnels for SaaS companies, infrastructure teams, and service providers. It's designed for scale, multi-tenancy and automation.
 
-![Conceptual overview](/images/uplink/conceptual.png)
+[![Conceptual overview](/images/uplink/conceptual.png)](/images/uplink/conceptual.png)
 > Conceptual architecture: Inlets Uplink is deployed to one or more central Kubernetes cluster(s).
 
 Inlets Uplink answers two primary questions:
