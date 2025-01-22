@@ -116,11 +116,11 @@ nav:
     - Overview: uplink/index.md
     - Installation: uplink/installation.md
     - Create a tunnel: uplink/create-tunnels.md
-    - Manage tunnels: uplink/manage-tunnels.md
     - Connect the tunnel client: uplink/connect-tunnel-client.md
-    - Monitor tunnels: uplink/monitoring-tunnels.md
     - Access tunnels privately: uplink/private-tunnels.md
     - Expose tunnels publicly: uplink/public-tunnels.md
+    - Manage tunnels: uplink/manage-tunnels.md
+    - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
   - Reference:
     - Overview: reference/index.md
