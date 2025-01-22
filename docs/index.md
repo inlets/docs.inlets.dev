@@ -1,6 +1,6 @@
 # Inlets
 
-[Inlets](https://inlets.dev) brings secure tunnels to Cloud Native workloads.
+[Inlets](https://inlets.dev) is a cloud-native tunnel built to run over restrictive networks, NAT and firewalls. It was built to connect bare-metal, VMs, containers and Kubernetes to the cloud.
 
 [![Inlets logo](/images/inlets-hero.png){ width="80%"}](https://inlets.dev/)
 
@@ -19,7 +19,7 @@ Common use-cases include:
 * Receiving webhooks and testing OAuth integrations
 * Remote customer support
 
-> Do you want to connect to hundreds of remote services without exposing them on the Internet? You may be looking for [inlets uplink](https://docs.inlets.dev/uplink/overview/)
+Do you want to scale to dozens, hundreds or thousands of tunnels? You may be looking for [inlets uplink](https://docs.inlets.dev/uplink/overview/)
 
 ## How does it work?
 
@@ -29,11 +29,11 @@ One of the most common use-cases is to expose a local HTTP endpoint on the Inter
 
 ![Access a local service remotely](https://inlets.dev/images/quick.png){ width="60%" }
 
-> After deploying an inlets HTTPS server on a public cloud VM, you can then connect the client and access it.
+> After deploying an inlets HTTPS server on a public cloud VM, you can then connect the client and access the local service from the Internet.
 
-There is more that inlets can do for you than exposing local endpoints. inlets also supports local forwarding and can be used to replace more cumbersome services like SSH, complex VPNs or expensive direct connect uplinks.
+There is more that inlets can do for you than exposing local endpoints. inlets also supports local forwarding and can be used to replace legacy solutions like SSH and VPNs.
 
-Read more in the: [the inlets FAQ](/reference/faq/).
+Learn how inlets compares to VPNs and other solutions in the [inlets FAQ](/reference/faq/).
 
 ## Getting started
 
@@ -46,27 +46,27 @@ Inlets can tunnel either HTTP or TCP traffic:
 
 ### Downloading inlets
 
-inlets is available for Windows, MacOS (including M1) and Linux (including ARM):
+inlets is available for Windows, MacOS (Apple Silicon) and Linux:
 
 * [Download a release](https://github.com/inlets/inlets-pro/releases)
 
 You can also use [the container image from ghcr.io](https://github.com/orgs/inlets/packages/container/package/inlets-pro): `ghcr.io/inlets/inlets-pro:latest`
 
-### Your first HTTPS tunnel with an automated tunnel server (Intermediate)
+### Your first HTTPS tunnel with an automated tunnel server (recommended)
 
 Expose one or more HTTPS domains from your local machine.
 
 * [Tutorial: Expose one or more local HTTP services via HTTPS](https://inlets.dev/blog/2021/08/08/private-tunnel.html)
 
-### Running a HTTP tunnel server manually (Advanced)
+### Install a HTTP tunnel server manually (advanced)
 
 If you don't want to use automation tools to create a server for the inlets-pro server, then you can follow this manual guide to generate and install a systemd service instead.
 
 * [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
 
-### Tunnelling TCP services
+### Tunnel TCP services
 
-inlets is not limited to HTTP connections, you can also tunnel TCP protocols like RDP, VNC, SSH, TLS and databases.
+inlets is not limited to exposing HTTP connections, you can also tunnel TCP protocols like RDP, VNC, SSH, TLS (i.e. reverse proxies, or the Kubernetes API server) and databases.
 
 * [Tutorial: Expose a private SSH server over a TCP tunnel](/tutorial/ssh-tcp-tunnel/)
 * [Tutorial: Tunnel a private Postgresql database](/tutorial/postgresql-tcp-tunnel/)
@@ -99,9 +99,9 @@ Some teams want to have dev work like production, with tools Istio working local
 
 See also: [helm charts](https://github.com/inlets/inlets-pro/tree/master/chart)
 
-### Becoming a tunnel provider or operating a hosting service
+### Provide tunnels as a managed service or SaaS
 
-The Inlets Uplink distribution is a Kubernetes operator that makes it quick and easy to onboard hundreds or thousands of customers, each with their own dedicated tunnel. It can also be used for remote management and command and control of IT systems and IoT devices.
+Inlets Uplink is a complete solution for Kubernetes that makes it quick and easy to onboard hundreds or thousands of tenants. It can also be used to host tunnel servers on Kubernetes, for smaller amounts of tunnels.
 
 Learn more: [Inlets Uplink](https://docs.inlets.dev/uplink/overview/)
 
