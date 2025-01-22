@@ -196,7 +196,7 @@ Serving files from: /tmp/share
 Listening on: 127.0.0.1:8080, allow browsing: true, auth: false
 ```
 
-Once the server is running connect to your tunnel using the inlets-uplink client. We will connect to the tunnel called `acmeco` (see the example in [Create a tunnel for a customer using the Custom Resource](#Create a tunnel for a customer using the Custom Resource) to create this tunnel).
+Once the server is running connect to your tunnel using the inlets-uplink client. We will connect to the tunnel called `acmeco`.
 
 Retrieve the token for the tunnel:
 
