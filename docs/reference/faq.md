@@ -115,11 +115,29 @@ For HTTP tunnels, Rate Error and Duration (RED) metrics are collected for any se
 
 For anything that doesn't fit into that model, a TCP tunnel may be a better option.
 
-Common examples are: RDP, VNC, SSH, TLS, database protocols, legacy medical protocols such as DiCom.
+Common examples are: TLS, websockets, RDP, VNC, SSH, database protocols, NATS, or legacy medical protocols such as DiCom.
 
-TCP tunnels can also be used to forward traffic to a reverse proxy like Nginx, Caddy, or Traefik, sitting behind a firewall or NAT by forwarding port 80 and 443.
+TCP tunnels can also be used to forward traffic to a reverse proxy like Nginx, Caddy, Traefik or Istio, sitting behind a firewall or NAT by forwarding port 80 and 443.
 
 TCP traffic is forwarded directly between the two hosts without any decryption of bytes. The active connection count and frequency can be monitored along with the amount of throughput.
+
+## How much memory or RAM does a tunnel require?
+
+Each tunnel client and tunnel server run on different machines in their own process. Typically we have observed single-digit RAM consumption for tunnels.
+
+This means that you can scale to hundreds or thousands of tunnels with modest hardware.
+
+## How tunnels can I run?
+
+The best way to scale to huge numbers of tunnels is with [Inlets Uplink](/uplink/).
+
+Providing you have the license entitlement to run them, you can run as many as you require.
+
+If you are hosting tunnel servers within Kubernetes, you can typically run 5000 tunnels per Kubernetes namespace, with inlets uplink you could create as many namespaces as you need.
+
+The typical amount of Pods that can run on a Kubernetes node is 100, and since the system requirements are so low, you could use cheaper, lower specification nodes whilst scaling out.
+
+If your tunnel clients are distributed into different countries or regions, you could deploy inlets uplink into multiple Kubernetes clusters.
 
 ## Does inlets use TCP or UDP?
 
