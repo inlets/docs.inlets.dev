@@ -1,6 +1,6 @@
 # Inlets
 
-[Inlets](https://inlets.dev) is a cloud-native tunnel built to run over restrictive networks, NAT and firewalls. It was built to connect bare-metal, VMs, containers and Kubernetes to the cloud.
+[Inlets](https://inlets.dev) is a cloud-native tunnel built to run over restrictive networks, NAT and firewalls. Use it to connect bare-metal, VMs, containers and Kubernetes to the cloud.
 
 [![Inlets logo](/images/inlets-hero.png){ width="80%"}](https://inlets.dev/)
 
