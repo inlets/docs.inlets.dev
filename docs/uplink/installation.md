@@ -301,25 +301,47 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | Parameter                | Description                                                                            | Default                        |
 | ------------------------ | -------------------------------------------------------------------------------------- | ------------------------------ |
 | `pullPolicy` | The a imagePullPolicy applied to inlets-uplink components. | `Always` |
-| `operator.image` | Container image used for the uplink operator. | `ghcr.io/openfaasltd/uplink-operator:0.1.5` |
+| `tunnelsNamespace` | Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces. | `""` |
+| `inletsVersion` | Inlets Pro release version for tunnel server Pods. | `0.9.39` |
 | `ingress.issuer.name` | Name of cert-manager Issuer. | `letsencrypt-prod` |
 | `ingress.issuer.enabled` | Create a cert-manager Issuer. Set to false if you wish to specify your own pre-existing object for each component. | `true` |
 | `ingress.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
 | `ingress.class` |  Ingress class for client router ingress. | `nginx` |
-| `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.1.5` |
+| `operator.image` | Container image used for the uplink operator. | `ghcr.io/openfaasltd/uplink-operator:0.4.32` |
+| `operator.tunnelIngress.enabled` | Enable automatic generation of tunnel Ingress resources. | `false` |
+| `operator.tunnelIngress.class` | Ingress class name to use for tunnel ingress resources. | `nginx` |
+| `operator.tunnelIngress.annotations` | Additional annotations to be added to tunnel ingress resources. | `{}` |
+| `operator.tunnelIngress.issuer.name`|  Name of cert-manager Issuer used for tunnel ingress. | `letsencrypt-prod-tunnels` |
+| `operator.tunnelIngress.issuer.type` | Issuer type used, ClusterIssuer or Issuer. | `ClusterIssuer` |
+| `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.4.32` |
 | `clientRouter.domain` | Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel. | `""` |
-| `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `enabled` |
+| `clientRouter.tls.issuerName` | Name of cert-manager Issuer to be used for the client router. (Use to override global value set by `ingress.issuer.name`) | `""` |
+| `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `false` |
 | `clientRouter.tls.ingress.annotations` | Annotations to be added to the client router ingress resource. | `{}` |
 | `clientRouter.tls.istio.enabled` | Use an Istio Gateway for incoming traffic to the client router. | `false` |
 | `clientRouter.service.type` | Client router service type | `ClusterIP` |
 | `clientRouter.service.nodePort` | Client router service port for NodePort service type, assigned automatically when left empty. (only if clientRouter.service.type is set to "NodePort")| `nil` |
-| `tunnelsNamespace` | Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces. | `""` |
-| `inletsVersion` | Inlets Pro release version for tunnel server Pods. | `0.9.12` |
+| `dataRouter.enabled` | Enable data router. | `false` |
+| `dataRouter.image` | Container image used for the data router. | `ghcr.io/openfaasltd/uplink-data-router:0.4.32` |
+| `dataRouter.wildcardDomain` | Wildcard domain to use for tunnel ingress though the data router. (Leave out the asterix i.e. *.t.example.com would be: t.example.com) | `""` |
+| `dataRouter.tls.issuerName` | Name of cert-manager Issuer to be used for the data router. (Use to override global value set by `ingress.issuer.name`) | `""` |
+| `dataRouter.tls.ingress.enabled` | Enable ingress for the data router. | `false` |
+| `dataRouter.tls.ingress.annotations` | Annotations to be added to the data router ingress resource. | `{}` |
+| `dataRouter.service.type` | Data router service type | `ClusterIP` |
+| `dataRouter.service.nodePort` | Data router service port for NodePort service type, assigned automatically when left empty. (only if dataRouter.service.type is set to "NodePort")| `nil` |
 | `clientApi.enabled` | Enable tunnel management REST API. | `false` |
-| `clientApi.image` | Container image used for the client API. | `ghcr.io/openfaasltd/uplink-api:0.1.5` |
+| `clientApi.image` | Container image used for the client API. | `ghcr.io/openfaasltd/uplink-api:0.4.32` |
+| `clientApi.domain` | Domain name for client api is exposed on. | `""` |
+| `clientApi.issuerURl` | Set the issuer URL when using OAuth/OIDC tokens to authenticate the API. | `""` |
+| `clientApi.audience` | OAuth audience when using OAuth/OIDC tokens to authenticate the API. | `""` |
+| `clientApi.tls.issuerName` | Name of cert-manager Issuer to be used for the client api. (Use to override global value set by `ingress.issuer.name`) | `""` |
+| `clientApi.tls.ingress.enabled` | Enable ingress for the client api. | `false` |
+| `clientApi.tls.ingress.annotations` | Annotations to be added to the client api ingress resource. | `{}` |
+| `clientApi.service.type` | Client api router service type | `ClusterIP` |
+| `clientApi.service.nodePort` | Data router service port for NodePort service type, assigned automatically when left empty. (only if clientApi.service.type is set to "NodePort")| `nil` |
 | `prometheus.create` | Create the Prometheus monitoring component. | `true` |
 | `prometheus.resources` | Resource limits and requests for prometheus containers. | `{}` |
-| `prometheus.image` | Container image used for prometheus. | `prom/prometheus:v2.40.1` |
+| `prometheus.image` | Container image used for prometheus. | `prom/prometheus:v3.0.1` |
 | `prometheus.service.type` | Prometheus service type | `ClusterIP` |
 | `prometheus.service.nodePort` | Prometheus service port for NodePort service type, assigned automatically when left empty. (only if prometheus.service.type is set to "NodePort")| `nil` |
 | `nodeSelector` | Node labels for pod assignment. | `{}` |
