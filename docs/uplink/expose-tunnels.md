@@ -6,7 +6,7 @@
 
     Any tunnelled service can be accessed directly from within the cluster using a ClusterIP Service and does not need to be exposed to the public Internet in order to be used by a SaaS product.
 
-Each inlets uplink tunnel is provisioned with a ClusterIP service that you can access internally within the cluster. The same service can be used to expose the tunnel to the public Internet using an Ingress resource. This approach is recommended for new users for dozens of tunnels.
+Each inlets uplink tunnel is provisioned with a ClusterIP service that you can access internally within the cluster. The same service can be used to expose the tunnel to the public Internet using an Ingress resource. The uplink operator can be configured to automatically generate ingress resources for tunnels. This approach is recommended for new users for dozens of tunnels.
 
 [![Each tunnel's data-plane is exposed via a separate Ingress and Certificate](/images/uplink/ingress-per-data-plane.png)](/images/uplink/ingress-per-data-plane.png)
 > Each tunnel's data-plane is exposed via a separate Ingress and Certificate
@@ -35,6 +35,8 @@ Both tunnels can be created with `kubectl` using the Custom Resource Definition,
       licenseRef:
         name: inlets-uplink-license
         namespace: tunnels
+      ingressDomains:
+        - grafana.example.com
     ---
     apiVersion: uplink.inlets.dev/v1alpha1
     kind: Tunnel
@@ -45,16 +47,20 @@ Both tunnels can be created with `kubectl` using the Custom Resource Definition,
       licenseRef:
         name: inlets-uplink-license
         namespace: tunnels
+      ingressDomains:
+        - openfaas.example.com
     EOF
     ```
 
 === "cli"
 
     ```bash
-    $ inlets-pro tunnel create grafana
+    $ inlets-pro tunnel create grafana \
+      --ingress grafana.example.com
     Created tunnel openfaas. OK.
 
-    $ inlets-pro tunnel create openfaas
+    $ inlets-pro tunnel create openfaas \
+      --ingress openfaas.example.com
     Created tunnel openfaas. OK.
     ```
 
@@ -62,23 +68,22 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
 
 ## Expose the Tunnel with Ingress
 
-1. Create a new certificate Issuer for tunnels:
+1. Create a new certificate Issuer for tunnels. 
 
     ```bash
     export EMAIL="you@example.com"
 
-    cat > tunnel-issuer-prod.yaml <<EOF
+    cat > letsencrypt-prod-tunnels <<EOF
     apiVersion: cert-manager.io/v1
-    kind: Issuer
+    kind: ClusterIssuer
     metadata:
-      name: tunnels-letsencrypt-prod
-      namespace: inlets
+      name: letsencrypt-prod-tunnels
     spec:
       acme:
         server: https://acme-v02.api.letsencrypt.org/directory
         email: $EMAIL
         privateKeySecretRef:
-        name: tunnels-letsencrypt-prod
+          name: letsencrypt-prod-tunnels
         solvers:
         - http01:
             ingress:
@@ -86,65 +91,35 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
     EOF
     ```
 
-2. Create an ingress resource for the tunnel:
+    We are creating a `ClusterIssuer` that can be used to issue certificates for tunnels in multiple namespaces. If you don't want to use a cluster wide issuer it is also possible to define an `Issuer` with the same name in each individual tunnel namespace. This requires a lot more configuration and we would recommend to use the `ClusterIssuer` instead.
+
+2. Update the Inlets Uplink deployment to enable automatic Ingress resource generation.
+    
+    To enable ingress resource generation for tunnels you will need to update the Uplink deployment. Modify the `values.yaml` file you created during the [initial installation](/uplink/installation/) of Inlets Uplink.
 
     ```yaml
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: grafana-tunnel-ingress
-      namespace: tunnels
-      annotations:
-        kubernetes.io/ingress.class: nginx
-        cert-manager.io/issuer: tunnels-letsencrypt-prod
-    spec:
-      rules:
-      - host: grafana.example.com
-        http:
-          paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: grafana
-                port:
-                  number: 8000
-      tls:
-      - hosts:
-        - grafana.example.com
-        secretName: grafana-cert
+    operator:
+      tunnelIngress:
+        enabled: true
+        class: nginx
+        issuer:
+          name: letsencrypt-prod-tunnels
+          # Change the issuer type to Issuer of you chose to use an
+          # issuer per namespace instead of a ClusterIssuer.
+          type: ClusterIssuer
     ```
 
-    Note that the annotation `cert-manager.io/issuer` is used to reference the certificate issuer created in the first step.
+    Apply the updated values:
 
-To setup ingress for multiple tunnels simply define multiple ingress resources. For example, you could create a second ingress resource for the openfaas tunnel:
+    ```sh
+    helm upgrade --install inlets-uplink \
+      oci://ghcr.io/openfaasltd/inlets-uplink-provider \
+      --namespace inlets \
+      --values ./values.yaml
+    ```
 
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: openfaas-tunnel-ingress
-  namespace: tunnels
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    cert-manager.io/issuer: tunnels-letsencrypt-prod
-spec:
-  rules:
-  - host: openfaas.example.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: openfaas
-            port:
-              number: 8000
-  tls:
-  - hosts:
-    - openfaas.example.com
-    secretName: openfaas-cert
-```
+The Uplink operator will automatically generate new Ingress resources for all hosts included in the IngressDomain field of the Tunnel spec.
+
 
 ## Expose the Tunnel with an Istio Ingress Gateway
 
@@ -327,7 +302,7 @@ spec:
     solvers:
     - dns01:
         digitalocean:
-            tokenSecretRef:
+            apiTokenSecretRef:
               name: digitalocean-dns
               key: access-token
 EOF
