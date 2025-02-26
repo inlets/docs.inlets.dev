@@ -103,7 +103,12 @@ inlets-pro http client \
 
 Once authenticated, a cookie will be set on the domain i.e. `tunnel.example.com` and the user will be redirected back to the root URL of the service `/`.
 
-The duration of the cookie defaults to 5 minutes, but can be extended.
+The duration of the cookie defaults to 1 hour, but can be extended through the `--oauth-cookie-ttl` flag i.e.
+
+```diff
+inlets-pro http client \
++  --oauth-cookie-ttl 24h \
+```
 
 For the first version, GitHub is the only option available for the `--oauth-provider`. More options will be added over time, based upon requests from users, so if you want to use Google, Facebook, GitLab, etc, send us an email to help with prioritisation.
 
