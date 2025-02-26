@@ -91,27 +91,35 @@ nav:
   - Inlets:
     - Overview: index.md
     - FAQ: reference/faq.md
-    - Tutorials:
-      - Automated HTTPs tunnel server: tutorial/automated-http-server.md
-      - Manual HTTPs tunnel server: tutorial/manual-http-server.md
-      - Manual TCP tunnel server: tutorial/manual-tcp-server.md
-      - Dual TCP and HTTPs server: tutorial/dual-tunnels.md
-      - GitHub Actions (ext): https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html
-      - IP Allow list (ext): https://inlets.dev/blog/2021/10/15/allow-lists.html
-      - Docker Compose (ext): https://inlets.dev/blog/2021/09/09/compose-and-inlets.html
+    - HTTP Tunnels:
+      - Create a tunnel server with inletsctl: tutorial/automated-http-server.md
+      - Create a tunnel server manually: tutorial/manual-http-server.md
+      - Modify HTTP headers: tutorial/http-header-modification.md
+      - Authenticate HTTPs tunnels: tutorial/http-authentication.md
+      - Enable dual TCP and HTTPs tunnels: tutorial/dual-tunnels.md
+      - Docker Compose (blog): https://inlets.dev/blog/2021/09/09/compose-and-inlets.html
       - Community tutorials: tutorial/community.md
-    - Tutorials for TCP tunnels:
-      - Run Caddy on a private network: tutorial/caddy-http-tunnel.md
-      - Local port forwarding: https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html
-      - Tunnel SSH: tutorial/ssh-tcp-tunnel.md
-      - Tunnel Postgresql: tutorial/postgresql-tcp-tunnel.md
+    - TCP tunnels:
+      - Create a tunnel server with inletsctl: tutorial/automated-tcp-server.md
+      - Create a tunnel server manually: tutorial/manual-tcp-server.md
+      - Expose Caddy from your private network: tutorial/caddy-http-tunnel.md
+      - Local port forwarding: tutorial/local-port-forwarding.md
+      - Expose SSH: tutorial/ssh-tcp-tunnel.md
+      - Expose Postgresql: tutorial/postgresql-tcp-tunnel.md
     - Kubernetes:
+      - Create a TCP LoadBalancer: tutorial/kubernetes-tcp-loadbalancer.md
+      - Generate YAML for a tunnel client: tutorial/kubernetes-generate-yaml.md
       - Kubernetes Ingress: tutorial/kubernetes-ingress.md
       - Kubernetes API Server: tutorial/kubernetes-api-server.md
       - Istio Gateway: tutorial/istio-gateway.md
-      - Helm charts (ext): https://github.com/inlets/inlets-pro/tree/master/chart
-      - Local port forwarding (ext): https://inlets.dev/blog/2022/06/24/fixing-kubectl-port-forward.html
-      - Manage private clusters with ArgoCD (ext): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
+      - Reliable local port forwarding (blog): https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html
+      - Helm charts (blog): https://github.com/inlets/inlets-pro/tree/master/chart
+      - Manage private clusters with ArgoCD (blog): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
+    - Advanced:
+      - Monitoring and metrics: tutorial/monitoring-and-metrics.md
+      - IP filtering: tutorial/ip-filtering.md
+      - GitHub Actions (blog): https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html
+
   - Inlets Uplink:
     - Overview: uplink/index.md
     - Installation: uplink/installation.md
@@ -122,11 +130,11 @@ nav:
     - Manage tunnels: uplink/manage-tunnels.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
+
   - Reference:
     - Overview: reference/index.md
     - Inlets Operator: reference/inlets-operator.md
     - inletsctl: reference/inletsctl.md
-    - Monitoring and metrics: tutorial/monitoring-and-metrics.md
 
 extra:
   analytics:

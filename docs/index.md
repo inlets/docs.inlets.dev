@@ -44,6 +44,8 @@ Inlets can tunnel either HTTP or TCP traffic:
 * HTTP (L7) tunnels can be used to connect one or more HTTP endpoints from one network to another. A single tunnel can expose multiple websites or hosts, including LoadBalancing and multiple clients to one server.
 * TCP (L4) tunnels can be used to connect TCP services such as a database, a reverse proxy, RDP, Kubernetes or SSH to the Internet. A single tunnel can expose multiple ports on an exit-server and load balance between clients
 
+You'll find tutorials in the navigation for HTTP and TCP tunnels, along with a dedicated section for integrating with Kubernetes.
+
 ### Downloading inlets
 
 inlets is available for Windows, MacOS (Apple Silicon) and Linux:
@@ -52,64 +54,11 @@ inlets is available for Windows, MacOS (Apple Silicon) and Linux:
 
 You can also use [the container image from ghcr.io](https://github.com/orgs/inlets/packages/container/package/inlets-pro): `ghcr.io/inlets/inlets-pro:latest`
 
-### Your first HTTPS tunnel with an automated tunnel server (recommended)
-
-Expose one or more HTTPS domains from your local machine.
-
-* [Tutorial: Expose one or more local HTTP services via HTTPS](https://inlets.dev/blog/2021/08/08/private-tunnel.html)
-
-### Install a HTTP tunnel server manually (advanced)
-
-If you don't want to use automation tools to create a server for the inlets-pro server, then you can follow this manual guide to generate and install a systemd service instead.
-
-* [Tutorial: Setting up a HTTP tunnel server manually](/tutorial/manual-http-server/)
-
-### Tunnel TCP services
-
-inlets is not limited to exposing HTTP connections, you can also tunnel TCP protocols like RDP, VNC, SSH, TLS (i.e. reverse proxies, or the Kubernetes API server) and databases.
-
-* [Tutorial: Expose a private SSH server over a TCP tunnel](/tutorial/ssh-tcp-tunnel/)
-* [Tutorial: Tunnel a private Postgresql database](/tutorial/postgresql-tcp-tunnel/)
-* [Tutorial: Tunnel ports 80 and 443 over TCP for a reverse proxy](https://docs.inlets.dev/tutorial/caddy-http-tunnel/)
-
-### Running multiple tunnel servers on the same host (Advanced)
-
-If you want to mix HTTP and TCP tunnels on the same tunnel server, you could either only use TCP ports, or enable both.
-
-* [Advanced: Setting up dual TCP and HTTPS tunnels](/tutorial/dual-tunnels/)
-
-If you're looking to scale inlets to host many tunnels, then Kubernetes is probably a better option.
-
-### Local port forwarding (Intermediate)
-
-* [Case-study: Reliable local port-forwarding from Kubernetes](https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html)
-
-### Connecting with Kubernetes
-
-You may have an on-premises Kubernetes cluster that needs ingress. Perhaps you have a homelab, or Raspberry Pi cluster, that you want to self host services on.
-
-* [Tutorial: Expose a local IngressController with the inlets-operator](/tutorial/kubernetes-ingress/)
-* [Tutorial: Expose Kubernetes services in short-lived clusters with helm](https://inlets.dev/blog/2021/07/08/short-lived-clusters.html)
-
-Some teams want to have dev work like production, with tools Istio working locally just like in the cloud.
-
-* [Tutorial: Expose an Istio gateway with the inlets-operator](/tutorial/istio-gateway)
-
-* [Tutorial: Access the Kubernetes API server from anywhere like managed service](/tutorial/kubernetes-api-server/)
-
-See also: [helm charts](https://github.com/inlets/inlets-pro/tree/master/chart)
-
-### Provide tunnels as a managed service or SaaS
+### Becoming a tunnel provider or operating a hosting service
 
 Inlets Uplink is a complete solution for Kubernetes that makes it quick and easy to onboard hundreds or thousands of tenants. It can also be used to host tunnel servers on Kubernetes, for smaller amounts of tunnels.
 
 Learn more: [Inlets Uplink](https://docs.inlets.dev/uplink/overview/)
-
-### Monitoring and metrics
-
-Inlets offers you multiple options to monitor your tunnels and get insight in their performance. Find out tunnel statistics, uptime and connected clients with the `inlets-pro status` command or collect the Prometheus metrics from the monitoring endpoint.
-
-* [Monitoring and metrics](/tutorial/monitoring-and-metrics)
 
 ## Reference documentation
 

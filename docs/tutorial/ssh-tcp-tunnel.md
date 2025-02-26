@@ -8,7 +8,7 @@ Scenario: You want to allow SSH access to a computer that doesn't have a public 
 
 ## Setup your tunnel server with `inletsctl`
 
-For this tutorial you will need to have an account and API key with one of the [supported providers](https://github.com/inlets/inletsctl#featuresbacklog), or you can create an exit-server manually and install inlets Pro there yourself.
+For this tutorial you will need to have an account and API key with one of the [supported providers](/docs/reference/inletsctl.md), or you can create an exit-server manually and install inlets Pro there yourself.
 
 For this tutorial, the [DigitalOcean provider will be used](https://m.do.co/c/8d4e75e9886f). You can get [free credits on DigitalOcean with this link](https://m.do.co/c/8d4e75e9886f).
 
@@ -31,7 +31,6 @@ If you already have `inletsctl` installed, then make sure you update it with `in
 ### A) Automate your tunnel server
 
 The inletsctl tool can create a tunnel server for you in the region and cloud of your choice.
-
 
 ```bash
 inletsctl create \
