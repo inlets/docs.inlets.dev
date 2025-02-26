@@ -113,8 +113,8 @@ nav:
       - Kubernetes API Server: tutorial/kubernetes-api-server.md
       - Istio Gateway: tutorial/istio-gateway.md
       - Reliable local port forwarding (blog): https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html
-      - Helm charts (blog): https://github.com/inlets/inlets-pro/tree/master/chart
       - Manage private clusters with ArgoCD (blog): https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html
+      - Helm charts (GitHub): https://github.com/inlets/inlets-pro/tree/master/chart
     - Advanced:
       - Monitoring and metrics: tutorial/monitoring-and-metrics.md
       - IP filtering: tutorial/ip-filtering.md
