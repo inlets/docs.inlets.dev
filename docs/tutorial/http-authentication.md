@@ -10,6 +10,8 @@ The `inlets-pro http` command provides three options:
 2. Bearer Token Authentication
 3. OAuth
 
+You may also be interested in [IP filtering](/tutorial/ip-filtering), which is configured on the server. This restricts access to a provided set of source IPs or CIDRs. 
+
 ## Basic Authentication
 
 Basic authentication is a simple way to restrict access to your service by requiring a username and password.

@@ -2,7 +2,7 @@
 
 In this tutorial we will tunnel Postgresql over inlets Pro to a remote machine. From there you can expose it to the Internet, or bind it to the local network for private VPN-like access.
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
+> > [Get your inlets subscription here](https://inlets.dev/pricing)
 
 ## Setup your exit node
 

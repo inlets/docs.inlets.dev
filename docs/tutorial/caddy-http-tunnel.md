@@ -16,7 +16,7 @@ Scenario:
 * You want to share a file such as a VM image or a ISO over the Internet, with HTTPS, directly from your laptop.
 * You have one or more websites or APIs running on-premises or within your home-lab and want to expose them on the Internet.
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
+> > [Get your inlets subscription here](https://inlets.dev/pricing)
 
 ## Setup your exit node
 

@@ -175,7 +175,7 @@ I used this technique to test a live demo for the KubeCon conference. I then too
 
 In a very short period of time we created a private tunnel server on a public cloud of our choice, then we created a DNS record for it, and connected a client and accessed our local website.
 
-You can [get started with inlets through a monthly subscription](https://inlets.dev/pricing), or save on a yearly plan.
+You can [get started with inlets through a monthly subscription](https://inlets.dev/pricing).
 
 When would you need this?
 

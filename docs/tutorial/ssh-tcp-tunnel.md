@@ -4,7 +4,7 @@ In this tutorial we will use inlets-pro to access your computer behind NAT or a 
 
 Scenario: You want to allow SSH access to a computer that doesn't have a public IP, is inside a private network or behind a firewall. A common scenario is connecting to a Raspberry Pi on a home network or a home-lab.
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
+> > [Get your inlets subscription here](https://inlets.dev/pricing)
 
 ## Setup your tunnel server with `inletsctl`
 

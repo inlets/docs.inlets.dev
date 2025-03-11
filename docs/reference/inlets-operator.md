@@ -13,7 +13,7 @@ For each provider, the minimum requirements tend to be:
 
 You can install the inlets-operator's Helm chart using a single command with [arkade](https://arkade.dev/). arkade is an open-source Kubernetes marketplace and easy to use. Helm involves more commands, and is preferred by power users.
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/pricing)
+> [Get your inlets subscription here](https://inlets.dev/pricing)
 
 ## Tunnel Custom Resource Definition (CRD) and lifecycle
 

@@ -4,7 +4,7 @@ In this quick-start we will configure the [inlets-operator](https://github.com/i
 
 The inlets-operator creates a VM for each tunnel server in the cloud of your choice, then plumbs in an inlets client to connect to it using a Deployment. There is an alternative approach that we also recommend which involves creating the tunnel server with [inletsctl](https://github.com/inlets/inletsctl), followed by installing the inlets client with Helm: [Fixing Ingress for short-lived local Kubernetes clusters](https://inlets.dev/blog/2021/07/08/short-lived-clusters.html).
 
-> You can [subscribe to inlets for personal or commercial use via Gumroad](https://inlets.dev/blog/2021/07/27/monthly-subscription.html)
+> [Get your inlets subscription here](https://inlets.dev/pricing)
 
 ## Pre-reqs
 
