@@ -76,6 +76,13 @@ With OAuth:
 
 The OAuth 2.0 flow requires a web-browser, so if you anticipate mixed use, then you can combine it with Bearer Token Authentication, for headless clients.
 
+The tunnel client currently has three reserved paths for OAuth:
+- `/_/oauth/login` hosts the login page.
+- `/_/oauth/logout` can be used to log out.
+- `/_/oauth/callback` is used for the OAuth 2.0 callbacks.
+
+Paths prefixed with `/_/oauth` can not be used by the tunneled service.
+
 ### Example with GitHub.com
 
 The example below will expose: `http://127.0.0.1:3000` using the domain name `tunnel.example.com`.
@@ -103,6 +110,10 @@ inlets-pro http client \
     --oauth-acl name@example.com
 ```
 
+Access to the tunnel can be controlled using the `--oauth-acl` flag. Users can be filtered by username and email.
+
+Tunnels using a commercial inlets license can also control access based on organisation membership. Providing the flag `--oauth-acl=org:inlets` would allow all users that are a member of the inlets GitHub organisation to access the tunnel.
+
 Once authenticated, a cookie will be set on the domain i.e. `tunnel.example.com` and the user will be redirected back to the root URL of the service `/`.
 
 The duration of the cookie defaults to 1 hour, but can be extended through the `--oauth-cookie-ttl` flag i.e.
@@ -112,6 +123,41 @@ inlets-pro http client \
 +  --oauth-cookie-ttl 24h \
 ```
 
-For the first version, GitHub is the only option available for the `--oauth-provider`. More options will be added over time, based upon requests from users, so if you want to use Google, Facebook, GitLab, etc, send us an email to help with prioritisation.
+### Example with Google
+
+> To use the Google provider you need a commercial Inlets license.
+
+1. Setup a new project in the [Google API console](https://console.developers.google.com/)
+2. Configure the project OAuth consent screen.
+    
+    Follow the steps to configure the [OAuth consent screen](https://console.developers.google.com/apis/credentials/consent).
+
+    If you are a Google Workspace user you can make your app available to any user within your organization by registering it as an internal app.
+
+3. Create a new OAuth client
+
+    [Create a new OAuth client](https://console.cloud.google.com/auth/clients/create) with the application type `Web Application`.
+    Fill out the name and add the callback URL for your tunnel to the list of valid redirect URIs.
+
+    Example of a redirect uri: `http://tunnel.example.com/_/oauth/callback`. The callback for a tunnel is always available at `/_/oauth/callback`.
+
+    ![Example of a Google OAuth client configuration](/images/google-oauth-client.png)
+
+4. Save the Client ID and Client secret in a convenient place so they can be used when connecting the tunnel.
+
+Connect the client:
+
+```sh
+inlets-pro http client \
+    --upstream tunnel.example.com=http://127.0.0.1:3000 \
+    --oauth-client-id $(cat ~/.inlets/oauth-client-id) \
+    --oauth-client-secret $(cat ~/.inlets/oauth-client-secret) \
+    --oauth-provider google \
+    --oauth-acl example@gmail.com
+```
+
+You can control which users are allowed to access the tunnel by providing an email address using the `--oauth-acl` flag. 
+
+More providers will be added over time, based upon requests from users, so if you want to use Facebook, GitLab, etc, send us an email to help with prioritisation.
 
 
