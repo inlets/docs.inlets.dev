@@ -99,6 +99,34 @@ spec:
 
 Alternatively, if you have the tunnel saved as a YAML file, you can edit it and apply it again with `kubectl apply`.
 
+## Upgrade the inlets version of a tunnel
+
+The inlets version for a tunnel is set upon tunnel creation either by setting the `inletsVersion` in Tunnel Custom Resource or the default version configured in the `values.yaml` file is used.
+
+To prevent mismatches with the inlets uplink client the inlets version is never upgraded unless it is explicitly updated in the Tunnel Custom Resource.
+
+You can change the inlets version used by the tunnel deployment by editing the Tunnel CRD. Add or edit the `inletsVersion` field in the tunnel spec and set it to the desired version:
+
+```bash
+kubectl edit -n tunnels \
+  tunnel/acmeco  
+```
+
+```diff
+apiVersion: uplink.inlets.dev/v1alpha1
+kind: Tunnel
+metadata:
+  name: acmeco
+  namespace: tunnels
+spec:
++ inletsVersion: 0.9.18 
+  licenseRef:
+    name: inlets-uplink-license
+    namespace: tunnels
+  tcpPorts:
+  - 8080
+```
+
 ## Check the logs of a tunnel
 
 The logs for tunnels can be useful for troubleshooting or to see if clients are connecting successfully.
