@@ -131,6 +131,10 @@ nav:
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
 
+  - Inlets Cloud:
+    - Overview: cloud/index.md
+    - Security Groups: cloud/security-groups.md
+
   - Reference:
     - Overview: reference/index.md
     - Inlets Operator: reference/inlets-operator.md
