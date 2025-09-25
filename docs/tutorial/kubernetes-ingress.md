@@ -336,10 +336,10 @@ Now try your registry:
 
 ```bash
 docker login $DOMAIN
-docker pull alpine:3.16
-docker tag alpine:3.16 $DOMAIN/alpine:3.16
+docker pull alpine:3.22.1
+docker tag alpine:3.22.1 $DOMAIN/alpine:3.22.1
 
-docker push $DOMAIN/alpine:3.16
+docker push $DOMAIN/alpine:3.22.1
 ```
 
 You can even combine the new private registry with OpenFaaS if you like, [checkout the docs for more](https://docs.openfaas.com/).
