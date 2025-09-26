@@ -56,7 +56,7 @@ extra:
 
 plugins:
   - search
-  
+
 markdown_extensions:
   - attr_list
   - md_in_html
@@ -130,6 +130,7 @@ nav:
     - Manage tunnels: uplink/manage-tunnels.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
+    - Troubleshooting: uplink/troubleshooting.md
 
   - Inlets Cloud:
     - Overview: cloud/index.md
