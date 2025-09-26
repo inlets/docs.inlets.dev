@@ -131,6 +131,8 @@ nav:
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
     - Troubleshooting: uplink/troubleshooting.md
+    - Tutorials:
+      - Remote cluster management with ArgoCD: uplink/tutorials/argo-cd.md
 
   - Inlets Cloud:
     - Overview: cloud/index.md
