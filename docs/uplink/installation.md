@@ -236,7 +236,7 @@ client-router-cert   True    client-router-cert   30m
 
 ## Download the tunnel CLI
 
-We provide a CLI to help you create and manage tunnels. It is available as a plugin for the inlets-pro CLI. 
+We provide a CLI to help you create and manage tunnels. It is available as a plugin for the inlets-pro CLI.
 
 Download the `inlets-pro` binary:
 
@@ -270,8 +270,8 @@ helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider \
   --include-crds=true \
   --output-dir=/tmp
 
-kubectl apply -f /
-  tmp/inlets-uplink-provider/crds/uplink.inlets.dev_tunnels.yaml
+kubectl apply -f \
+  /tmp/inlets-uplink-provider/crds/uplink.inlets.dev_tunnels.yaml
 ```
 
 ### Upgrading existing customer tunnels
