@@ -36,8 +36,7 @@ inletsctl create \
  --region lon1 \
  --provider digitalocean \
  --access-token-file ~/digital-ocean-api-key.txt \
- --letsencrypt-domain blog.example.com \
- --letsencrypt-email webmaster@example.com
+ --letsencrypt-domain blog.example.com
 ```
 
 A VM will be created in your account using the cheapest plan available, for DigitalOcean this costs 5 USD / mo at time of writing.
@@ -73,8 +72,7 @@ What if I have multiple sites?
 You can pass a number of sub-domains, for instance:
 
 ```bash
- --letsencrypt-domain blog.example.com,grafana.example.com \
- --letsencrypt-email webmaster@example.com
+ --letsencrypt-domain blog.example.com,grafana.example.com
 ```
 
 ## Connect your tunnel client

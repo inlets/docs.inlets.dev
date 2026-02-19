@@ -54,7 +54,6 @@ inletsctl create \
   --region="lon1" \
   --access-token-file $HOME/do-access-token \
   --letsencrypt-domain $DOMAIN \
-  --letsencrypt-email webmaster@$DOMAIN \
   --letsencrypt-issuer prod
 ```
 
