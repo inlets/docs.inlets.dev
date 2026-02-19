@@ -33,8 +33,7 @@ export DOMAIN="example.com"
   --auto-tls-san 192.168.0.10 \
   --letsencrypt-domain subdomain1.$DOMAIN \
   --letsencrypt-domain subdomain2.$DOMAIN \
-  --letsencrypt-email contact@$DOMAIN \
-  --letsencrypt-issuer staging
+  --letsencrypt-issuer staging \
   --token $TOKEN
 ```
 
