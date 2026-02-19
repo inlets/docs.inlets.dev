@@ -1,0 +1,2763 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Inlets Secure Tunnels From Dev to Cloud">
+      
+      
+        <meta name="author" content="OpenFaaS Ltd">
+      
+      
+        <link rel="canonical" href="https://docs.inlets.dev/reference/inletsctl/">
+      
+      
+        <link rel="prev" href="../inlets-operator/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>inletsctl - Inlets</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto,+Helvetica:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto, Helvetica";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-MVH8L09LKP"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-MVH8L09LKP",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-MVH8L09LKP",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#inletsctl-reference-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Inlets" class="md-header__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inlets
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              inletsctl
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Inlets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../uplink/" class="md-tabs__link">
+          
+  
+  Inlets Uplink
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/" class="md-tabs__link">
+          
+  
+  Inlets Cloud
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Inlets" class="md-nav__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    Inlets
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTTP Tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTTP Tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-header-modification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modify HTTP headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-authentication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authenticate HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/dual-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enable dual TCP and HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/09/09/compose-and-inlets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/community/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Community tutorials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TCP tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            TCP tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/caddy-http-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Caddy from your private network
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/local-port-forwarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local port forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ssh-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose SSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/postgresql-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Postgresql
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-tcp-loadbalancer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a TCP LoadBalancer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-generate-yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate YAML for a tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-ingress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes Ingress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-api-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes API Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/istio-gateway/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Gateway
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable local port forwarding (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage private clusters with ArgoCD (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/inlets/inlets-pro/tree/master/chart" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm charts (GitHub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/monitoring-and-metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitoring and metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ip-filtering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IP filtering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Uplink
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Uplink
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/create-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/connect-tunnel-client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connect the tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/private-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Access tunnels privately
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/expose-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose tunnels publicly
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/manage-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/monitoring-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitor tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/rest-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/tutorials/argo-cd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Remote cluster management with ArgoCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Cloud
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/security-groups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inlets-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inlets Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    inletsctl
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    inletsctl
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-inletsctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install inletsctl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downloading-inlets-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading inlets-pro
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-create-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The create command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The create command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-https-tunnel-with-a-custom-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a HTTPS tunnel with a custom domain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-http-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a HTTP tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-tunnel-for-a-tcp-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a tunnel for a TCP service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-for-specific-cloud-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples for specific cloud providers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples for specific cloud providers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-aws-ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with AWS EC2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example usage with AWS EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-aws-ec2-temporary-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with AWS EC2 Temporary Credentials
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-google-compute-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Google Compute Engine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Azure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-hetzner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Hetzner
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-linode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Linode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-scaleway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Scaleway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-ovhcloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with OVHcloud
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-delete-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The delete command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kfwd-kubernetes-service-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      kfwd - Kubernetes service forwarding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-inlets-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting inlets Pro
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-using-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration using environment variables
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install-inletsctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install inletsctl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#downloading-inlets-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading inlets-pro
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-create-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The create command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The create command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#create-a-https-tunnel-with-a-custom-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a HTTPS tunnel with a custom domain
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-http-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a HTTP tunnel
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-tunnel-for-a-tcp-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a tunnel for a TCP service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-for-specific-cloud-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples for specific cloud providers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples for specific cloud providers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-aws-ec2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with AWS EC2
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example usage with AWS EC2">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-aws-ec2-temporary-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with AWS EC2 Temporary Credentials
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-google-compute-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Google Compute Engine
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-azure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Azure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-hetzner" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Hetzner
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-linode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Linode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-scaleway" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with Scaleway
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-usage-with-ovhcloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example usage with OVHcloud
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-delete-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      The delete command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kfwd-kubernetes-service-forwarding" class="md-nav__link">
+    <span class="md-ellipsis">
+      kfwd - Kubernetes service forwarding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting-inlets-pro" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting inlets Pro
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-using-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration using environment variables
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="inletsctl-reference-documentation">inletsctl reference documentation<a class="headerlink" href="#inletsctl-reference-documentation" title="Permanent link">&para;</a></h1>
+<p>inletsctl is an automation tool for inlets/-pro.</p>
+<p>Features:</p>
+<ul>
+<li><code>create</code> / <code>delete</code> cloud VMs with inlets/-pro pre-installed via systemd</li>
+<li><code>download [--pro]</code> - download the inlets/-pro binaries to your local computer</li>
+<li><code>kfwd</code> - forward services from a Kubernetes cluster to your local machine using inlets/-pro</li>
+</ul>
+<p>View the code on GitHub: <a href="https://github.com/inlets/inletsctl">inlets/inletsctl</a></p>
+<h2 id="install-inletsctl">Install <code>inletsctl</code><a class="headerlink" href="#install-inletsctl" title="Permanent link">&para;</a></h2>
+<p>You can install inletsctl using its installer, or from <a href="https://github.com/inlets/inletsctl/releases/">the GitHub releases page</a></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Install to local directory (and for Windows users)</span>
+curl<span class="w"> </span>-sLSf<span class="w"> </span>https://inletsctl.inlets.dev<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+
+<span class="c1"># Install directly to /usr/local/bin/</span>
+curl<span class="w"> </span>-sLSf<span class="w"> </span>https://inletsctl.inlets.dev<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>sh
+</code></pre></div>
+<p>Windows users are encouraged to use <a href="https://git-scm.com/downloads">git bash</a> to install the inletsctl binary.</p>
+<h2 id="downloading-inlets-pro">Downloading inlets-pro<a class="headerlink" href="#downloading-inlets-pro" title="Permanent link">&para;</a></h2>
+<p>The <code>inletsctl download</code> command can be used to download the inlets/-pro binaries.</p>
+<p>Example usage:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Download the latest inlets-pro binary</span>
+inletsctl<span class="w"> </span>download
+
+<span class="c1"># Download a specific version of inlets-pro</span>
+inletsctl<span class="w"> </span>download<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.8.5
+</code></pre></div>
+<h2 id="the-create-command">The <code>create</code> command<a class="headerlink" href="#the-create-command" title="Permanent link">&para;</a></h2>
+<h3 id="create-a-https-tunnel-with-a-custom-domain">Create a HTTPS tunnel with a custom domain<a class="headerlink" href="#create-a-https-tunnel-with-a-custom-domain" title="Permanent link">&para;</a></h3>
+<p>This example uses DigitalOcean to create a cloud VM and then exposes a local service via the newly created exit-server.</p>
+<p>Let's say we want to expose a Grafana server on our internal network to the Internet via <a href="https://letsencrypt.org/">Let's Encrypt</a> and HTTPS?</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">DOMAIN</span><span class="o">=</span><span class="s2">&quot;grafana.example.com&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="o">=</span><span class="s2">&quot;lon1&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span><span class="nv">$HOME</span>/do-access-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--letsencrypt-domain<span class="w"> </span><span class="nv">$DOMAIN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--letsencrypt-issuer<span class="w"> </span>prod
+</code></pre></div>
+<p>You can also use <code>--letsencrypt-issuer</code> with the <code>staging</code> value whilst testing since Let's Encrypt rate-limits how many certificates you can obtain within a week.</p>
+<p>Create a DNS A record for the IP address so that <code>grafana.example.com</code> for instance resolves to that IP. For instance you could run:</p>
+<div class="highlight"><pre><span></span><code>doctl<span class="w"> </span>compute<span class="w"> </span>domain<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ip-address<span class="w"> </span><span class="m">46</span>.101.60.161<span class="w"> </span>grafana.example.com
+</code></pre></div>
+<p>Now run the command that you were given, and if you wish, change the upstream to point to the domain explicitly:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Obtain a license at https://inlets.dev</span>
+<span class="c1"># Store it at $HOME/.inlets/LICENSE or use --help for more options</span>
+
+<span class="c1"># Where to route traffic from the inlets server</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UPSTREAM</span><span class="o">=</span><span class="s2">&quot;grafana.example.com=http://192.168.0.100:3000&quot;</span>
+
+inlets-pro<span class="w"> </span>http<span class="w"> </span>client<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://46.101.60.161:8123&quot;</span><span class="w"> </span><span class="se">\</span>
+--token<span class="w"> </span><span class="s2">&quot;lRdRELPrkhA0kxwY0eWoaviWvOoYG0tj212d7Ff0zEVgpnAfh5WjygUVVcZ8xJRJ&quot;</span><span class="w"> </span><span class="se">\</span>
+--upstream<span class="w"> </span><span class="nv">$UPSTREAM</span>
+
+To<span class="w"> </span>delete:
+<span class="w">  </span>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span>--id<span class="w"> </span><span class="s2">&quot;248562460&quot;</span>
+</code></pre></div>
+<p>You can also specify more than one domain and upstream for the same tunnel, so you could expose OpenFaaS and Grafana separately for instance.</p>
+<p>Update the <code>inletsctl create</code> command with multiple domains such as: <code>--letsencrypt-domain openfaas.example.com --letsencrypt-domain grafana.example.com</code></p>
+<p>Then for the <code>inlets-pro client</code> command, update the upstream in the same way by repeating the flag once per upstream mapping: <code>--upstream openfaas.example.com=http://127.0.0.1:8080</code> <code>--upstream grafana.example.com=http://192.168.0.100:3000</code>.</p>
+<blockquote>
+<p>Note that in previous inlets versions, multiple upstream values were given in a single flag, separated by commas, this has now been deprecated for the above syntax.</p>
+</blockquote>
+<h3 id="create-a-http-tunnel">Create a HTTP tunnel<a class="headerlink" href="#create-a-http-tunnel" title="Permanent link">&para;</a></h3>
+<p>This example uses Linode to create a cloud VM and then exposes a local service via the newly created exit-server.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">REGION</span><span class="o">=</span><span class="s2">&quot;eu-west&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>linode<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="o">=</span><span class="s2">&quot;</span><span class="nv">$REGION</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span><span class="nv">$HOME</span>/do-access-token
+</code></pre></div>
+<p>You'll see the host being provisioned, it usually takes just a few seconds:</p>
+<div class="highlight"><pre><span></span><code>Using provider: linode
+Requesting host: peaceful-lewin8 in eu-west, from linode
+2021/06/01 15:56:03 Provisioning host with Linode
+Host: 248561704, status: 
+[1/500] Host: 248561704, status: new
+...
+[11/500] Host: 248561704, status: active
+
+inlets Pro (0.7.0) exit-server summary:
+  IP: 188.166.168.90
+  Auth-token: dZTkeCNYgrTPvFGLifyVYW6mlP78ny3jhyKM1apDL5XjmHMLYY6MsX8S2aUoj8uI
+</code></pre></div>
+<p>Now run the command given to you, changing the <code>--upstream</code> URL to match a local URL such as <code>http://localhost:3000</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Obtain a license at https://inlets.dev</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LICENSE</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.inlets/license&quot;</span>
+
+<span class="c1"># Give a single value or comma-separated</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PORTS</span><span class="o">=</span><span class="s2">&quot;3000&quot;</span>
+
+<span class="c1"># Where to route traffic from the inlets server</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UPSTREAM</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span>
+
+inlets-pro<span class="w"> </span>tcp<span class="w"> </span>client<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://188.166.168.90:8123/connect&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--token<span class="w"> </span><span class="s2">&quot;dZTkeCNYgrTPvFGLifyVYW6mlP78ny3jhyKM1apDL5XjmHMLYY6MsX8S2aUoj8uI&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--upstream<span class="w"> </span><span class="nv">$UPSTREAM</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ports<span class="w"> </span><span class="nv">$PORTS</span>
+</code></pre></div>
+<blockquote>
+<p>The client will look for your license in <code>$HOME/.inlets/LICENSE</code>, but you can also use the <code>--license/--license-file</code> flag if you wish.</p>
+</blockquote>
+<p>You can then access your local website via the Internet and the exit-server's IP at:</p>
+<p><a href="http://188.166.168.90">http://188.166.168.90</a></p>
+<p>When you're done, you can delete the host using its ID or IP address:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="w"> </span>linode<span class="w"> </span>--id<span class="w"> </span><span class="s2">&quot;248561704&quot;</span>
+<span class="w">  </span>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="w"> </span>linode<span class="w"> </span>--ip<span class="w"> </span><span class="s2">&quot;188.166.168.90&quot;</span>
+</code></pre></div>
+<h3 id="create-a-tunnel-for-a-tcp-service">Create a tunnel for a TCP service<a class="headerlink" href="#create-a-tunnel-for-a-tcp-service" title="Permanent link">&para;</a></h3>
+<p>This example is similar to the previous one, but also adds link-level encryption between your local service and the exit-server.</p>
+<p>In addition, you can also expose pure TCP traffic such as SSH or Postgresql.</p>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span><span class="nv">$HOME</span>/do-access-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pro
+</code></pre></div>
+<p>Note the output:</p>
+<div class="highlight"><pre><span></span><code>inlets<span class="w"> </span>Pro<span class="w"> </span><span class="o">(</span><span class="m">0</span>.7.0<span class="o">)</span><span class="w"> </span>exit-server<span class="w"> </span>summary:
+<span class="w">  </span>IP:<span class="w"> </span><span class="m">142</span>.93.34.79
+<span class="w">  </span>Auth-token:<span class="w"> </span>TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb
+
+Command:
+<span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">LICENSE</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">PORTS</span><span class="o">=</span><span class="s2">&quot;8000&quot;</span>
+<span class="w">  </span><span class="nb">export</span><span class="w"> </span><span class="nv">UPSTREAM</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span>
+
+<span class="w">  </span>inlets-pro<span class="w"> </span>tcp<span class="w"> </span>client<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://142.93.34.79:8123/connect&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--token<span class="w"> </span><span class="s2">&quot;TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--license<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LICENSE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--upstream<span class="w"> </span><span class="nv">$UPSTREAM</span><span class="w"> </span><span class="se">\</span>
+<span class="w">        </span>--ports<span class="w"> </span><span class="nv">$PORTS</span>
+
+To<span class="w"> </span>Delete:
+<span class="w">          </span>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span>--id<span class="w"> </span><span class="s2">&quot;205463570&quot;</span>
+</code></pre></div>
+<p>Run a local service that uses TCP such as MariaDB:</p>
+<div class="highlight"><pre><span></span><code>head<span class="w"> </span>-c<span class="w"> </span><span class="m">16</span><span class="w"> </span>/dev/urandom<span class="w"> </span><span class="p">|</span>shasum<span class="w"> </span>
+8cb3efe58df984d3ab89bcf4566b31b49b2b79b9
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;8cb3efe58df984d3ab89bcf4566b31b49b2b79b9&quot;</span>
+
+docker<span class="w"> </span>run<span class="w"> </span>--name<span class="w"> </span>mariadb<span class="w"> </span><span class="se">\</span>
+-p<span class="w"> </span><span class="m">3306</span>:3306<span class="w"> </span><span class="se">\</span>
+-e<span class="w"> </span><span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>8cb3efe58df984d3ab89bcf4566b31b49b2b79b9<span class="w"> </span><span class="se">\</span>
+-ti<span class="w"> </span>mariadb:latest
+</code></pre></div>
+<p>Connect to the tunnel updating the ports to <code>3306</code></p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">LICENSE</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>cat<span class="w"> </span>~/LICENSE<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PORTS</span><span class="o">=</span><span class="s2">&quot;3306&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UPSTREAM</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span>
+
+inlets-pro<span class="w"> </span>tcp<span class="w"> </span>client<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://142.93.34.79:8123/connect&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--token<span class="w"> </span><span class="s2">&quot;TUSQ3Dkr9QR1VdHM7go9cnTUouoJ7HVSdiLq49JVzY5MALaJUnlhSa8kimlLwBWb&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--license<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$LICENSE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--upstream<span class="w"> </span><span class="nv">$UPSTREAM</span><span class="w"> </span><span class="se">\</span>
+<span class="w">      </span>--ports<span class="w"> </span><span class="nv">$PORTS</span>
+</code></pre></div>
+<p>Now connect to your MariaDB instance from its public IP address:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PASSWORD</span><span class="o">=</span><span class="s2">&quot;8cb3efe58df984d3ab89bcf4566b31b49b2b79b9&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">EXIT_IP</span><span class="o">=</span><span class="s2">&quot;142.93.34.79&quot;</span>
+
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>mariadb:latest<span class="w"> </span>mysql<span class="w"> </span>-h<span class="w"> </span><span class="nv">$EXIT_IP</span><span class="w"> </span>-P<span class="w"> </span><span class="m">3306</span><span class="w"> </span>-uroot<span class="w"> </span>-p<span class="nv">$PASSWORD</span>
+
+Welcome<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>MariaDB<span class="w"> </span>monitor.<span class="w">  </span>Commands<span class="w"> </span>end<span class="w"> </span>with<span class="w"> </span><span class="p">;</span><span class="w"> </span>or<span class="w"> </span><span class="se">\g</span>.
+Your<span class="w"> </span>MariaDB<span class="w"> </span>connection<span class="w"> </span>id<span class="w"> </span>is<span class="w"> </span><span class="m">3</span>
+Server<span class="w"> </span>version:<span class="w"> </span><span class="m">10</span>.5.5-MariaDB-1:10.5.5+maria~focal<span class="w"> </span>mariadb.org<span class="w"> </span>binary<span class="w"> </span>distribution
+
+Copyright<span class="w"> </span><span class="o">(</span>c<span class="o">)</span><span class="w"> </span><span class="m">2000</span>,<span class="w"> </span><span class="m">2018</span>,<span class="w"> </span>Oracle,<span class="w"> </span>MariaDB<span class="w"> </span>Corporation<span class="w"> </span>Ab<span class="w"> </span>and<span class="w"> </span>others.
+
+Type<span class="w"> </span><span class="s1">&#39;help;&#39;</span><span class="w"> </span>or<span class="w"> </span><span class="s1">&#39;\h&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.<span class="w"> </span>Type<span class="w"> </span><span class="s1">&#39;\c&#39;</span><span class="w"> </span>to<span class="w"> </span>clear<span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>input<span class="w"> </span>statement.
+
+MariaDB<span class="w"> </span><span class="o">[(</span>none<span class="o">)]</span>&gt;<span class="w"> </span>create<span class="w"> </span>database<span class="w"> </span>test<span class="p">;</span><span class="w"> </span>
+Query<span class="w"> </span>OK,<span class="w"> </span><span class="m">1</span><span class="w"> </span>row<span class="w"> </span>affected<span class="w"> </span><span class="o">(</span><span class="m">0</span>.039<span class="w"> </span>sec<span class="o">)</span>
+</code></pre></div>
+<h2 id="examples-for-specific-cloud-providers">Examples for specific cloud providers<a class="headerlink" href="#examples-for-specific-cloud-providers" title="Permanent link">&para;</a></h2>
+<h3 id="example-usage-with-aws-ec2">Example usage with AWS EC2<a class="headerlink" href="#example-usage-with-aws-ec2" title="Permanent link">&para;</a></h3>
+<p>To use the instructions below you must have the AWS CLI configured with sufficient permissions to 
+create users and roles. </p>
+<ul>
+<li>Create a AWS IAM Policy with the following:</li>
+</ul>
+<p>Create a file named <code>policy.json</code> with the following content</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;ec2:AuthorizeSecurityGroupIngress&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeImages&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:TerminateInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:CreateSecurityGroup&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:CreateTags&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DeleteSecurityGroup&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:RunInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeInstanceStatus&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Create the policy in AWS </p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>iam<span class="w"> </span>create-policy<span class="w"> </span>--policy-name<span class="w"> </span>inlets-automation<span class="w"> </span>--policy-document<span class="w"> </span>file://policy.json
+</code></pre></div>
+<ul>
+<li>Create an IAM user</li>
+</ul>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>iam<span class="w"> </span>create-user<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation
+</code></pre></div>
+<ul>
+<li>Add the Policy to the IAM user</li>
+</ul>
+<p>We need to use the policy arn generated above, it should have been printed to the console on success. It also follows the format below.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCOUNT_NUMBER</span><span class="o">=</span><span class="s2">&quot;Your AWS Account Number&quot;</span>
+aws<span class="w"> </span>iam<span class="w"> </span>attach-user-policy<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::<span class="si">${</span><span class="nv">AWS_ACCOUNT_NUMBER</span><span class="si">}</span>:policy/inlets-automation
+</code></pre></div>
+<ul>
+<li>Generate an access key for your IAM User </li>
+</ul>
+<p>The below commands will create a set of credentials and save them into files for use later on.</p>
+<blockquote>
+<p>we are using <a href="https://stedolan.github.io/jq/">jq</a> here. It can be installed using the link provided.
+Alternatively you can print ACCESS_KEY_JSON and create the files manually.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="nv">ACCESS_KEY_JSON</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>iam<span class="w"> </span>create-access-key<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation<span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$ACCESS_KEY_JSON</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.AccessKey.AccessKeyId<span class="w"> </span>&gt;<span class="w"> </span>access-key.txt
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$ACCESS_KEY_JSON</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.AccessKey.SecretAccessKey<span class="w"> </span>&gt;<span class="w"> </span>secret-key.txt
+</code></pre></div>
+<ul>
+<li>Create an exit-server:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>ec2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>eu-west-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>./access-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--secret-key-file<span class="w"> </span>./secret-key.txt
+</code></pre></div>
+<ul>
+<li>Delete an exit-server:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">IP</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>ec2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>eu-west-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>./access-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--secret-key-file<span class="w"> </span>./secret-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ip<span class="w"> </span><span class="nv">$IP</span>
+</code></pre></div>
+<h4 id="example-usage-with-aws-ec2-temporary-credentials">Example usage with AWS EC2 Temporary Credentials<a class="headerlink" href="#example-usage-with-aws-ec2-temporary-credentials" title="Permanent link">&para;</a></h4>
+<p>To use the instructions below you must have the AWS CLI configured with sufficient permissions to 
+create users and roles. </p>
+<p>The following instructions use <code>get-session-token</code> to illustrate the concept.  However, it is expected that real world usage would more likely make use of <code>assume-role</code> to obtain temporary credentials.</p>
+<ul>
+<li>Create a AWS IAM Policy with the following:</li>
+</ul>
+<p>Create a file named <code>policy.json</code> with the following content</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;Version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2012-10-17&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;Statement&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">  </span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;Effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;Action&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;ec2:AuthorizeSecurityGroupIngress&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeImages&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:TerminateInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:CreateSecurityGroup&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:CreateTags&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DeleteSecurityGroup&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:RunInstances&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ec2:DescribeInstanceStatus&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;Resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<ul>
+<li>Create the policy in AWS </li>
+</ul>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>iam<span class="w"> </span>create-policy<span class="w"> </span>--policy-name<span class="w"> </span>inlets-automation<span class="w"> </span>--policy-document<span class="w"> </span>file://policy.json
+</code></pre></div>
+<ul>
+<li>Create an IAM user</li>
+</ul>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>iam<span class="w"> </span>create-user<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation
+</code></pre></div>
+<ul>
+<li>Add the Policy to the IAM user</li>
+</ul>
+<p>We need to use the policy arn generated above, it should have been printed to the console on success. It also follows the format below.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCOUNT_NUMBER</span><span class="o">=</span><span class="s2">&quot;Your AWS Account Number&quot;</span>
+aws<span class="w"> </span>iam<span class="w"> </span>attach-user-policy<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation<span class="w"> </span>--policy-arn<span class="w"> </span>arn:aws:iam::<span class="si">${</span><span class="nv">AWS_ACCOUNT_NUMBER</span><span class="si">}</span>:policy/inlets-automation
+</code></pre></div>
+<ul>
+<li>Generate an access key for your IAM User </li>
+</ul>
+<p>The below commands will create a set of credentials and save them into files for use later on.</p>
+<blockquote>
+<p>we are using <a href="https://stedolan.github.io/jq/">jq</a> here. It can be installed using the link provided.
+Alternatively you can print ACCESS_KEY_JSON and create the files manually.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="nv">ACCESS_KEY_JSON</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>iam<span class="w"> </span>create-access-key<span class="w"> </span>--user-name<span class="w"> </span>inlets-automation<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$ACCESS_KEY_JSON</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.AccessKey.AccessKeyId<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$ACCESS_KEY_JSON</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.AccessKey.SecretAccessKey<span class="k">)</span>
+</code></pre></div>
+<ul>
+<li>Check that calls are now being executed by the <code>inlets-automation</code> IAM User.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>sts<span class="w"> </span>get-caller-identity
+</code></pre></div>
+<ul>
+<li>Ask STS for some temporary credentials</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">TEMP_CREDS</span><span class="o">=</span><span class="k">$(</span>aws<span class="w"> </span>sts<span class="w"> </span>get-session-token<span class="k">)</span>
+</code></pre></div>
+<ul>
+<li>Break out the required elements</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$TEMP_CREDS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.Credentials.AccessKeyId<span class="w"> </span>&gt;<span class="w"> </span>access-key.txt<span class="w">    </span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TEMP_CREDS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.Credentials.SecretAccessKey<span class="w"> </span>&gt;<span class="w"> </span>secret-key.txt
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$TEMP_CREDS</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span>.Credentials.SessionToken<span class="w"> </span>&gt;<span class="w"> </span>session-token.txt
+</code></pre></div>
+<ul>
+<li>Create an exit-server using temporary credentials:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>ec2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>eu-west-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>./access-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--secret-key-file<span class="w"> </span>./secret-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--session-token-file<span class="w"> </span>./session-token.txt
+</code></pre></div>
+<ul>
+<li>Delete an exit-server using temporary credentials:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">INSTANCEID</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+inletsctl<span class="w"> </span>delete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>ec2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--id<span class="w"> </span><span class="nv">$INSTANCEID</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>./access-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--secret-key-file<span class="w"> </span>./secret-key.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--session-token-file<span class="w"> </span>./session-token.txt
+</code></pre></div>
+<h3 id="example-usage-with-google-compute-engine">Example usage with Google Compute Engine<a class="headerlink" href="#example-usage-with-google-compute-engine" title="Permanent link">&para;</a></h3>
+<p>Bear in mind that standard GCE VMs are created with an ephemeral IP address, which is subject to change. In order to make your tunnel's address stable, you should <a href="https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address">Reserve a static IP address and assign it to your VM</a>. A static IP costs around 2.88 USD / mo.</p>
+<ul>
+<li>One time setup required for a service account key</li>
+</ul>
+<blockquote>
+<p>It is assumed that you have gcloud installed and configured on your machine.
+If not, then follow the instructions <a href="https://cloud.google.com/sdk/docs/quickstarts">here</a></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get current projectID</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECTID</span><span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>config<span class="w"> </span>get-value<span class="w"> </span>core/project<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="k">)</span>
+
+<span class="c1"># Create a service account</span>
+gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>create<span class="w"> </span>inlets<span class="w"> </span><span class="se">\</span>
+--description<span class="w"> </span><span class="s2">&quot;inlets-operator service account&quot;</span><span class="w"> </span><span class="se">\</span>
+--display-name<span class="w"> </span><span class="s2">&quot;inlets&quot;</span>
+
+<span class="c1"># Get service account email</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SERVICEACCOUNT</span><span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>inlets<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{print $2}&#39;</span><span class="k">)</span>
+
+<span class="c1"># Assign appropriate roles to inlets service account</span>
+gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECTID</span><span class="w"> </span><span class="se">\</span>
+--member<span class="w"> </span>serviceAccount:<span class="nv">$SERVICEACCOUNT</span><span class="w"> </span><span class="se">\</span>
+--role<span class="w"> </span>roles/compute.admin
+
+gcloud<span class="w"> </span>projects<span class="w"> </span>add-iam-policy-binding<span class="w"> </span><span class="nv">$PROJECTID</span><span class="w"> </span><span class="se">\</span>
+--member<span class="w"> </span>serviceAccount:<span class="nv">$SERVICEACCOUNT</span><span class="w"> </span><span class="se">\</span>
+--role<span class="w"> </span>roles/iam.serviceAccountUser
+
+<span class="c1"># Create inlets service account key file</span>
+gcloud<span class="w"> </span>iam<span class="w"> </span>service-accounts<span class="w"> </span>keys<span class="w"> </span>create<span class="w"> </span>key.json<span class="w"> </span><span class="se">\</span>
+--iam-account<span class="w"> </span><span class="nv">$SERVICEACCOUNT</span>
+</code></pre></div>
+<ul>
+<li>Create a tunnel using the service account and project ID</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a TCP tunnel server</span>
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>gce<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project-id<span class="o">=</span><span class="nv">$PROJECTID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="o">=</span>key.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tcp
+
+<span class="c1"># Create a HTTP / HTTPS tunnel server</span>
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span>gce<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project-id<span class="o">=</span><span class="nv">$PROJECTID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="o">=</span>key.json
+
+<span class="c1"># Or specify any valid Google Cloud Zone optional zone, by default it get provisioned in us-central1-a</span>
+inletsctl<span class="w"> </span>create<span class="w"> </span>-p<span class="w"> </span>gce<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--project-id<span class="o">=</span><span class="nv">$PROJECTID</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>key.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--zone<span class="o">=</span>us-central1-a
+</code></pre></div>
+<p>If you need the tunnel server for any period of time, remember to <a href="https://cloud.google.com/compute/docs/ip-addresses/reserve-static-external-ip-address">Reserve a static IP address and assign it to your VM</a>.</p>
+<p>Then SSH into the host and make sure you update inlets to make use of it:</p>
+<p>Edit <code>IP=</code> in <code>/etc/default/inlets-pro</code> then run <code>sudo systemctl daemon-reload &amp;&amp; sudo systemctl restart inlets-pro</code></p>
+<p>The <code>inlets-pro http/tcp --url wss://...</code> flag should also be updated with the static IP.</p>
+<p>In a future version of inletsctl, we may automate the above.</p>
+<h3 id="example-usage-with-azure">Example usage with Azure<a class="headerlink" href="#example-usage-with-azure" title="Permanent link">&para;</a></h3>
+<p>Prerequisites:</p>
+<ul>
+<li>You will need <code>az</code>. See <a href="https://docs.microsoft.com/en-us/cli/azure/install-azure-cli">Install the Azure CLI</a></li>
+</ul>
+<p>Generate Azure auth file 
+<div class="highlight"><pre><span></span><code><span class="nv">SUBSCRIPTION_ID</span><span class="o">=</span><span class="s2">&quot;YOUR_SUBSCRIPTION_ID&quot;</span>
+az<span class="w"> </span>ad<span class="w"> </span>sp<span class="w"> </span>create-for-rbac<span class="w"> </span>--role<span class="w"> </span>Contributor<span class="w"> </span>--scopes<span class="w"> </span><span class="s2">&quot;/subscriptions/</span><span class="nv">$SUBSCRIPTION_ID</span><span class="s2">&quot;</span><span class="w"> </span>--sdk-auth<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;<span class="w"> </span><span class="nv">$HOME</span>/Downloads/client_credentials.json
+</code></pre></div></p>
+<p>List Azure available regions
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>account<span class="w"> </span>list-locations<span class="w"> </span>-o<span class="w"> </span>table
+</code></pre></div></p>
+<p>Create
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>create<span class="w"> </span>--provider<span class="o">=</span>azure<span class="w"> </span>--subscription-id<span class="o">=</span>4d68ee0c-7079-48d2-b15c-f294f9b11a9e<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="o">=</span>eastus<span class="w"> </span>--access-token-file<span class="o">=</span>~/Downloads/client_credentials.json<span class="w"> </span>
+</code></pre></div></p>
+<p>Delete
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="o">=</span>azure<span class="w"> </span>--id<span class="w"> </span>inlets-clever-volhard8<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--subscription-id<span class="o">=</span>4d68ee0c-7079-48d2-b15c-f294f9b11a9e<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="o">=</span>eastus<span class="w"> </span>--access-token-file<span class="o">=</span>~/Downloads/client_credentials.json
+</code></pre></div></p>
+<h3 id="example-usage-with-hetzner">Example usage with Hetzner<a class="headerlink" href="#example-usage-with-hetzner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Obtain the API token from Hetzner Cloud Console.</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span>--provider<span class="w"> </span>hetzner<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token<span class="w"> </span><span class="nv">$TOKEN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>hel1
+</code></pre></div>
+<p>Available regions are <code>hel1</code> (Helsinki), <code>nur1</code> (Nuremberg), <code>fsn1</code> (Falkenstein).</p>
+<h3 id="example-usage-with-linode">Example usage with Linode<a class="headerlink" href="#example-usage-with-linode" title="Permanent link">&para;</a></h3>
+<p>Prerequisites:</p>
+<ul>
+<li>Prepare a Linode API Access Token. See <a href="https://www.linode.com/docs/platform/api/getting-started-with-the-linode-api/#get-an-access-token">Create Linode API Access token</a>  </li>
+</ul>
+<p>Create
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>create<span class="w"> </span>--provider<span class="o">=</span>linode<span class="w"> </span>--access-token<span class="o">=</span>&lt;API<span class="w"> </span>Access<span class="w"> </span>Token&gt;<span class="w"> </span>--region<span class="o">=</span>us-east
+</code></pre></div></p>
+<p>Delete
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>delete<span class="w"> </span>--provider<span class="o">=</span>linode<span class="w"> </span>--access-token<span class="o">=</span>&lt;API<span class="w"> </span>Access<span class="w"> </span>Token&gt;<span class="w"> </span>--id<span class="w"> </span>&lt;instance<span class="w"> </span>id&gt;
+</code></pre></div></p>
+<h3 id="example-usage-with-scaleway">Example usage with Scaleway<a class="headerlink" href="#example-usage-with-scaleway" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Obtain from your Scaleway dashboard:</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SECRET_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ORG_ID</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span>--provider<span class="w"> </span>scaleway<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token<span class="w"> </span><span class="nv">$TOKEN</span>
+<span class="w">  </span>--secret-key<span class="w"> </span><span class="nv">$SECRET_KEY</span><span class="w"> </span>--organisation-id<span class="w"> </span><span class="nv">$ORG_ID</span>
+</code></pre></div>
+<p>The region is hard-coded to France / Paris 1.</p>
+<h3 id="example-usage-with-ovhcloud">Example usage with OVHcloud<a class="headerlink" href="#example-usage-with-ovhcloud" title="Permanent link">&para;</a></h3>
+<p>You need to create API keys for the ovhCloud country/continent you're going to deploy with inletsctl. 
+For an overview of available endpoint check <a href="https://github.com/ovh/go-ovh#supported-apis">supported-apis</a> documentation</p>
+<p>For, example, Europe visit <a href="https://eu.api.ovh.com/createToken">https://eu.api.ovh.com/createToken</a> to create your API keys.</p>
+<p>However, the specific value for the endpoint flag are following:</p>
+<ul>
+<li><code>ovh-eu</code> for OVH Europe API</li>
+<li><code>ovh-us</code> for OVH US API</li>
+<li><code>ovh-ca</code> for OVH Canada API</li>
+<li><code>soyoustart-eu</code> for So you Start Europe API</li>
+<li><code>soyoustart-ca</code> for So you Start Canada API</li>
+<li><code>kimsufi-eu</code> for Kimsufi Europe API</li>
+<li><code>kimsufi-ca</code> for Kimsufi Canada API</li>
+</ul>
+<p><code>ovh-eu</code> is the default endpoint and <code>DE1</code> the default region. </p>
+<p>For the proper <code>rights</code> choose all HTTP Verbs (GET,PUT,DELETE, POST), and we need only the <code>/cloud/</code> API.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">APPLICATION_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">APPLICATION_SECRET</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CONSUMER_KEY</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">ENDPOINT</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PROJECT_ID</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span>--provider<span class="w"> </span>ovh<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token<span class="w"> </span><span class="nv">$APPLICATION_KEY</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--secret-key<span class="w"> </span><span class="nv">$APPLICATION_SECRET</span><span class="w"> </span>
+<span class="w">  </span>--consumer-key<span class="w"> </span><span class="nv">$CONSUMER_KEY</span><span class="w"> </span><span class="se">\ </span>
+<span class="w">  </span>--project-id<span class="w"> </span><span class="nv">$SERVICENAME</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint<span class="w"> </span><span class="nv">$ENDPOINT</span>
+</code></pre></div>
+<h2 id="the-delete-command">The <code>delete</code> command<a class="headerlink" href="#the-delete-command" title="Permanent link">&para;</a></h2>
+<p>The delete command takes an id or IP address which are given to you at the end of the <code>inletsctl create</code> command. You'll also need to specify your cloud access token.</p>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>delete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>~/Downloads/do-access-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--id<span class="w"> </span><span class="m">164857028</span><span class="w"> </span><span class="se">\</span>
+</code></pre></div>
+<p>Or delete via IP:</p>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>delete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>digitalocean<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token-file<span class="w"> </span>~/Downloads/do-access-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ip<span class="w"> </span><span class="m">209</span>.97.131.180<span class="w"> </span><span class="se">\</span>
+</code></pre></div>
+<h2 id="kfwd-kubernetes-service-forwarding">kfwd - Kubernetes service forwarding<a class="headerlink" href="#kfwd-kubernetes-service-forwarding" title="Permanent link">&para;</a></h2>
+<p>kfwd runs an inlets-pro server on your local computer, then deploys an inlets client in your Kubernetes cluster using a Pod. This enables your local computer to access services from within the cluster as if they were running on your laptop.</p>
+<p>inlets Pro allows you to access any TCP service within the cluster, using an encrypted link:</p>
+<p>Forward the <code>figlet</code> pod from <code>openfaas-fn</code> on port <code>8080</code>:</p>
+<div class="highlight"><pre><span></span><code>inletsctl<span class="w"> </span>kfwd<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pro<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--license<span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>~/LICENSE<span class="k">)</span>
+<span class="w">  </span>--from<span class="w"> </span>figlet:8080<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>openfaas-fn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--if<span class="w"> </span><span class="m">192</span>.168.0.14
+</code></pre></div>
+<p>Note the <code>if</code> parameter is the IP address of your local computer, this must be reachable from the Kubernetes cluster.</p>
+<p>Then access the service via <code>http://127.0.0.1:8080</code>.</p>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p>inletsctl provisions a host called an exit node or exit server using public cloud APIs. It then 
+prints out a connection string.</p>
+<p>Are you unable to connect your client to the exit server?</p>
+<h3 id="troubleshooting-inlets-pro">Troubleshooting inlets Pro<a class="headerlink" href="#troubleshooting-inlets-pro" title="Permanent link">&para;</a></h3>
+<p>If using auto-tls (the default), check that port 8123 is accessible. It should be serving a file with a self-signed certificate, run the following:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">IP</span><span class="o">=</span><span class="m">192</span>.168.0.1
+curl<span class="w"> </span>-k<span class="w"> </span>https://<span class="nv">$IP</span>:8123/.well-known/ca.crt
+</code></pre></div>
+<p>If you see connection refused, log in to the host over SSH and check the service via systemctl:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>systemctl<span class="w"> </span>status<span class="w"> </span>inlets-pro
+
+<span class="c1"># Check its logs</span>
+sudo<span class="w"> </span>journalctl<span class="w"> </span>-u<span class="w"> </span>inlets-pro
+</code></pre></div>
+<p>You can also check the configuration in <code>/etc/default/inlets-pro</code>, to make sure that an IP address and token are configured.</p>
+<h2 id="configuration-using-environment-variables">Configuration using environment variables<a class="headerlink" href="#configuration-using-environment-variables" title="Permanent link">&para;</a></h2>
+<p>You may want to set an environment variable that points at your <code>access-token-file</code> or <code>secret-key-file</code></p>
+<p>Inlets will look for the following:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># For providers that use --access-token-file</span>
+INLETS_ACCESS_TOKEN
+
+<span class="c1"># For providers that use --secret-key-file</span>
+INLETS_SECRET_KEY
+</code></pre></div>
+<p>With the correct one of these set you wont need to add the flag on every command execution. </p>
+<p>You can set the following syntax in your <code>bashrc</code> (or equivalent for your shell)</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">INLETS_ACCESS_TOKEN</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>my-token.txt<span class="k">)</span>
+
+<span class="c1"># or set the INLETS_SECRET_KEY for those providors that use this</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">INLETS_SECRET_KEY</span><span class="o">=</span><span class="k">$(</span>cat<span class="w"> </span>my-token.txt<span class="k">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 OpenFaaS Ltd
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
