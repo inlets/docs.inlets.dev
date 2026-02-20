@@ -65,8 +65,6 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
 1. Create a new certificate Issuer for tunnels:
 
     ```bash
-    export EMAIL="you@example.com"
-
     cat > tunnel-issuer-prod.yaml <<EOF
     apiVersion: cert-manager.io/v1
     kind: Issuer
@@ -76,13 +74,12 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
     spec:
       acme:
         server: https://acme-v02.api.letsencrypt.org/directory
-        email: $EMAIL
         privateKeySecretRef:
         name: tunnels-letsencrypt-prod
         solvers:
         - http01:
             ingress:
-              class: "nginx"
+              class: "traefik"
     EOF
     ```
 
@@ -95,9 +92,9 @@ Follow the instruction for Kubernetes Ingress or Istio depending on how you depl
       name: grafana-tunnel-ingress
       namespace: tunnels
       annotations:
-        kubernetes.io/ingress.class: nginx
         cert-manager.io/issuer: tunnels-letsencrypt-prod
     spec:
+      ingressClassName: traefik
       rules:
       - host: grafana.example.com
         http:
@@ -126,9 +123,9 @@ metadata:
   name: openfaas-tunnel-ingress
   namespace: tunnels
   annotations:
-    kubernetes.io/ingress.class: nginx
     cert-manager.io/issuer: tunnels-letsencrypt-prod
 spec:
+  ingressClassName: traefik
   rules:
   - host: openfaas.example.com
     http:
@@ -151,8 +148,6 @@ spec:
 1. Create a new certificate Issuer for tunnels:
 
     ```bash
-    export EMAIL="you@example.com"
-
     cat > tunnel-issuer-prod.yaml <<EOF
     apiVersion: cert-manager.io/v1
     kind: Issuer
@@ -162,7 +157,6 @@ spec:
     spec:
       acme:
         server: https://acme-v02.api.letsencrypt.org/directory
-        email: $EMAIL
         privateKeySecretRef:
           name: tunnels-letsencrypt-prod
         solvers:
@@ -320,7 +314,6 @@ metadata:
   namespace: $NS
 spec:
   acme:
-    email: webmaster@$DOMAIN
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: $ISSUER_NAME
@@ -349,11 +342,21 @@ dataRouter:
 
     ingress:
       enabled: true
-      annotations:
-        # Apply basic rate limiting.
-        nginx.ingress.kubernetes.io/limit-connections: "300"
-        nginx.ingress.kubernetes.io/limit-rpm: "1000"
 ```
+
+!!! tip "Optional: rate limiting for the data-router"
+
+    Traefik Middleware can be used to apply rate limiting on the data-router Ingress. See [Traefik rate limiting](/uplink/installation/#traefik-rate-limiting) for details on creating Middleware resources.
+
+    To reference the middleware, add the annotation to your `values.yaml`:
+
+    ```yaml
+    dataRouter:
+      tls:
+        ingress:
+          annotations:
+            traefik.ingress.kubernetes.io/router.middlewares: inlets-data-router-ratelimit@kubernetescrd,inlets-data-router-inflight-limit@kubernetescrd
+    ```
 
 Apply the updated values:
 

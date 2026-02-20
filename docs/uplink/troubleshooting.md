@@ -1,6 +1,5 @@
 # Troubleshooting
 
-
 ## Client connections
 
 Depending on how you are running the client, with Kubernetes or as a systemd service, use the following commands to check the logs.
@@ -145,7 +144,7 @@ When using TCP tunnels, Proxy Protocol can be a common source of connectivity is
 
 Check if your tunneled service supports Proxy Protocol and verify the configuration at each network hop:
 
-- Load balancers (AWS ALB, nginx, HAProxy)
+- Load balancers (AWS ALB, Traefik, HAProxy)
 - Ingress controllers
 - Service meshes (Istio, Linkerd)
 - The tunneled application itself
