@@ -34,7 +34,11 @@ Install [cert-manager](https://cert-manager.io/docs/), which is used to manage T
 You can use Helm, or arkade:
 
 ```bash
-arkade install cert-manager
+helm install \
+  cert-manager oci://quay.io/jetstack/charts/cert-manager \
+  --namespace cert-manager \
+  --create-namespace \
+  --set crds.enabled=true
 ```
 
 ## Create a namespace for the chart and add the license secret
@@ -78,25 +82,36 @@ You can use Kubernetes Ingress or Istio. We recommend using Ingress (Option A), 
 
 ### A) Install with Kubernetes Ingress
 
-We recommend [ingress-nginx](https://github.com/kubernetes/ingress-nginx) for Ingress, and have finely tuned the configuration to work well for the underlying websocket for inlets. If your organisation uses a different Ingress Controller, you can alter the `class` fields in the chart.
+We recommend [Traefik](https://doc.traefik.io/traefik/) for Ingress, and have finely tuned the configuration to work well for the underlying websocket for inlets. If your organisation uses a different Ingress Controller, you can alter the `class` fields in the chart.
 
-Install ingress-nginx using arkade or Helm:
+!!! note "NGINX Ingress Controller Retirement"
+
+    The Kubernetes NGINX Ingress Controller project has announced its retirement in March 2026 and will no longer receive updates or security patches.
+
+    The uplink chart version 0.5.0 changes the default ingress class from Nginx to Traefik. To upgrade to the latest uplink while keeping NGINX ingress see the [Ingress NGINX section](#ingress-nginx) for legacy configuration options.
+
+Install traefik with Helm:
 
 ```bash
-arkade install ingress-nginx
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+
+helm install traefik traefik/traefik \
+  --namespace=traefik \
+  --create-namespace
 ```
+
+See also: [Traefik installation](https://doc.traefik.io/traefik/getting-started/install-traefik/#use-the-helm-chart)
 
 Create a `values.yaml` file for the inlets-uplink-provider chart:
 
 ```yaml
 ingress:
+  class: "traefik"
   issuer:
     # When set, a production issuer will be generated for you
     # to use a pre-existing issuer, set issuer.enabled=false
     enabled: true
-    # Email address used for ACME registration for the production issuer
-    email: "user@example.com"
-    class: "nginx"
 
 clientRouter:
   # Customer tunnels will connect with a URI of:
@@ -109,7 +124,9 @@ clientRouter:
       enabled: true
 ```
 
-Make sure to replace the domain and email with your actual domain name and email address.
+Make sure to replace the domain with your actual domain name.
+
+Optionally, you can add rate limiting to the client-router Ingress using Traefik Middleware. See [Traefik rate limiting](#traefik-rate-limiting) for details.
 
 Want to use the staging issuer for testing?
 
@@ -140,8 +157,6 @@ ingress:
     # When set, a production issuer will be generated for you
     # to use a pre-existing issuer, set issuer.enabled=false
     enabled: true
-    # Email address used for ACME registration for the production issuer
-    email: "user@example.com"
     class: "istio"
 
 clientRouter:
@@ -155,7 +170,7 @@ clientRouter:
       enabled: true
 ```
 
-Make sure to replace the domain and email with your actual domain name and email address.
+Make sure to replace the domain with your actual domain name.
 
 ### Deploy with Helm
 
@@ -224,7 +239,7 @@ If you installed inlets-uplink with Kubernetes ingress, you can verify that ingr
 $ kubectl get -n inlets ingress/client-router
 
 NAME            CLASS    HOSTS                ADDRESS           PORTS     AGE
-client-router   <none>   uplink.example.com   188.166.194.102   80, 443   31m
+client-router   traefik  uplink.example.com   188.166.194.102   80, 443   31m
 ```
 
 ```bash
@@ -262,6 +277,10 @@ If you have a copy of values.yaml with pinned image versions, you should update 
 Next, run the Helm chart installation command again, and remember to use the sames values.yaml file that you used to install the software originally.
 
 Over time, you may find using a tool like FluxCD or ArgoCD to manage the installation and updates makes more sense than running Helm commands manually.
+
+!!! warning "Ingress class change in chart version 0.5.0"
+
+    The default ingress class changed from Nginx to Traefik in chart version 0.5.0. If you are still using NGINX ingress, make sure your values.yaml includes the required configuration from the [Ingress NGINX section](#ingress-nginx) before upgrading.
 
 If the Custom Resource Definition (CRD) has changed, you can extract it from the Chart repo and install it before or after upgrading. As a rule, Helm won't install or upgrade CRDs a second time if there's already an existing version:
 
@@ -305,7 +324,7 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | `ingress.issuer.name` | Name of cert-manager Issuer. | `letsencrypt-prod` |
 | `ingress.issuer.enabled` | Create a cert-manager Issuer. Set to false if you wish to specify your own pre-existing object for each component. | `true` |
 | `ingress.issuer.email` | Let's Encrypt email. Only used for certificate renewing notifications. | `""` |
-| `ingress.class` |  Ingress class for client router ingress. | `nginx` |
+| `ingress.class` |  Ingress class for client router ingress. | `traefik` |
 | `clientRouter.image` | Container image used for the client router. | `ghcr.io/openfaasltd/uplink-client-router:0.1.5` |
 | `clientRouter.domain` | Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel. | `""` |
 | `clientRouter.tls.ingress.enabled` | Enable ingress for the client router. | `enabled` |
@@ -339,3 +358,81 @@ This data includes the following:
 * Kubernetes version
 * Inlets Uplink version
 * Number of installations of Inlets Uplink
+
+## Traefik rate limiting
+
+With Traefik, rate limiting is configured using [Middleware](https://doc.traefik.io/traefik/middlewares/overview/) custom resources. You can use the [RateLimit](https://doc.traefik.io/traefik/middlewares/http/ratelimit/) middleware to limit requests per second and the [InFlightReq](https://doc.traefik.io/traefik/middlewares/http/inflightreq/) middleware to limit simultaneous connections.
+
+Create a `Middleware` resource for rate limiting in the `inlets` namespace:
+
+```yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: uplink-rate-limit
+  namespace: inlets
+spec:
+  rateLimit:
+    average: 17
+    period: 1s
+    burst: 50
+```
+
+Create a `Middleware` resource for limiting simultaneous connections:
+
+```yaml
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: uplink-inflight-limit
+  namespace: inlets
+spec:
+  inFlightReq:
+    amount: 300
+```
+
+To apply the middleware to the client-router Ingress, add the `traefik.ingress.kubernetes.io/router.middlewares` annotation in your `values.yaml`:
+
+```yaml
+clientRouter:
+  tls:
+    ingress:
+      annotations:
+        traefik.ingress.kubernetes.io/router.middlewares: inlets-uplink-rate-limit@kubernetescrd,inlets-uplink-inflight-limit@kubernetescrd
+```
+
+The annotation value follows the format `<namespace>-<middleware-name>@kubernetescrd`. Multiple middleware can be chained with commas.
+
+## Ingress NGINX
+
+The Kubernetes NGINX Ingress Controller project has announced its retirement in March 2026 and will no longer receive updates or security patches. The uplink chart version 0.5.0 changes the default ingress class from Nginx to Traefik.
+If you want to update to the latest uplink version but have not migrated your ingress controller yet, you need to add the following additional parameters in the values.yaml configuration for the uplink Helm chart.
+
+```yaml
+ingress:
+  class: "nginx"
+
+clientRouter:
+  tls:
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/limit-connections: "300"
+        nginx.ingress.kubernetes.io/limit-rpm: "1000"
+        # 10 minutes for the websocket
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+        # Up the keepalive timeout to max
+        nginx.ingress.kubernetes.io/keepalive-timeout: "350"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+```
+
+When you have the data-router deployed you can add these additional rate-limiting annotations as well. They used to be set as defaults by the chart.
+
+```yaml
+dataRouter:
+  tls:
+    ingress:
+      annotations:
+        nginx.ingress.kubernetes.io/limit-connections: "300"
+        nginx.ingress.kubernetes.io/limit-rpm: "1000"
+```
