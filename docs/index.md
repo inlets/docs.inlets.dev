@@ -19,7 +19,7 @@ Common use-cases include:
 * Receiving webhooks and testing OAuth integrations
 * Remote customer support
 
-Do you want to scale to dozens, hundreds or thousands of tunnels? You may be looking for [inlets uplink](https://docs.inlets.dev/uplink/overview/)
+Do you want to scale to dozens, hundreds or thousands of tunnels? You may be looking for [inlets uplink](/uplink/overview/)
 
 ## How does it work?
 
@@ -58,7 +58,7 @@ You can also use [the container image from ghcr.io](https://github.com/orgs/inle
 
 Inlets Uplink is a complete solution for Kubernetes that makes it quick and easy to onboard hundreds or thousands of tenants. It can also be used to host tunnel servers on Kubernetes, for smaller amounts of tunnels.
 
-Learn more: [Inlets Uplink](https://docs.inlets.dev/uplink/overview/)
+Learn more: [Inlets Uplink](/uplink/overview/)
 
 ## Reference documentation
 

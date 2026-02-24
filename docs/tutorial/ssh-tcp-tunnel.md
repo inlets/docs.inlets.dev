@@ -173,5 +173,4 @@ You can also use other compatible tools like `sftp`, `scp` and `rsync`, just mak
 
 The principles in this tutorial can be adapted for other protocols that run over TCP such as MongoDB or PostgreSQL, just adapt the port number as required.
 
-* [Quick-start: Tunnel a private database over inlets Pro](https://docs.inlets.dev/#/get-started/quickstart-tcp-database)
-* [Purchase inlets for personal or commercial use](https://inlets.dev/pricing)
+* [Quick-start: Tunnel a private database over inlets](/tutorial/postgresql-tcp-tunnel/)

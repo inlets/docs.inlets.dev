@@ -11,7 +11,7 @@ This can help you understand how tunnels are being used and answer questions lik
 ## Introduction
 All the information for monitoring tunnels is exposed via the inlets control-plane. It provides a connection endpoint for clients, a status endpoint and a monitoring endpoint.
 
-> Checkout the FAQ to [learn about the difference between the data-plane and control-plane](https://docs.inlets.dev/reference/faq/#whats-the-difference-between-the-data-plane-and-control-plane)
+> Checkout the FAQ to [learn about the difference between the data-plane and control-plane](/reference/faq/#whats-the-difference-between-the-data-plane-and-control-plane)
 
 Inlets provides two distinct ways to monitor tunnels. You can use the `status` command that is part of the CLI or collect Prometheus metrics for background monitoring and alerting. We will explore both methods.
 

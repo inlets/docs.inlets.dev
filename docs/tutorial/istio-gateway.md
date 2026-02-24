@@ -94,7 +94,7 @@ Install Istio:
 arkade install istio
 ```
 
-At the moment we don't have a public IP for the Istio gateway. The next step is te install the [inlets operator](https://docs.inlets.dev/reference/inlets-operator/) so we can get one.
+At the moment we don't have a public IP for the Istio gateway. The next step is te install the [inlets operator](/reference/inlets-operator/) so we can get one.
 
 ```
 kubectl get -n istio-system \
@@ -123,7 +123,7 @@ arkade install inlets-operator \
  --license-file "$HOME/.inlets/LICENSE"
 ```
 
-> You can run `arkade install inlets-operator --help` to see a list of other cloud providers or take a look at the [inlets-operator reference documentation](https://docs.inlets.dev/reference/inlets-operator/).
+> You can run `arkade install inlets-operator --help` to see a list of other cloud providers or take a look at the [inlets-operator reference documentation](/reference/inlets-operator/).
 
 * Set the `--region` flag as required, it's best to have low latency between your current location and where the exit-servers will be provisioned.
 
