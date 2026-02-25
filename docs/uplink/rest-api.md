@@ -2,59 +2,7 @@
 
 Inlets uplink tunnels and namespaces can be managed through a REST API.
 
-A quick note on TLS: when you expose the uplink API over the Internet, you should enable HTTPS to prevent snooping and tampering.
-
-## Installation
-
-The REST API is part of the client-api component, and is disabled by default.
-You'll need to configure authentication, then update the values.yaml file and install the chart again.
-
-An access token needs to be created for the Client API before it can be deployed.
-
-```sh
-# Generate a new access token
-export token=$(openssl rand -base64 32|tr -d '\n')
-echo -n $token > $HOME/.inlets/client-api
-
-# Store the access token in a secret in the inlets namespace.
-kubectl create secret generic \
-  client-api-token \
-  -n inlets \
-  --from-file client-api-token=$HOME/.inlets/client-api
-```
-
-This token can be used to authenticate with the API.
-
-> See the [OAuth configuration](#configure-oauth) section for instructions on how to enable OAuth.
-
-Add the following parameters to your uplink `values.yaml` file and update the deployment:
-
-```yaml
-clientApi:
-  enable: true
-
-  tls:
-    ingress:
-      enabled: true
-```
-
-By default, the client-api will be exposed on the same domain as the client-router under the `/v1` path prefix. For example, if your client-router domain is `uplink.example.com`, the API will be available at `https://uplink.example.com/v1`.
-
-If you prefer to use a separate domain for the client-api, set the `clientApi.domain` field:
-
-```yaml
-clientApi:
-  enable: true
-
-  # Use a dedicated domain for the client API
-  domain: clientapi.example.com
-
-  tls:
-    ingress:
-      enabled: true
-```
-
-When a dedicated domain is set, a separate Ingress resource is created for the client-api.
+For setup instructions, including how to configure API authentication and enable the API ingress, see [Setup the REST API](/uplink/installation/#setup-the-rest-api).
 
 ## Authentication
 
@@ -74,7 +22,7 @@ Use the token as bearer token in the `Authorization` header when making requests
 
 ### OAuth
 
-If you have OAuth enabled you can obtain a token from your provider that can be used to invoke the Uplink Client API.
+If you have OAuth enabled you can obtain a token from your provider that can be used to invoke the Uplink Client API. See [Configure OAuth](/uplink/installation/#configure-oauth) for setup instructions.
 
 The example uses the client credentials grant. Replace the token url, client id and client secret with the values obtained from your identity provider.
 
@@ -266,28 +214,3 @@ curl -i \
   -H "Authorization: Bearer ${TOKEN}" \
   "$CLIENT_API/v1/namespace/$NAME"
 ```
-
-## Configure OAuth
-
-You can configure any OpenID Connect (OIDC) compatible identity provider for use with Inlets Uplink.
-
-1. Register a new client (application) for Inlets Uplink with your identity provider.
-2. Enable the required authentication flows.
-  The Client Credentials flow is ideal for serve-to-server interactions where there is no direct user involvement. This is the flow we recommend and use in our examples any other authentication flow can be picked depending on your use case.
-3. Configure Client API
-
-    Update your `values.yaml` file and add to following parameters to the `clientApi` section:
-
-    ```yaml
-    clientApi:
-      # OIDC provider url.
-      issuerURL: "https://myprovider.example.com"
-
-      # The audience is generally the same as the value of the domain field, however
-      # some issuers like keycloak make the audience the client_id of the application/client.
-      audience: "uplink.example.com"
-    ```
-
-  The `issuerURL` needs to be set to the url of your provider, eg. `https://accounts.google.com` for google or `https://example.eu.auth0.com/` for Auth0.
-  
-  The `audience` is usually the client apis public URL although for some providers it can also be the client id.
