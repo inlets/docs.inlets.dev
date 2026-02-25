@@ -335,6 +335,7 @@ Overview of inlets-uplink parameters in `values.yaml`.
 | `tunnelsNamespace` | Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces. | `""` |
 | `inletsVersion` | Inlets Pro release version for tunnel server Pods. | `0.9.12` |
 | `clientApi.enabled` | Enable tunnel management REST API. | `false` |
+| `clientApi.domain` | Domain for a dedicated client API ingress. If left empty and ingress is enabled, the API is exposed on the client-router's domain under the `/v1` path prefix. | `""` |
 | `clientApi.image` | Container image used for the client API. | `ghcr.io/openfaasltd/uplink-api:0.1.5` |
 | `prometheus.create` | Create the Prometheus monitoring component. | `true` |
 | `prometheus.resources` | Resource limits and requests for prometheus containers. | `{}` |
