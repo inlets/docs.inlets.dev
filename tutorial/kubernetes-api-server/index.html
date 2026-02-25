@@ -1,0 +1,2171 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Inlets Secure Tunnels From Dev to Cloud">
+      
+      
+        <meta name="author" content="OpenFaaS Ltd">
+      
+      
+        <link rel="canonical" href="https://docs.inlets.dev/tutorial/kubernetes-api-server/">
+      
+      
+        <link rel="prev" href="../kubernetes-ingress/">
+      
+      
+        <link rel="next" href="../istio-gateway/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Kubernetes API Server - Inlets</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto,+Helvetica:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto, Helvetica";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-MVH8L09LKP"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-MVH8L09LKP",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-MVH8L09LKP",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-expose-a-local-kubernetes-api-server" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Inlets" class="md-header__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inlets
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Kubernetes API Server
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Inlets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../uplink/" class="md-tabs__link">
+          
+  
+  Inlets Uplink
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/" class="md-tabs__link">
+          
+  
+  Inlets Cloud
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Inlets" class="md-nav__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    Inlets
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Inlets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    HTTP Tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTTP Tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http-header-modification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modify HTTP headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../http-authentication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authenticate HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dual-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enable dual TCP and HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/09/09/compose-and-inlets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../community/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Community tutorials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    TCP tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            TCP tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../automated-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manual-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../caddy-http-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Caddy from your private network
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../local-port-forwarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local port forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose SSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../postgresql-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Postgresql
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-tcp-loadbalancer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a TCP LoadBalancer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-generate-yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate YAML for a tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kubernetes-ingress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes Ingress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Kubernetes API Server
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes API Server
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-reqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-reqs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Kubernetes cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-vm-on-the-public-cloud-with-an-inlets-tcp-server-running-on-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a VM on the public cloud with an inlets TCP server running on it
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-a-tls-san-if-possible-with-a-new-domain-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure a TLS SAN, if possible with a new domain name
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-your-kubeconfig-file-with-the-new-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update your kubeconfig file with the new endpoint
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-the-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connect the tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wrapping up
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../istio-gateway/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Gateway
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable local port forwarding (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage private clusters with ArgoCD (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/inlets/inlets-pro/tree/master/chart" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm charts (GitHub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Advanced
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitoring-and-metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitoring and metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ip-filtering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IP filtering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Uplink
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Uplink
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/create-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/connect-tunnel-client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connect the tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/private-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Access tunnels privately
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/expose-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose tunnels publicly
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/manage-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/monitoring-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitor tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/rest-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/tutorials/argo-cd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Remote cluster management with ArgoCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Cloud
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/security-groups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/inlets-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inlets Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/inletsctl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pre-reqs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-reqs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Kubernetes cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-vm-on-the-public-cloud-with-an-inlets-tcp-server-running-on-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a VM on the public cloud with an inlets TCP server running on it
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-a-tls-san-if-possible-with-a-new-domain-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure a TLS SAN, if possible with a new domain name
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-your-kubeconfig-file-with-the-new-endpoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Update your kubeconfig file with the new endpoint
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-the-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connect the tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wrapping-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wrapping up
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="tutorial-expose-a-local-kubernetes-api-server">Tutorial: Expose a local Kubernetes API Server<a class="headerlink" href="#tutorial-expose-a-local-kubernetes-api-server" title="Permanent link">&para;</a></h1>
+<p>In this tutorial, we'll show you how to expose a local Kubernetes API Server on the Internet, so that you can access it from anywhere, just like with a managed cloud provider.</p>
+<h2 id="pre-reqs">Pre-reqs<a class="headerlink" href="#pre-reqs" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A computer or laptop running MacOS or Linux, or Git Bash or WSL on Windows</li>
+<li>Docker for Mac / Docker Daemon - installed in the normal way, you probably have this already</li>
+<li>Kubernetes running locally with kubeadm, K3s, K3d, Minikube, KinD, Docker Desktop, etc</li>
+</ul>
+<h2 id="the-kubernetes-cluster">The Kubernetes cluster<a class="headerlink" href="#the-kubernetes-cluster" title="Permanent link">&para;</a></h2>
+<p>By default every Kubernetes cluster has TLS enabled to encrypt any HTTP REST messages that go over its control-plane. The TLS certificate has to be bound to a certain name, sometimes called a TLS SAN.</p>
+<p>The certificate is usually only valid for "kubernetes.default.svc", and can only be accessed from within the cluster.</p>
+<p><img alt="Kubernetes on tour" src="https://blog.alexellis.io/content/images/2021/08/inlets-direct.png" /></p>
+<blockquote>
+<p>Kubernetes on tour - get access to your cluster from anywhere, without having to resort to complex tooling like VPNs.</p>
+</blockquote>
+<p>When a managed cloud provider provisions you a cluster, they'll add additional names into the certificate like "customer1.lke.eu.linode.com" which is then added to your generated kubeconfig file that you download in the dashboard.</p>
+<p>We have five steps run through to expose the API server:</p>
+<ol>
+<li>Create a Kubernetes cluster</li>
+<li>Create a VM on the public cloud with an inlets TCP server running onit</li>
+<li>Create a DNS entry for the public VM's IP address</li>
+<li>Configure a TLS SAN, if possible with a new domain name</li>
+<li>Set up an inlets client as a Pod to forward traffic to the Kubernetes API Server</li>
+</ol>
+<p>Once we have all this in place, we can take our existing kubeconfig file and edit the URL, so that instead of pointing at our LAN IP or localhost, it points to the domain mapped to the public VM.</p>
+<h2 id="create-a-cluster">Create a cluster<a class="headerlink" href="#create-a-cluster" title="Permanent link">&para;</a></h2>
+<p>You can create a cluster on any machine by using KinD:</p>
+<div class="highlight"><pre><span></span><code>arkade<span class="w"> </span>get<span class="w"> </span>kind
+kind<span class="w"> </span>create<span class="w"> </span>cluster
+</code></pre></div>
+<p>If you have a Raspberry Pi or a Linux Server, you can install K3s using <code>k3sup</code>:</p>
+<div class="highlight"><pre><span></span><code>arkade<span class="w"> </span>get<span class="w"> </span>k3sup
+
+k3sup<span class="w"> </span>install<span class="w"> </span>--ip<span class="w"> </span><span class="m">192</span>.168.1.101<span class="w"> </span>--user<span class="w"> </span>pi
+</code></pre></div>
+<p>In either case, you'll get back a kubeconfig file.</p>
+<p>Here's a snippet of what I got back from running <code>k3sup install</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">clusters</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.1.101:6443</span>
+</code></pre></div>
+<p>The server field will need to be changed to the new public address later on.</p>
+<h2 id="create-a-vm-on-the-public-cloud-with-an-inlets-tcp-server-running-on-it">Create a VM on the public cloud with an inlets TCP server running on it<a class="headerlink" href="#create-a-vm-on-the-public-cloud-with-an-inlets-tcp-server-running-on-it" title="Permanent link">&para;</a></h2>
+<p>Just like when Linode Kubernetes Engine provisions us a domain like <code>"customer1.lke.eu.linode.com"</code>, we'll need our own subdomain too, so that the certificate can be issued for it.</p>
+<p>In order to create the DNS record, we a public IP which we will get by creating a tunnel server on our preferred cloud and in a <a href="https://www.linode.com/docs/api/regions/">region that's close to us</a>.</p>
+<div class="highlight"><pre><span></span><code>arkade<span class="w"> </span>get<span class="w"> </span>inletsctl
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">ACCESS_TOKEN</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="c1"># Retreive this from your cloud dashboard</span>
+
+inletsctl<span class="w"> </span>create<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="w"> </span>linode<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tcp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--access-token<span class="w"> </span><span class="nv">$ACCESS_TOKEN</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--region<span class="w"> </span>eu-west
+</code></pre></div>
+<p>Save the connection info from inletsctl into a text file for later.</p>
+<div class="highlight"><pre><span></span><code># Give a single value or comma-separated
+export PORTS=&quot;8000&quot;
+
+# Where to route traffic from the inlets server
+export UPSTREAM=&quot;localhost&quot;
+
+inlets-pro tcp client --url &quot;wss://139.160.201.143:8123&quot; \
+  --token &quot;f2cXtOouRpuVbAn4arVvdSMx//uKD3jDnssr3X9P338&quot; \
+  --upstream $UPSTREAM \
+  --ports $PORTS
+</code></pre></div>
+<p>Create a DNS subdomain for the IP address you were given:</p>
+<ul>
+<li><code>k3s.example.com</code> =&gt; <code>139.160.201.143</code></li>
+</ul>
+<p>Check that you can resolve the IP with a ping <code>ping -c 1 k3s.example.com</code></p>
+<p>Now check the status of the inlets server:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;f2cXtOouRpuVbAn4arVvdSMx//uKD3jDnssr3X9P338&quot;</span>
+
+inlets-pro<span class="w"> </span>status<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://139.160.201.143:8123&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--token<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TOKEN</span><span class="s2">&quot;</span>
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>inlets<span class="w"> </span>server<span class="w"> </span>status.<span class="w"> </span>Version:<span class="w"> </span><span class="m">0</span>.9.3<span class="w"> </span>-<span class="w"> </span>8e96997499ae53c6fb2ae9f9e13fa9b48dcb6514
+
+Server<span class="w"> </span>info:
+Hostname:<span class="w">       </span>localhost
+Process<span class="w"> </span>uptime:<span class="w"> </span><span class="m">5</span><span class="w"> </span>seconds<span class="w"> </span>ago
+Mode:<span class="w">           </span>tcp
+Version:<span class="w">        </span><span class="m">0</span>.9.3<span class="w"> </span>8e96997499ae53c6fb2ae9f9e13fa9b48dcb6514
+
+No<span class="w"> </span>clients<span class="w"> </span>connected.
+</code></pre></div>
+<p>We can now move onto the next step.</p>
+<h2 id="configure-a-tls-san-if-possible-with-a-new-domain-name">Configure a TLS SAN, if possible with a new domain name<a class="headerlink" href="#configure-a-tls-san-if-possible-with-a-new-domain-name" title="Permanent link">&para;</a></h2>
+<p>With k3s, it's trivial to add additional TLS SAN names for the Kubernetes API Server.</p>
+<p>If you run the <code>k3sup install</code> command again, it'll update your configuration:</p>
+<div class="highlight"><pre><span></span><code>k3sup<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--ip<span class="w"> </span><span class="m">192</span>.168.1.101<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--user<span class="w"> </span>pi<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tls-san<span class="w"> </span>k3s.example.com
+</code></pre></div>
+<p>You'll now have the custom domain along with the default <code>kubernetes.default.svc</code> as valid names in the generated certificate.</p>
+<p>If you're not running on k3s, or use a service where you cannot change the TLS SAN, then we'll show you what to do in the next step.</p>
+<h2 id="update-your-kubeconfig-file-with-the-new-endpoint">Update your kubeconfig file with the new endpoint<a class="headerlink" href="#update-your-kubeconfig-file-with-the-new-endpoint" title="Permanent link">&para;</a></h2>
+<p>We need to update our kubeconfig file to point at the custom domain instead of at whatever loopback or LAN address it currently does.</p>
+<p>For K3s users, change the server URL:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">clusters</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.1.101:6443</span>
+</code></pre></div>
+<p>To:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">clusters</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://k3s.example.com:443</span>
+</code></pre></div>
+<p>For any user where you cannot regenerate the TLS certificate for the API Server, you can specify the server name in the config file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">clusters</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://k3s.example.com:443</span>
+<span class="w">    </span><span class="nt">tls-server-name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
+</code></pre></div>
+<p>For more details see: <a href="https://github.com/kubernetes/kubernetes/pull/88769">Support TLS Server Name overrides in kubeconfig file #88769</a></p>
+<p>Save the changes to your kubeconfig file.</p>
+<h2 id="connect-the-tunnel">Connect the tunnel<a class="headerlink" href="#connect-the-tunnel" title="Permanent link">&para;</a></h2>
+<p>The tunnel acts like a router, it takes any TCP packets sent to port 6443 (k3s) or 443 (Kubernetes) and forwards them down the tunnel to the inlets client. The inlets client then looks at its own "--upstream" value to decide where to finally send the data.</p>
+<p>Save <code>inlets-k8s-api.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">LICENSE</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>cat<span class="w"> </span><span class="nv">$HOME</span>/.inlets/LICENSE<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;f2cXtOouRpuVbAn4arVvdSMx//uKD3jDnssr3X9P338&quot;</span><span class="w"> </span><span class="c1"># populate with the token from inletsctl</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SERVER_IP</span><span class="o">=</span><span class="s2">&quot;139.160.201.143&quot;</span><span class="w"> </span><span class="c1"># populate with the server IP, not the domain</span>
+
+cat<span class="w"> </span>&gt;<span class="w"> </span>inlets-k8s-api.yaml<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">---</span>
+<span class="s">apiVersion: apps/v1</span>
+<span class="s">kind: Deployment</span>
+<span class="s">metadata:</span>
+<span class="s">  name: inlets-client</span>
+<span class="s">spec:</span>
+<span class="s">  replicas: 1</span>
+<span class="s">  selector:</span>
+<span class="s">    matchLabels:</span>
+<span class="s">      app: inlets-client</span>
+<span class="s">  template:</span>
+<span class="s">    metadata:</span>
+<span class="s">      labels:</span>
+<span class="s">        app: inlets-client</span>
+<span class="s">    spec:</span>
+<span class="s">      containers:</span>
+<span class="s">      - name: inlets-client</span>
+<span class="s">        image: ghcr.io/inlets/inlets-pro:0.9.9</span>
+<span class="s">        imagePullPolicy: IfNotPresent</span>
+<span class="s">        command: [&quot;inlets-pro&quot;]</span>
+<span class="s">        args:</span>
+<span class="s">        - &quot;tcp&quot;</span>
+<span class="s">        - &quot;client&quot;</span>
+<span class="s">        - &quot;--url=wss://$SERVER_IP:8123&quot;</span>
+<span class="s">        - &quot;--upstream=kubernetes.default.svc&quot;</span>
+<span class="s">        - &quot;--port=443&quot;</span>
+<span class="s">        - &quot;--port=6443&quot;</span>
+<span class="s">        - &quot;--token=$TOKEN&quot;</span>
+<span class="s">        - &quot;--license=$LICENSE&quot;</span>
+<span class="s">---</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>You'll see the tunnel client up and running and ready to receive requests:</p>
+<div class="highlight"><pre><span></span><code>kubectl logs deploy/inlets-client
+2022/06/24 09:51:18 Licensed to: Alex &lt;contact@openfaas.com&gt;, expires: 128 day(s)
+2022/06/24 09:51:18 Upstream server: kubernetes.default.svc, for ports: 443, 6443
+time=&quot;2022/06/24 09:51:18&quot; level=info msg=&quot;Connecting to proxy&quot; url=&quot;wss://139.160.201.143:8123/connect&quot;
+inlets-pro TCP client. Copyright OpenFaaS Ltd 2021
+time=&quot;2022/06/24 09:51:18&quot; level=info msg=&quot;Connection established&quot; client_id=5309466072564c1c90ce0a0bcaa22b74
+</code></pre></div>
+<p>Check the tunnel server's status to confirm the connection:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">TOKEN</span><span class="o">=</span><span class="s2">&quot;f2cXtOouRpuVbAn4arVvdSMx//uKD3jDnssr3X9P338&quot;</span>
+
+inlets-pro<span class="w"> </span>status<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;wss://139.160.201.143:8123&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--token<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$TOKEN</span><span class="s2">&quot;</span>
+
+inlets<span class="w"> </span>server<span class="w"> </span>status.<span class="w"> </span>Version:<span class="w"> </span><span class="m">0</span>.9.3<span class="w"> </span>-<span class="w"> </span>8e96997499ae53c6fb2ae9f9e13fa9b48dcb6514
+
+Server<span class="w"> </span>info:
+Hostname:<span class="w">       </span>localhost
+Process<span class="w"> </span>uptime:<span class="w"> </span><span class="m">15</span><span class="w"> </span>minutes<span class="w"> </span>ago
+Mode:<span class="w">           </span>tcp
+Version:<span class="w">        </span><span class="m">0</span>.9.3<span class="w"> </span>8e96997499ae53c6fb2ae9f9e13fa9b48dcb6514
+
+Connected<span class="w"> </span>clients:
+Client<span class="w"> </span>ID<span class="w">                        </span>Remote<span class="w"> </span>Address<span class="w">        </span>Connected<span class="w">  </span>Upstreams
+5309466072564c1c90ce0a0bcaa22b74<span class="w"> </span><span class="m">192</span>.168.1.101:16368<span class="w"> </span><span class="m">43</span><span class="w"> </span>seconds<span class="w"> </span>kubernetes.default.svc:443,<span class="w"> </span>kubernetes.default.svc:6443
+</code></pre></div>
+<p>Finally prove that it's working with the new, public address:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>cluster-info
+Kubernetes<span class="w"> </span>control<span class="w"> </span>plane<span class="w"> </span>is<span class="w"> </span>running<span class="w"> </span>at<span class="w"> </span>https://k3s.example.com:443
+CoreDNS<span class="w"> </span>is<span class="w"> </span>running<span class="w"> </span>at<span class="w"> </span>https://k3s.example.com:443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Metrics-server<span class="w"> </span>is<span class="w"> </span>running<span class="w"> </span>at<span class="w"> </span>https://k3s.example.com:443/api/v1/namespaces/kube-system/services/https:metrics-server:https/proxy
+
+To<span class="w"> </span>further<span class="w"> </span>debug<span class="w"> </span>and<span class="w"> </span>diagnose<span class="w"> </span>cluster<span class="w"> </span>problems,<span class="w"> </span>use<span class="w"> </span><span class="s1">&#39;kubectl cluster-info dump&#39;</span>.
+</code></pre></div>
+<h2 id="wrapping-up">Wrapping up<a class="headerlink" href="#wrapping-up" title="Permanent link">&para;</a></h2>
+<p>In a relatively short period of time, with a custom domain, and a small VM, we set up a tunnel server to route traffic from the public Internet to a K3s server on an internal network.</p>
+<p>This gives you a similar experience to a managed public cloud Kubernetes engine, but running on your own infrastructure, or perhaps within a restrictive VPC.</p>
+<p>You may also like:</p>
+<ul>
+<li><a href="https://inlets.dev/blog/2021/06/02/argocd-private-clusters.html">Learn how to manage apps across multiple Kubernetes clusters</a> by Johan Siebens</li>
+</ul>
+<p>If you'd like to talk to us about this tutorial, feel free to reach out for a meeting:</p>
+<p><a href="/contact">Set up a meeting</a></p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 OpenFaaS Ltd
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2383 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Inlets Secure Tunnels From Dev to Cloud">
+      
+      
+        <meta name="author" content="OpenFaaS Ltd">
+      
+      
+        <link rel="canonical" href="https://docs.inlets.dev/reference/faq/">
+      
+      
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../../tutorial/automated-http-server/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>FAQ - Inlets</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto,+Helvetica:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto, Helvetica";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-MVH8L09LKP"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-MVH8L09LKP",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-MVH8L09LKP",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#inlets-faq" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Inlets" class="md-header__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inlets
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FAQ
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Inlets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../uplink/" class="md-tabs__link">
+          
+  
+  Inlets Uplink
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/" class="md-tabs__link">
+          
+  
+  Inlets Cloud
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Inlets" class="md-nav__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    Inlets
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Inlets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-did-we-build-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why did we build inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-does-inlets-compare-to-other-tools-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      How does inlets compare to other tools and solutions?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-difference-between-inlets-inletsctl-and-inlets-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's the difference between inlets, inletsctl and inlets-operator?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-networking-model-for-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is the networking model for inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-kind-of-layers-and-protocols-are-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      What kind of layers and protocols are supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-i-want-a-tcp-or-https-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Do I want a TCP or HTTPS tunnel?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-memory-or-ram-does-a-tunnel-require" class="md-nav__link">
+    <span class="md-ellipsis">
+      How much memory or RAM does a tunnel require?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-tunnels-can-i-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      How tunnels can I run?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#does-inlets-use-tcp-or-udp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Does inlets use TCP or UDP?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#are-both-remote-and-local-forwarding-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      Are both remote and local forwarding supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-difference-between-the-data-plane-and-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's the difference between the data plane and control plane?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-there-a-reference-guide-to-the-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is there a reference guide to the CLI?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-inlets-secure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is inlets secure?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-i-have-to-expose-services-on-the-internet-to-use-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Do I have to expose services on the Internet to use inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-i-monitor-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do I monitor inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-you-scale-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do you scale inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#does-inlets-support-high-availability-ha" class="md-nav__link">
+    <span class="md-ellipsis">
+      Does inlets support High Availability (HA)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-ipv6-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is IPv6 supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-the-websocket-disconnects" class="md-nav__link">
+    <span class="md-ellipsis">
+      What if the websocket disconnects?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-does-inlets-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      How much does inlets cost?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-when-the-license-expires" class="md-nav__link">
+    <span class="md-ellipsis">
+      What happens when the license expires?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#can-i-get-professional-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can I get professional help?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    HTTP Tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTTP Tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-header-modification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modify HTTP headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-authentication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authenticate HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/dual-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enable dual TCP and HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/09/09/compose-and-inlets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/community/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Community tutorials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    TCP tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            TCP tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/caddy-http-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Caddy from your private network
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/local-port-forwarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local port forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ssh-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose SSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/postgresql-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Postgresql
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-tcp-loadbalancer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a TCP LoadBalancer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-generate-yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate YAML for a tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-ingress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes Ingress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-api-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes API Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/istio-gateway/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Gateway
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable local port forwarding (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage private clusters with ArgoCD (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/inlets/inlets-pro/tree/master/chart" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm charts (GitHub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Advanced
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/monitoring-and-metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitoring and metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ip-filtering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IP filtering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Uplink
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Uplink
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/installation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/create-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/connect-tunnel-client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connect the tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/private-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Access tunnels privately
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/expose-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose tunnels publicly
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/manage-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/monitoring-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitor tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/rest-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../uplink/tutorials/argo-cd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Remote cluster management with ArgoCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Cloud
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/security-groups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inlets-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inlets Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inletsctl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-did-we-build-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why did we build inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-does-inlets-compare-to-other-tools-and-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      How does inlets compare to other tools and solutions?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-difference-between-inlets-inletsctl-and-inlets-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's the difference between inlets, inletsctl and inlets-operator?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-networking-model-for-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is the networking model for inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-kind-of-layers-and-protocols-are-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      What kind of layers and protocols are supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-i-want-a-tcp-or-https-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Do I want a TCP or HTTPS tunnel?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-memory-or-ram-does-a-tunnel-require" class="md-nav__link">
+    <span class="md-ellipsis">
+      How much memory or RAM does a tunnel require?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-tunnels-can-i-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      How tunnels can I run?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#does-inlets-use-tcp-or-udp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Does inlets use TCP or UDP?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#are-both-remote-and-local-forwarding-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      Are both remote and local forwarding supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-the-difference-between-the-data-plane-and-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      What's the difference between the data plane and control plane?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-there-a-reference-guide-to-the-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is there a reference guide to the CLI?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-inlets-secure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is inlets secure?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#do-i-have-to-expose-services-on-the-internet-to-use-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      Do I have to expose services on the Internet to use inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-i-monitor-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do I monitor inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-do-you-scale-inlets" class="md-nav__link">
+    <span class="md-ellipsis">
+      How do you scale inlets?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#does-inlets-support-high-availability-ha" class="md-nav__link">
+    <span class="md-ellipsis">
+      Does inlets support High Availability (HA)?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#is-ipv6-supported" class="md-nav__link">
+    <span class="md-ellipsis">
+      Is IPv6 supported?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-if-the-websocket-disconnects" class="md-nav__link">
+    <span class="md-ellipsis">
+      What if the websocket disconnects?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-does-inlets-cost" class="md-nav__link">
+    <span class="md-ellipsis">
+      How much does inlets cost?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-when-the-license-expires" class="md-nav__link">
+    <span class="md-ellipsis">
+      What happens when the license expires?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#can-i-get-professional-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Can I get professional help?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="inlets-faq">Inlets FAQ<a class="headerlink" href="#inlets-faq" title="Permanent link">&para;</a></h1>
+<p>Inlets concepts and Frequently Asked Questions (FAQ)</p>
+<h2 id="why-did-we-build-inlets">Why did we build inlets?<a class="headerlink" href="#why-did-we-build-inlets" title="Permanent link">&para;</a></h2>
+<p>We built inlets to make it easy to expose a local service on the Internet and to overcome limitations with SaaS tunnels and VPNs. </p>
+<ul>
+<li>It was built to overcome limitations in SaaS tunnels - such as lack of privacy, control and rate-limits</li>
+<li>It doesn't just integrate with containers and Kubernetes, it was purpose-built to run in them</li>
+<li>It's easy to run on Windows, Linux and MacOS with a self-contained binary</li>
+<li>It doesn't need to run as root, doesn't depend on iptables, doesn't need a tun device or NET_ADMIN capability</li>
+</ul>
+<p>There are many different networking tools available such as VPNs and SaaS tunnels - each with its own set of pros and cons, and use-cases. It's very likely that you will use several tools together to get the best out of each of them.</p>
+<h2 id="how-does-inlets-compare-to-other-tools-and-solutions">How does inlets compare to other tools and solutions?<a class="headerlink" href="#how-does-inlets-compare-to-other-tools-and-solutions" title="Permanent link">&para;</a></h2>
+<p>Are you curious about the advantages of using inlets vs. alternatives? We must first ask, advantages vs. what other tool or service.</p>
+<p>SaaS tunnels provide a convenient way to expose services for the purposes of development, however they are often:</p>
+<ul>
+<li>subject to overreaching terms of service, including licensing your content, censoring, and monitoring your traffic for violations</li>
+<li>blocked by corporate IT</li>
+<li>running on shared infrastructure (servers) with other customers</li>
+<li>subject to stringent rate-limits that affect productivity</li>
+<li>priced per subdomain</li>
+<li>unable to offer standard TCP ports like 22, 80, 443, etc</li>
+</ul>
+<p>You run inlets on your own servers, so you do not run into those restrictions. Your data remains your own and is kept private.</p>
+<p>When compared to VPNs such as Wireguard, Tailscale and OpenVPN, we have to ask what the use-case is.</p>
+<p>A traditional VPN is built <em>to connect hosts and entire IP ranges together</em>. This can potentially expose a large number of machines and users to each other and requires complex Access Control Lists or authorization rules. If this is your use-case, a traditional VPN is probably the right tool for the job.</p>
+<p>Inlets is designed to connect or expose services between networks - either HTTP or TCP.</p>
+<p>For example:</p>
+<ul>
+<li>Receiving webhooks to a local application</li>
+<li>Sharing a blog post draft with a colleague or client</li>
+<li>Providing remote access to your homelab when away from home</li>
+<li>Self-hosting websites or services on Kubernetes clusters</li>
+<li>Getting working LoadBalancers with public IPs for local Kubernetes clusters</li>
+</ul>
+<p>You can also use inlets to replace Direct Connect or a VPN when you just need to connect a number of services privately and not an entire network range.</p>
+<p>Many of the inlets community use a VPN alongside inlets, because they are different tools for different use-cases.</p>
+<blockquote>
+<p>We often write about use-cases for public and private inlets tunnels <a href="https://inlets.dev/blog/">on the blog</a>.</p>
+</blockquote>
+<h2 id="whats-the-difference-between-inlets-inletsctl-and-inlets-operator">What's the difference between inlets, inletsctl and inlets-operator?<a class="headerlink" href="#whats-the-difference-between-inlets-inletsctl-and-inlets-operator" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/inlets/inlets-pro">inlets-pro</a> aka "inlets" is the command-line tool that contains both the client and server required to set up HTTP and TCP tunnels.</p>
+<p>The inlets-pro server is usually set up on a computer with a public IP address, then the inlets-pro client is run on your own machine, or a separate computer that can reach the service or server you want to expose.</p>
+<p>You can download inlets-pro and inletsctl with the "curl | sh" commands provided at the start of each tutorial, this works best on a Linux host, or with Git Bash if using Windows.</p>
+<blockquote>
+<p>Did you know? You can also download binaries for inlets-pro and inletsctl on GitHub, for Windows users you'll want "inlets-pro.exe" and for MacOS, you'll want "inlets-pro-darwin".</p>
+</blockquote>
+<p>For instance, on Windows machines you'll need "inlets-pro.exe"</p>
+<p>See also: <a href="https://github.com/inlets/inletsctl/releases">inlets-pro releases</a></p>
+<p><a href="https://github.com/inlets/inletsctl">inletsctl</a> is a tool that can set up a tunnel server for you on around a dozen popular clouds. It exists to make it quicker and more convenience to set up a HTTPS or TCP tunnel to expose a local service.</p>
+<p>It has three jobs:</p>
+<ol>
+<li>Create the VM for you</li>
+<li>Install the inlets-pro server in TCP or HTTPS mode (as specified) with systemd</li>
+<li>Inform you of the token and connection string</li>
+</ol>
+<p>You can download the inletsctl tool with "curl | sh" or from the <a href="https://github.com/inlets/inletsctl/releases">inletsctl releases</a> page.</p>
+<p>Find out more: <a href="/reference/inletsctl">inletsctl reference page</a></p>
+<p><a href="https://github.com/inlets/inlets-operator">inlets-operator</a> is a Kubernetes Operator that will create tunnel servers for you, on your chosen cloud for any LoadBalancers that you expose within a private cluster.</p>
+<p>Find out more: <a href="/reference/inlets-operator">inlets-operator reference page</a></p>
+<h2 id="what-is-the-networking-model-for-inlets">What is the networking model for inlets?<a class="headerlink" href="#what-is-the-networking-model-for-inlets" title="Permanent link">&para;</a></h2>
+<p>Whilst some networking tools such as Bittorrent use a peer-to-peer network, inlets uses a more traditional client/server model.</p>
+<p>One or more client tunnels connect to a tunnel server and advertise which services they are able to provide. Then, whenever the server receives traffic for one of those advertised services, it will forward it through the tunnel to the client. The tunnel client will then forward that on to the service it advertised.</p>
+<blockquote>
+<p>The tunnel server may also be referred to as an "exit" server because it is the connection point for the client to another network or the Internet.</p>
+</blockquote>
+<p>If you install and run the inlets server on a computer, it can be referred to as a <em>tunnel server</em> or <em>exit server</em>. These servers can also be automated through cloud-init, terraform, or tools maintained by the inlets community such as <a href="/reference/inletsctl/">inletsctl</a>.</p>
+<p><img alt="Conceptual architecture" src="/images/conceptual.png" /></p>
+<blockquote>
+<p>Pictured: the website <code>http://127.0.0.1:3000</code> is exposed through an encrypted tunnel to users at: <code>https://example.com</code></p>
+</blockquote>
+<p>For remote forwarding, the client tends to be run within a private network, with an <code>--upstream</code> flag used to specify where incoming traffic needs to be routed. The tunnel server can then be run on an Internet-facing network, or any other network reachable by the client.</p>
+<h2 id="what-kind-of-layers-and-protocols-are-supported">What kind of layers and protocols are supported?<a class="headerlink" href="#what-kind-of-layers-and-protocols-are-supported" title="Permanent link">&para;</a></h2>
+<p>Inlets works at a higher level than traditional VPNs because it is designed to connect services together, rather than hosts directly.</p>
+<ul>
+<li>HTTP - Layer 7 of the OSI model, used for web traffic such as websites and RESTful APIs</li>
+<li>TCP - Layer 4 of the OSI model, used for TCP traffic like SSH, TLS, databases, RDP, etc</li>
+</ul>
+<p>Because VPNs are designed to connect hosts together over a shared IP space, they also involve tedious IP address management and allocation.</p>
+<p>Inlets connects services, so for TCP traffic, you need only think about TCP ports.</p>
+<p>For HTTP traffic, you need only to think about domain names.</p>
+<h2 id="do-i-want-a-tcp-or-https-tunnel">Do I want a TCP or HTTPS tunnel?<a class="headerlink" href="#do-i-want-a-tcp-or-https-tunnel" title="Permanent link">&para;</a></h2>
+<p>If you're exposing websites, blogs, docs, APIs and webhooks, you should use a HTTPS tunnel.</p>
+<p>For HTTP tunnels, Rate Error and Duration (RED) metrics are collected for any service you expose, even if it doesn't have its own instrumentation support.</p>
+<p>For anything that doesn't fit into that model, a TCP tunnel may be a better option.</p>
+<p>Common examples are: TLS, websockets, RDP, VNC, SSH, database protocols, NATS, or legacy medical protocols such as DiCom.</p>
+<p>TCP tunnels can also be used to forward traffic to a reverse proxy like Nginx, Caddy, Traefik or Istio, sitting behind a firewall or NAT by forwarding port 80 and 443.</p>
+<p>TCP traffic is forwarded directly between the two hosts without any decryption of bytes. The active connection count and frequency can be monitored along with the amount of throughput.</p>
+<h2 id="how-much-memory-or-ram-does-a-tunnel-require">How much memory or RAM does a tunnel require?<a class="headerlink" href="#how-much-memory-or-ram-does-a-tunnel-require" title="Permanent link">&para;</a></h2>
+<p>Each tunnel client and tunnel server run on different machines in their own process. Typically we have observed single-digit RAM consumption for tunnels.</p>
+<p>This means that you can scale to hundreds or thousands of tunnels with modest hardware.</p>
+<h2 id="how-tunnels-can-i-run">How tunnels can I run?<a class="headerlink" href="#how-tunnels-can-i-run" title="Permanent link">&para;</a></h2>
+<p>The best way to scale to huge numbers of tunnels is with <a href="/uplink/">Inlets Uplink</a>.</p>
+<p>Providing you have the license entitlement to run them, you can run as many as you require.</p>
+<p>If you are hosting tunnel servers within Kubernetes, you can typically run 5000 tunnels per Kubernetes namespace, with inlets uplink you could create as many namespaces as you need.</p>
+<p>The typical amount of Pods that can run on a Kubernetes node is 100, and since the system requirements are so low, you could use cheaper, lower specification nodes whilst scaling out.</p>
+<p>If your tunnel clients are distributed into different countries or regions, you could deploy inlets uplink into multiple Kubernetes clusters.</p>
+<h2 id="does-inlets-use-tcp-or-udp">Does inlets use TCP or UDP?<a class="headerlink" href="#does-inlets-use-tcp-or-udp" title="Permanent link">&para;</a></h2>
+<p>Inlets uses a websocket over TCP, so that it can penetrate HTTP proxies, captive portals, firewalls, and other kinds of NAT. As long as the client can make an outbound connection, a tunnel can be established. The use of HTTPS means that inlets will have similar latency and throughput to a HTTPS server or SSH tunnel.</p>
+<p>Once you have an inlets tunnel established, you can use it to tunnel traffic to TCP and HTTPS sockets within the private network of the client.</p>
+<p>Most VPNs tend to use UDP for communication due to its low overhead which results in lower latency and higher throughput. Certain tools and products such as OpenVPN, SSH and Tailscale can be configured to emulate a TCP stack over a TCP connection, this can lead to <a href="http://sites.inka.de/~bigred/devel/tcp-tcp.html">unexpected issues</a>.</p>
+<p>Inlets connections send data, rather than emulating a TCP over TCP stack, so doesn't suffer from this problem.</p>
+<h2 id="are-both-remote-and-local-forwarding-supported">Are both remote and local forwarding supported?<a class="headerlink" href="#are-both-remote-and-local-forwarding-supported" title="Permanent link">&para;</a></h2>
+<p>Remote forwarding is where a local service is forwarded from the client's network to the inlets tunnel server.</p>
+<p><img alt="Remote forwarding pushes a local endpoint to a remote host for access on another network" src="https://inlets.dev/images/2021-04-23-local-forwarding/remote-forwarding.jpg" /></p>
+<blockquote>
+<p>Remote forwarding pushes a local endpoint to a remote host for access on another network</p>
+</blockquote>
+<p>This is the most common use-case and would be used to expose a local HTTP server to the public Internet via a tunnel server.</p>
+<p>Local forwarding is used to forward a service on the tunnel server or tunnel server's network back to the client, so that it can be accessed using a port on localhost.</p>
+<p><img alt="Local forwarding brings a remote service back to localhost for accessing" src="https://inlets.dev/images/2021-04-23-local-forwarding/local-forwarding.jpg" /></p>
+<blockquote>
+<p>Local forwarding brings a remote service back to localhost for accessing</p>
+</blockquote>
+<p>An example would be that you have a webserver and MySQL database. The HTTP server is public and can access the database via its own loopback adapter, but the Internet cannot. So how do you access that MySQL database from CI, or from your local machine? Connect a client with local forwarding, and bring the MySQL port back to your local machine or CI runner, and then use the MySQL CLI to access it.</p>
+<p>A developer at the UK Government uses inlets to forward a NATS message queue from a staging environment to his local machine for testing. <a href="https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html">Learn more</a></p>
+<h2 id="whats-the-difference-between-the-data-plane-and-control-plane">What's the difference between the data plane and control plane?<a class="headerlink" href="#whats-the-difference-between-the-data-plane-and-control-plane" title="Permanent link">&para;</a></h2>
+<p>The data plane is any service or port that carries traffic from the tunnel server to the tunnel client, and your private TCP or HTTP services. It can be exposed on all interfaces, or only bound to loopback for private access, in a similar way to a VPN.</p>
+<p>If you were exposing SSH on an internal machine from port <code>2222</code>, your data-plane may be exposed on port <code>2222</code></p>
+<p>The control-plane is a TLS-encrypted, authenticated websocket that is used to connect clients to servers. All traffic ultimately passes over the control-plane's link, so remains encrypted and private.</p>
+<p>Your control-plane's port is usually <code>8123</code> when used directly, or <code>443</code> when used behind a reverse proxy or Kubernetes Ingress Controller.</p>
+<p>An example from the article: <a href="https://inlets.dev/blog/2021/04/07/simple-hybrid-cloud.html">The Simple Way To Connect Existing Apps to Public Cloud</a></p>
+<p>A legacy MSSQL server runs on Windows Server behind the firewall in a private datacenter. Your organisation cannot risk migrating it to an AWS EC2 instance at this time, but can move the microservice that needs to access it.</p>
+<p>The inlets tunnel allows for the MSSQL service to be tunneled privately to the EC2 instance's local network for accessing, but is not exposed on the Internet. All traffic is encrypted over the wire due to the TLS connection of inlets.</p>
+<p><img alt="Hybrid Cloud in action using an inlets tunnel to access the on-premises database" src="https://inlets.dev/images/2021-simple-hybrid-cloud/hybrid-in-action.jpg" /></p>
+<blockquote>
+<p>Hybrid Cloud in action using an inlets tunnel to access the on-premises database</p>
+</blockquote>
+<p>This concept is referred to as a a "split plane" because the control plane is available to public clients on all adapters, and the data plane is only available on local or private adapters on the server.</p>
+<h2 id="is-there-a-reference-guide-to-the-cli">Is there a reference guide to the CLI?<a class="headerlink" href="#is-there-a-reference-guide-to-the-cli" title="Permanent link">&para;</a></h2>
+<p>The inlets-pro binary has built-in help commands and examples, just run <code>inlets-pro tcp/http client/server --help</code>.</p>
+<p>A separate CLI reference guide is also available here: <a href="https://github.com/inlets/inlets-pro/blob/master/docs/cli-reference.md">inlets-pro CLI reference</a></p>
+<h2 id="is-inlets-secure">Is inlets secure?<a class="headerlink" href="#is-inlets-secure" title="Permanent link">&para;</a></h2>
+<p>All traffic sent over an inlets tunnel is encapsulated in a TLS-encrypted websocket, which prevents eavesdropping. This is technically similar to HTTPS, but you'll see a URL of <code>wss://</code> instead.</p>
+<p>The tunnel client is authenticated using an API token which is generated by the tunnel administrator, or by automated tooling.</p>
+<p>Additional authentication mechanisms can be set up using a reverse proxy such as Nginx.</p>
+<h2 id="do-i-have-to-expose-services-on-the-internet-to-use-inlets">Do I have to expose services on the Internet to use inlets?<a class="headerlink" href="#do-i-have-to-expose-services-on-the-internet-to-use-inlets" title="Permanent link">&para;</a></h2>
+<p>No, inlets can be used to tunnel one or more services to another network without exposing them on the Internet.</p>
+<p>The <code>--data-addr 127.0.0.1:</code> flag for inlets servers binds the data plane to the server's loopback address, meaning that only other processing running on it can access the tunneled services. You could also use a private network adapter or VPC IP address in the <code>--data-addr</code> flag.</p>
+<h2 id="how-do-i-monitor-inlets">How do I monitor inlets?<a class="headerlink" href="#how-do-i-monitor-inlets" title="Permanent link">&para;</a></h2>
+<p>See the following blog post for details on the <code>inlets status</code> command and the various Prometheus metrics that are made available.</p>
+<p><a href="https://inlets.dev/blog/2021/08/18/measure-and-monitor.html">Measure and monitor your inlets tunnels</a></p>
+<h2 id="how-do-you-scale-inlets">How do you scale inlets?<a class="headerlink" href="#how-do-you-scale-inlets" title="Permanent link">&para;</a></h2>
+<p>Inlets HTTP servers can support a high number of clients, either for load-balancing the same internal service to a number of clients, or for a number of distinct endpoints.</p>
+<p>Tunnel servers are easy to scale through the use of containers, and can benefit from the resilience that a Kubernetes cluster can bring:</p>
+<p>See also: <a href="https://inlets.dev/blog/2021/03/15/scaling-inlets.html">How we scaled inlets to thousands of tunnels with Kubernetes</a></p>
+<h2 id="does-inlets-support-high-availability-ha">Does inlets support High Availability (HA)?<a class="headerlink" href="#does-inlets-support-high-availability-ha" title="Permanent link">&para;</a></h2>
+<p>For the inlets client, it is possible to connect multiple inlets tunnel clients for the same service, such as a company blog. Traffic will be distributed across the clients and if one of those clients goes down or crashes, the other will continue to serve requests.</p>
+<p>For the inlets tunnel server, the easiest option is to run the server in a supervisor that can restart the tunnel service quickly or allow it to run more than one replica. Systemd can be used to restart tunnel servers should they run into issues, likewise you can run the server in a container, or as a Kubernetes Pod.</p>
+<p><img alt="HA VIP" src="https://github.com/inlets/inlets-pro/blob/master/docs/images/inlets-pro-vip-ha.png?raw=true" /></p>
+<blockquote>
+<p>HA example with an AWS ELB</p>
+</blockquote>
+<p>For example, you may place a cloud load-balancer in front of the data-plane port of two inlets server processes. Requests to the stable load-balancer IP address will be distributed between the two virtual machines and their respective inlets server tunnel processes.  </p>
+<h2 id="is-ipv6-supported">Is IPv6 supported?<a class="headerlink" href="#is-ipv6-supported" title="Permanent link">&para;</a></h2>
+<p>Yes, see also: <a href="https://inlets.dev/blog/2020/11/16/inlets-the-ipv6-proxy.html">How to serve traffic to IPv6 users with inlets</a></p>
+<h2 id="what-if-the-websocket-disconnects">What if the websocket disconnects?<a class="headerlink" href="#what-if-the-websocket-disconnects" title="Permanent link">&para;</a></h2>
+<p>The client will reconnect automatically and can be configured with systemd or a Windows service to stay running in the background. See also <code>inlets pro tcp/http server/client --generate=systemd</code> for generating systemd unit files.</p>
+<p>When used in combination with a Kubernetes ingress controller or reverse proxy of your own, then the websocket may timeout. These timeout settings can usually be configured to remove any potential issue.</p>
+<p>Monitoring in inlets allows for you to monitor the reliability of your clients and servers, which are often running in distinct networks.</p>
+<h2 id="how-much-does-inlets-cost">How much does inlets cost?<a class="headerlink" href="#how-much-does-inlets-cost" title="Permanent link">&para;</a></h2>
+<p>Monthly and annual subscriptions are available via Gumroad.</p>
+<p>You can also purchase a static license for offline or air-gapped environments.</p>
+<p>For more, see the <a href="https://inlets.dev/pricing/">Pricing page</a></p>
+<h2 id="what-happens-when-the-license-expires">What happens when the license expires?<a class="headerlink" href="#what-happens-when-the-license-expires" title="Permanent link">&para;</a></h2>
+<p>If you're using a Gumroad license, and keep your billing relationship active, then the software will work for as long as you keep paying. The Gumroad license server needs to be reachable by the inlets client.</p>
+<p>If you're using a static license, then the software will continue to run, even after your license has expired, unless you restart the software. You can either rotate the token on your inlets clients in an automated or manual fashion, or purchase a token for a longer period of time up front.</p>
+<h2 id="can-i-get-professional-help">Can I get professional help?<a class="headerlink" href="#can-i-get-professional-help" title="Permanent link">&para;</a></h2>
+<p>Inlets is designed to be self-service and is well documented, but perhaps you could use some direction?</p>
+<p>Business licenses come with support via email, however you are welcome to <a href="https://inlets.dev/contact">contact OpenFaaS Ltd</a> to ask about a consulting project.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 OpenFaaS Ltd
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>

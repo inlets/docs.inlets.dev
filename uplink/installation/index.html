@@ -1,0 +1,2709 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Inlets Secure Tunnels From Dev to Cloud">
+      
+      
+        <meta name="author" content="OpenFaaS Ltd">
+      
+      
+        <link rel="canonical" href="https://docs.inlets.dev/uplink/installation/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../create-tunnels/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>Installation - Inlets</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto,+Helvetica:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto, Helvetica";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-MVH8L09LKP"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-MVH8L09LKP",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-MVH8L09LKP",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#install-inlets-uplink" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Inlets" class="md-header__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Inlets
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Installation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Inlets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  Inlets Uplink
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cloud/" class="md-tabs__link">
+          
+  
+  Inlets Cloud
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reference/" class="md-tabs__link">
+          
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Inlets" class="md-nav__button md-logo" aria-label="Inlets" data-md-component="logo">
+      
+  <img src="../../images/logo.svg" alt="logo">
+
+    </a>
+    Inlets
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/inlets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    inlets/inlets
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FAQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HTTP Tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            HTTP Tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-http-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-header-modification/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Modify HTTP headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/http-authentication/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Authenticate HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/dual-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Enable dual TCP and HTTPs tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/09/09/compose-and-inlets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/community/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Community tutorials
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_4" id="__nav_1_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    TCP tunnels
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            TCP tunnels
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/automated-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server with inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/manual-tcp-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel server manually
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/caddy-http-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Caddy from your private network
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/local-port-forwarding/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local port forwarding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ssh-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose SSH
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/postgresql-tcp-tunnel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose Postgresql
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_5" id="__nav_1_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            Kubernetes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-tcp-loadbalancer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a TCP LoadBalancer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-generate-yaml/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Generate YAML for a tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-ingress/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes Ingress
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/kubernetes-api-server/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes API Server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/istio-gateway/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Istio Gateway
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/04/13/local-port-forwarding-kubernetes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable local port forwarding (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2022/08/10/managing-tunnel-servers-with-argocd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage private clusters with ArgoCD (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/inlets/inlets-pro/tree/master/chart" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Helm charts (GitHub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_6" id="__nav_1_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Advanced
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_6">
+            <span class="md-nav__icon md-icon"></span>
+            Advanced
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/monitoring-and-metrics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitoring and metrics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorial/ip-filtering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    IP filtering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://inlets.dev/blog/2021/12/06/private-deploy-from-github-actions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions (blog)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Uplink
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Uplink
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Installation
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Kubernetes cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install cert-manager
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-namespace-for-the-chart-and-add-the-license-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a namespace for the chart and add the license secret
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-up-ingress-for-the-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup up Ingress for the control-plane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup up Ingress for the control-plane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-install-with-kubernetes-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      A) Install with Kubernetes Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-install-with-istio" class="md-nav__link">
+    <span class="md-ellipsis">
+      B) Install with Istio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-with-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy with Helm
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-the-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify the installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup the REST API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup the REST API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-oauth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure OAuth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-a-separate-api-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure a separate API domain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-tunnel-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download the tunnel CLI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-the-first-customer-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup the first customer tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-the-chart-and-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading the chart and components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading the chart and components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrading-existing-customer-tunnels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading existing customer tunnels
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telemetry-and-usage-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telemetry and usage data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Traefik rate limiting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress NGINX
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../create-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create a tunnel
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../connect-tunnel-client/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Connect the tunnel client
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../private-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Access tunnels privately
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expose-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Expose tunnels publicly
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../manage-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manage tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../monitoring-tunnels/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Monitor tunnels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rest-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    REST API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Troubleshooting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_11" id="__nav_2_11_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Tutorials
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_11">
+            <span class="md-nav__icon md-icon"></span>
+            Tutorials
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/argo-cd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Remote cluster management with ArgoCD
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Inlets Cloud
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Inlets Cloud
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/security-groups/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Security Groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/inlets-operator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inlets Operator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/inletsctl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inletsctl
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a Kubernetes cluster
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install cert-manager
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-namespace-for-the-chart-and-add-the-license-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create a namespace for the chart and add the license secret
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-up-ingress-for-the-control-plane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup up Ingress for the control-plane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup up Ingress for the control-plane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-install-with-kubernetes-ingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      A) Install with Kubernetes Ingress
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-install-with-istio" class="md-nav__link">
+    <span class="md-ellipsis">
+      B) Install with Istio
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-with-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deploy with Helm
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-the-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Verify the installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-the-rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup the REST API
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup the REST API">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#access-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-oauth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure OAuth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-a-separate-api-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure a separate API domain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#download-the-tunnel-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Download the tunnel CLI
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-the-first-customer-tunnel" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup the first customer tunnel
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-the-chart-and-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading the chart and components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrading the chart and components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#upgrading-existing-customer-tunnels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upgrading existing customer tunnels
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration reference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telemetry-and-usage-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telemetry and usage data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#traefik-rate-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Traefik rate limiting
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ingress-nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ingress NGINX
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="install-inlets-uplink">Install Inlets Uplink<a class="headerlink" href="#install-inlets-uplink" title="Permanent link">&para;</a></h1>
+<p>Inlets Uplink requires a Kubernetes cluster, and an inlets uplink subscription.</p>
+<p>The installation is performed through a Helm chart (inlets-uplink-provider)) which is published as an OCI artifact in a container registry.</p>
+<p>The default installation keeps tunneled services private, with only the control-plane exposed to the public Internet. To expose the data-plane for one or more tunnels, after you've completed the installation, see the page <a href="/uplink/expose-tunnels/">Expose tunnels</a>.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<p>Before you start, you'll need the following:</p>
+<ul>
+<li>A Kubernetes cluster where you can create a LoadBalancer i.e. a managed Kubernetes service like AWS EKS, Azure AKS, Google GKE, etc.</li>
+<li>A domain name clients can use to connect to the tunnel control plane.</li>
+<li>An inlets uplink license (an inlets-pro license cannot be used)</li>
+<li>
+<p>Optional: <a href="https://github.com/alexellis/arkade">arkade</a> - a tool for installing popular Kubernetes tools</p>
+<p>To install arkade run:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sSLf<span class="w"> </span>https://get.arkade.dev/<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>sh
+</code></pre></div>
+</li>
+</ul>
+<p>You can obtain a subscription for inlets uplink here: <a href="https://inlets.dev/pricing">inlets uplink plans</a>.</p>
+<h2 id="create-a-kubernetes-cluster">Create a Kubernetes cluster<a class="headerlink" href="#create-a-kubernetes-cluster" title="Permanent link">&para;</a></h2>
+<p>We recommend creating a Kubernetes cluster with a minimum of three nodes. Each node should have a minimum of 2GB of RAM and 2 CPU cores.</p>
+<h2 id="install-cert-manager">Install cert-manager<a class="headerlink" href="#install-cert-manager" title="Permanent link">&para;</a></h2>
+<p>Install <a href="https://cert-manager.io/docs/">cert-manager</a>, which is used to manage TLS certificates for inlets-uplink for the control-plane and the REST API.</p>
+<p>You can use Helm, or arkade:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cert-manager<span class="w"> </span>oci://quay.io/jetstack/charts/cert-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>cert-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>crds.enabled<span class="o">=</span><span class="nb">true</span>
+</code></pre></div>
+<h2 id="create-a-namespace-for-the-chart-and-add-the-license-secret">Create a namespace for the chart and add the license secret<a class="headerlink" href="#create-a-namespace-for-the-chart-and-add-the-license-secret" title="Permanent link">&para;</a></h2>
+<p>Make sure to create the target namespace for you installation first.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>inlets
+</code></pre></div>
+<p>Create the required secret with your inlets-uplink license.</p>
+<div class="admonition note">
+<p class="admonition-title">Check that your license key is in lower-case</p>
+<p>There is a known issue with LemonSqueezy where the UI will copy the license key in lower-case, it needs to be converted to upper-case before being used with Inlets Uplink.</p>
+</div>
+<p>Convert the license to upper-case, if it's in lower-case:</p>
+<div class="highlight"><pre><span></span><code><span class="o">(</span>
+<span class="w">  </span>mv<span class="w"> </span><span class="nv">$HOME</span>/.inlets/LICENSE_UPLINK<span class="o">{</span>,.lower<span class="o">}</span>
+
+<span class="w">  </span>cat<span class="w"> </span><span class="nv">$HOME</span>/.inlets/LICENSE_UPLINK.lower<span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">&#39;[:lower:]&#39;</span><span class="w"> </span><span class="s1">&#39;[:upper:]&#39;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$HOME</span>/.inlets/LICENSE_UPLINK
+<span class="w">  </span>rm<span class="w"> </span><span class="nv">$HOME</span>/.inlets/LICENSE_UPLINK.lower
+<span class="o">)</span>
+</code></pre></div>
+<p>Create the secret for the license:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>inlets<span class="w"> </span>inlets-uplink-license<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="w"> </span><span class="nv">license</span><span class="o">=</span><span class="nv">$HOME</span>/.inlets/LICENSE_UPLINK
+</code></pre></div>
+<h2 id="setup-up-ingress-for-the-control-plane">Setup up Ingress for the control-plane<a class="headerlink" href="#setup-up-ingress-for-the-control-plane" title="Permanent link">&para;</a></h2>
+<p>Tunnel clients will connect to the client-router component which needs to be exposed via Ingress.</p>
+<p>You can use Kubernetes Ingress or Istio. We recommend using Ingress (Option A), unless your team or organisation is already using Istio (Option B).</p>
+<h3 id="a-install-with-kubernetes-ingress">A) Install with Kubernetes Ingress<a class="headerlink" href="#a-install-with-kubernetes-ingress" title="Permanent link">&para;</a></h3>
+<p>We recommend <a href="https://doc.traefik.io/traefik/">Traefik</a> for Ingress, and have finely tuned the configuration to work well for the underlying websocket for inlets. If your organisation uses a different Ingress Controller, you can alter the <code>class</code> fields in the chart.</p>
+<div class="admonition note">
+<p class="admonition-title">NGINX Ingress Controller Retirement</p>
+<p>The Kubernetes NGINX Ingress Controller project has announced its retirement in March 2026 and will no longer receive updates or security patches.</p>
+<p>The uplink chart version 0.5.0 changes the default ingress class from Nginx to Traefik. To upgrade to the latest uplink while keeping NGINX ingress see the <a href="#ingress-nginx">Ingress NGINX section</a> for legacy configuration options.</p>
+</div>
+<p>Install traefik with Helm:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>traefik<span class="w"> </span>https://traefik.github.io/charts
+helm<span class="w"> </span>repo<span class="w"> </span>update
+
+helm<span class="w"> </span>install<span class="w"> </span>traefik<span class="w"> </span>traefik/traefik<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="o">=</span>traefik<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create-namespace
+</code></pre></div>
+<p>See also: <a href="https://doc.traefik.io/traefik/getting-started/install-traefik/#use-the-helm-chart">Traefik installation</a></p>
+<p>Create a <code>values.yaml</code> file for the inlets-uplink-provider chart:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;traefik&quot;</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># When set, a production issuer will be generated for you</span>
+<span class="w">    </span><span class="c1"># to use a pre-existing issuer, set issuer.enabled=false</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">clientRouter</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Customer tunnels will connect with a URI of:</span>
+<span class="w">  </span><span class="c1"># wss://uplink.example.com/namespace/tunnel</span>
+<span class="w">  </span><span class="nt">domain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uplink.example.com</span>
+
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">letsencrypt-prod</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Make sure to replace the domain with your actual domain name.</p>
+<p>Optionally, you can add rate limiting to the client-router Ingress using Traefik Middleware. See <a href="#traefik-rate-limiting">Traefik rate limiting</a> for details.</p>
+<p>Want to use the staging issuer for testing?</p>
+<p>To use the Let's Encrypt staging issuer, pre-create your own issuer, update <code>clientRouter.tls.issuerName</code> with the name you have chosen, and then update <code>clientRouter.tls.issuer.enabled</code> and set it to false.</p>
+<h3 id="b-install-with-istio">B) Install with Istio<a class="headerlink" href="#b-install-with-istio" title="Permanent link">&para;</a></h3>
+<p>We have added support in the inlets-uplink chart for Istio to make it as simple as possible to configure with a HTTP01 challenge.</p>
+<p>If you don't have Istio setup already you can deploy it with arkade.</p>
+<div class="highlight"><pre><span></span><code>arkade<span class="w"> </span>install<span class="w"> </span>istio
+</code></pre></div>
+<p>Label the <code>inlets</code> namespace so that Istio can inject its sidecars:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>namespace<span class="w"> </span>inlets<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>istio-injection<span class="o">=</span>enabled<span class="w"> </span>--overwrite
+</code></pre></div>
+<p>Create a <code>values.yaml</code> file for the inlets-uplink chart:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">issuer</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># When set, a production issuer will be generated for you</span>
+<span class="w">    </span><span class="c1"># to use a pre-existing issuer, set issuer.enabled=false</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;istio&quot;</span>
+
+<span class="nt">clientRouter</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Customer tunnels will connect with a URI of:</span>
+<span class="w">  </span><span class="c1"># wss://uplink.example.com/namespace/tunnel</span>
+<span class="w">  </span><span class="nt">domain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uplink.example.com</span>
+
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">letsencrypt-prod</span>
+<span class="w">    </span><span class="nt">istio</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Make sure to replace the domain with your actual domain name.</p>
+<h3 id="deploy-with-helm">Deploy with Helm<a class="headerlink" href="#deploy-with-helm" title="Permanent link">&para;</a></h3>
+<div class="admonition note">
+<p class="admonition-title">The chart is served through a container registry (OCI), not GitHub pages</p>
+<p>Many Helm charts are served over GitHub pages, from a public repository, making it easy to browse and read the source code. We are using an OCI artifact in a container registry, which makes for a more modern alternative. If you want to browse the source, you can simply run <code>helm template</code> instead of <code>helm upgrade</code>.</p>
+<p><strong>Unauthorized?</strong></p>
+<p>The chart artifacts are public and do not require authentication, however if you run into an "Access denied" or authorization error when interacting with <code>ghcr.io</code>, try running <code>helm registry login ghcr.io</code> to refresh your credentials, or <code>docker logout ghcr.io</code>.</p>
+</div>
+<p>The Helm chart is called <em>inlets-uplink-provider</em>, you can deploy it using the custom values.yaml file created above:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>inlets-uplink<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>oci://ghcr.io/openfaasltd/inlets-uplink-provider<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>inlets<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--values<span class="w"> </span>./values.yaml
+</code></pre></div>
+<p>If you want to pin the version of the Helm chart, you can do so with the <code>--version</code> flag.</p>
+<p><strong>Where can I see the various options for values.yaml?</strong></p>
+<p>All of the various options for the Helm chart are documented in the <a href="#configuration-reference">configuration reference</a>.</p>
+<p><strong>How can I view the source code?</strong></p>
+<p>See the note on <code>helm template</code> under the <a href="#configuration-reference">configuration reference</a>.</p>
+<p><strong>How can I find the latest version of the chart?</strong></p>
+<p>If you omit a version, Helm will use the latest published OCI artifact, however if you do want to pin it, you can browse <a href="https://ghcr.io/openfaasltd/inlets-uplink-provider">all versions of the Helm chart on GitHub</a></p>
+<p>As an alternative to using ghcr.io's UI, you can get the list of tags, including the latest tag via the crane CLI:</p>
+<div class="highlight"><pre><span></span><code>arkade<span class="w"> </span>get<span class="w"> </span>crane
+
+<span class="c1"># List versions</span>
+crane<span class="w"> </span>ls<span class="w"> </span>ghcr.io/openfaasltd/inlets-uplink-provider
+
+<span class="c1"># Get the latest version</span>
+<span class="nv">LATEST</span><span class="o">=</span><span class="k">$(</span>crane<span class="w"> </span>ls<span class="w"> </span>ghcr.io/openfaasltd/inlets-uplink-provider<span class="w"> </span><span class="p">|</span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$LATEST</span>
+</code></pre></div>
+<h2 id="verify-the-installation">Verify the installation<a class="headerlink" href="#verify-the-installation" title="Permanent link">&para;</a></h2>
+<p>Once you've installed inlets-uplink, you can verify it is deployed correctly by checking the <code>inlets</code> namespace for running pods:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>--namespace<span class="w"> </span>inlets
+
+NAME<span class="w">                               </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
+client-router-b5857cf6f-7vrdh<span class="w">      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>92s
+prometheus-74d8d7db9b-2hptm<span class="w">        </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>16s
+uplink-operator-7fccc9bdbc-twd2q<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>92s
+</code></pre></div>
+<p>You should see the <code>client-router</code> and <code>cloud-operator</code> in a <code>Running</code> state.</p>
+<p>If you installed inlets-uplink with Kubernetes ingress, you can verify that ingress for the client-router is setup and that a TLS certificate is issued for your domain using these two commands:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>-n<span class="w"> </span>inlets<span class="w"> </span>ingress/client-router
+
+NAME<span class="w">            </span>CLASS<span class="w">    </span>HOSTS<span class="w">                </span>ADDRESS<span class="w">           </span>PORTS<span class="w">     </span>AGE
+client-router<span class="w">   </span>traefik<span class="w">  </span>uplink.example.com<span class="w">   </span><span class="m">188</span>.166.194.102<span class="w">   </span><span class="m">80</span>,<span class="w"> </span><span class="m">443</span><span class="w">   </span>31m
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>-n<span class="w"> </span>inlets<span class="w"> </span>cert/client-router-cert
+
+NAME<span class="w">                 </span>READY<span class="w">   </span>SECRET<span class="w">               </span>AGE
+client-router-cert<span class="w">   </span>True<span class="w">    </span>client-router-cert<span class="w">   </span>30m
+</code></pre></div>
+<h2 id="setup-the-rest-api">Setup the REST API<a class="headerlink" href="#setup-the-rest-api" title="Permanent link">&para;</a></h2>
+<p>The REST API for Uplink is enabled by default and accessible on the same domain as the client-router under the <code>/v1</code> path prefix. For example, if your client-router domain is <code>uplink.example.com</code>, the API will be available at <code>https://uplink.example.com/v1</code>.</p>
+<p>See the <a href="/uplink/rest-api/">REST API reference</a> to learn how to invoke the API and for a full list of endpoints.</p>
+<p>Optionally, the client-api can be exposed on a <a href="#configure-a-separate-api-domain">separate domain</a>.</p>
+<h3 id="access-token">Access token<a class="headerlink" href="#access-token" title="Permanent link">&para;</a></h3>
+<p>An access token is generated by Helm and stored as a Kubernetes secret during installation. This token can be used to authenticate with the API.</p>
+<p>If you need to create the token manually, for example to use a specific value, you can do so before installing the chart:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Generate a new access token</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">token</span><span class="o">=</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">32</span><span class="p">|</span>tr<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;\n&#39;</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$token</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$HOME</span>/.inlets/client-api
+
+<span class="c1"># Store the access token in a secret in the inlets namespace.</span>
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>client-api-token<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>inlets<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="w"> </span>client-api-token<span class="o">=</span><span class="nv">$HOME</span>/.inlets/client-api
+</code></pre></div>
+<p>If the secret already exists, Helm will use the existing token instead of generating a new one.</p>
+<blockquote>
+<p>See the <a href="#configure-oauth">OAuth configuration</a> section for instructions on how to enable OAuth.</p>
+</blockquote>
+<h3 id="configure-oauth">Configure OAuth<a class="headerlink" href="#configure-oauth" title="Permanent link">&para;</a></h3>
+<p>You can configure any OpenID Connect (OIDC) compatible identity provider for use with Inlets Uplink.</p>
+<ol>
+<li>Register a new client (application) for Inlets Uplink with your identity provider.</li>
+<li>Enable the required authentication flows.
+  The Client Credentials flow is ideal for serve-to-server interactions where there is no direct user involvement. This is the flow we recommend and use in our examples any other authentication flow can be picked depending on your use case.</li>
+<li>
+<p>Configure Client API</p>
+<p>Update your <code>values.yaml</code> file and add the following parameters to the <code>clientApi</code> section:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">clientApi</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># OIDC provider url.</span>
+<span class="w">  </span><span class="nt">issuerURL</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myprovider.example.com&quot;</span>
+
+<span class="w">  </span><span class="c1"># The audience is generally the same as the value of the domain field, however</span>
+<span class="w">  </span><span class="c1"># some issuers like keycloak make the audience the client_id of the application/client.</span>
+<span class="w">  </span><span class="nt">audience</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;uplink.example.com&quot;</span>
+</code></pre></div>
+</li>
+</ol>
+<p>The <code>issuerURL</code> needs to be set to the url of your provider, eg. <code>https://accounts.google.com</code> for google or <code>https://example.eu.auth0.com/</code> for Auth0.</p>
+<p>The <code>audience</code> is usually the client apis public URL although for some providers it can also be the client id.</p>
+<h3 id="configure-a-separate-api-domain">Configure a separate API domain<a class="headerlink" href="#configure-a-separate-api-domain" title="Permanent link">&para;</a></h3>
+<p>By default, the client-api is exposed on the same domain as the client-router under the <code>/v1</code> path prefix. If you prefer to use a separate domain, set the <code>clientApi.domain</code> field in your <code>values.yaml</code> file and enable the dedicated ingress:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">clientApi</span><span class="p">:</span>
+<span class="w">  </span><span class="c1"># Use a dedicated domain for the client API</span>
+<span class="w">  </span><span class="nt">domain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">clientapi.example.com</span>
+
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>When a dedicated domain is set and <code>clientApi.tls.ingress.enabled</code> is <code>true</code>, a separate Ingress resource is created for the client-api.</p>
+<h2 id="download-the-tunnel-cli">Download the tunnel CLI<a class="headerlink" href="#download-the-tunnel-cli" title="Permanent link">&para;</a></h2>
+<p>We provide a CLI to help you create and manage tunnels. It is available as a plugin for the inlets-pro CLI.</p>
+<p>Download the <code>inlets-pro</code> binary:</p>
+<ul>
+<li>Download it from the <a href="https://github.com/inlets/inlets-pro/releases">GitHub releases</a></li>
+<li>Get it with <a href="https://github.com/alexellis/arkade">arkade</a>: <code>arkade get inlets-pro</code></li>
+</ul>
+<p>Get the tunnel plugin:</p>
+<div class="highlight"><pre><span></span><code>inlets-pro<span class="w"> </span>plugin<span class="w"> </span>get<span class="w"> </span>tunnel
+</code></pre></div>
+<p>Run <code>inlets-pro tunnel --help</code> to see all available commands.</p>
+<h2 id="setup-the-first-customer-tunnel">Setup the first customer tunnel<a class="headerlink" href="#setup-the-first-customer-tunnel" title="Permanent link">&para;</a></h2>
+<p>Continue the setup here: <a href="/uplink/create-tunnels">Create a customer tunnel</a></p>
+<h2 id="upgrading-the-chart-and-components">Upgrading the chart and components<a class="headerlink" href="#upgrading-the-chart-and-components" title="Permanent link">&para;</a></h2>
+<p>If you have a copy of values.yaml with pinned image versions, you should update these manually.</p>
+<p>Next, run the Helm chart installation command again, and remember to use the sames values.yaml file that you used to install the software originally.</p>
+<p>Over time, you may find using a tool like FluxCD or ArgoCD to manage the installation and updates makes more sense than running Helm commands manually.</p>
+<div class="admonition warning">
+<p class="admonition-title">Ingress class change in chart version 0.5.0</p>
+<p>The default ingress class changed from Nginx to Traefik in chart version 0.5.0. If you are still using NGINX ingress, make sure your values.yaml includes the required configuration from the <a href="#ingress-nginx">Ingress NGINX section</a> before upgrading.</p>
+</div>
+<p>If the Custom Resource Definition (CRD) has changed, you can extract it from the Chart repo and install it before or after upgrading. As a rule, Helm won't install or upgrade CRDs a second time if there's already an existing version:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>template<span class="w"> </span>oci://ghcr.io/openfaasltd/inlets-uplink-provider<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--include-crds<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-dir<span class="o">=</span>/tmp
+
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/tmp/inlets-uplink-provider/crds/uplink.inlets.dev_tunnels.yaml
+</code></pre></div>
+<h3 id="upgrading-existing-customer-tunnels">Upgrading existing customer tunnels<a class="headerlink" href="#upgrading-existing-customer-tunnels" title="Permanent link">&para;</a></h3>
+<p>The operator will upgrade the <code>image:</code> version of all deployed inlets uplink tunnels automatically based upon the tag set in values.yaml.</p>
+<p>If no value is set in your overridden values.yaml file, then whatever the default is in the chart will be used.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">inletsVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.9.23</span>
+</code></pre></div>
+<p>When a tunnel is upgraded, you'll see a log line like this:</p>
+<div class="highlight"><pre><span></span><code><span class="m">2024</span>-01-11T12:25:15.442Z<span class="w">        </span>info<span class="w">    </span>operator/controller.go:860<span class="w">      </span>Upgrading<span class="w"> </span>version<span class="w">       </span><span class="o">{</span><span class="s2">&quot;tunnel&quot;</span>:<span class="w"> </span><span class="s2">&quot;ce.inlets&quot;</span>,<span class="w"> </span><span class="s2">&quot;from&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.9.21&quot;</span>,<span class="w"> </span><span class="s2">&quot;to&quot;</span>:<span class="w"> </span><span class="s2">&quot;0.9.23&quot;</span><span class="o">}</span>
+</code></pre></div>
+<h2 id="configuration-reference">Configuration reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h2>
+<p>Looking for the source for the Helm chart? The source is published directly to a container registry as an OCI bundle. View the source with: <code>helm template oci://ghcr.io/openfaasltd/inlets-uplink-provider</code></p>
+<p>If you need a configuration option outside of what's already available, feel free to raise an issue on the <a href="https://github.com/inlets/inlets-pro/issues">inlets-pro repository</a>.</p>
+<p>Overview of inlets-uplink parameters in <code>values.yaml</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pullPolicy</code></td>
+<td>The a imagePullPolicy applied to inlets-uplink components.</td>
+<td><code>Always</code></td>
+</tr>
+<tr>
+<td><code>operator.image</code></td>
+<td>Container image used for the uplink operator.</td>
+<td><code>ghcr.io/openfaasltd/uplink-operator:0.1.5</code></td>
+</tr>
+<tr>
+<td><code>ingress.issuer.name</code></td>
+<td>Name of cert-manager Issuer.</td>
+<td><code>letsencrypt-prod</code></td>
+</tr>
+<tr>
+<td><code>ingress.issuer.enabled</code></td>
+<td>Create a cert-manager Issuer. Set to false if you wish to specify your own pre-existing object for each component.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>ingress.issuer.email</code></td>
+<td>Let's Encrypt email. Only used for certificate renewing notifications.</td>
+<td><code>""</code></td>
+</tr>
+<tr>
+<td><code>ingress.class</code></td>
+<td>Ingress class for client router ingress.</td>
+<td><code>traefik</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.image</code></td>
+<td>Container image used for the client router.</td>
+<td><code>ghcr.io/openfaasltd/uplink-client-router:0.1.5</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.domain</code></td>
+<td>Domain name for inlets uplink. Customer tunnels will connect with a URI of: wss://uplink.example.com/namespace/tunnel.</td>
+<td><code>""</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.tls.ingress.enabled</code></td>
+<td>Enable ingress for the client router.</td>
+<td><code>enabled</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.tls.ingress.annotations</code></td>
+<td>Annotations to be added to the client router ingress resource.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.tls.istio.enabled</code></td>
+<td>Use an Istio Gateway for incoming traffic to the client router.</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.service.type</code></td>
+<td>Client router service type</td>
+<td><code>ClusterIP</code></td>
+</tr>
+<tr>
+<td><code>clientRouter.service.nodePort</code></td>
+<td>Client router service port for NodePort service type, assigned automatically when left empty. (only if clientRouter.service.type is set to "NodePort")</td>
+<td><code>nil</code></td>
+</tr>
+<tr>
+<td><code>tunnelsNamespace</code></td>
+<td>Deployments, Services and Secrets will be created in this namespace. Leave blank for a cluster-wide scope, with tunnels in multiple namespaces.</td>
+<td><code>""</code></td>
+</tr>
+<tr>
+<td><code>inletsVersion</code></td>
+<td>Inlets Pro release version for tunnel server Pods.</td>
+<td><code>0.9.12</code></td>
+</tr>
+<tr>
+<td><code>clientApi.enabled</code></td>
+<td>Enable tunnel management REST API.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>clientApi.domain</code></td>
+<td>Domain for a dedicated client API ingress. By default the API is exposed on the client-router's domain under the <code>/v1</code> path prefix.</td>
+<td><code>""</code></td>
+</tr>
+<tr>
+<td><code>clientApi.tls.ingress.enabled</code></td>
+<td>Enable a dedicated ingress for the client API. Requires <code>clientApi.domain</code> to be set.</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>clientApi.tls.ingress.annotations</code></td>
+<td>Annotations to be added to the client API ingress resource.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>clientApi.image</code></td>
+<td>Container image used for the client API.</td>
+<td><code>ghcr.io/openfaasltd/uplink-api:0.1.5</code></td>
+</tr>
+<tr>
+<td><code>prometheus.create</code></td>
+<td>Create the Prometheus monitoring component.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>prometheus.resources</code></td>
+<td>Resource limits and requests for prometheus containers.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>prometheus.image</code></td>
+<td>Container image used for prometheus.</td>
+<td><code>prom/prometheus:v2.40.1</code></td>
+</tr>
+<tr>
+<td><code>prometheus.service.type</code></td>
+<td>Prometheus service type</td>
+<td><code>ClusterIP</code></td>
+</tr>
+<tr>
+<td><code>prometheus.service.nodePort</code></td>
+<td>Prometheus service port for NodePort service type, assigned automatically when left empty. (only if prometheus.service.type is set to "NodePort")</td>
+<td><code>nil</code></td>
+</tr>
+<tr>
+<td><code>nodeSelector</code></td>
+<td>Node labels for pod assignment.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>affinity</code></td>
+<td>Node affinity for pod assignments.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>tolerations</code></td>
+<td>Node tolerations for pod assignment.</td>
+<td><code>[]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Specify each parameter using the <code>--set key=value[,key=value]</code> argument to <code>helm install</code></p>
+<h2 id="telemetry-and-usage-data">Telemetry and usage data<a class="headerlink" href="#telemetry-and-usage-data" title="Permanent link">&para;</a></h2>
+<p>The inlets-uplink Kubernetes operator will send telemetry data to OpenFaaS Ltd on a periodic basis. This information is used for calculating accurate usage metrics for billing purposes. This data is sent over HTTPS, does not contain any personal information, and is not shared with any third parties.</p>
+<p>This data includes the following:</p>
+<ul>
+<li>Number of tunnels deployed</li>
+<li>Number of namespaces with at least one tunnel contained</li>
+<li>Kubernetes version</li>
+<li>Inlets Uplink version</li>
+<li>Number of installations of Inlets Uplink</li>
+</ul>
+<h2 id="traefik-rate-limiting">Traefik rate limiting<a class="headerlink" href="#traefik-rate-limiting" title="Permanent link">&para;</a></h2>
+<p>With Traefik, rate limiting is configured using <a href="https://doc.traefik.io/traefik/middlewares/overview/">Middleware</a> custom resources. You can use the <a href="https://doc.traefik.io/traefik/middlewares/http/ratelimit/">RateLimit</a> middleware to limit requests per second and the <a href="https://doc.traefik.io/traefik/middlewares/http/inflightreq/">InFlightReq</a> middleware to limit simultaneous connections.</p>
+<p>Create a <code>Middleware</code> resource for rate limiting in the <code>inlets</code> namespace:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">traefik.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Middleware</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uplink-rate-limit</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inlets</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rateLimit</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">average</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">17</span>
+<span class="w">    </span><span class="nt">period</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1s</span>
+<span class="w">    </span><span class="nt">burst</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+</code></pre></div>
+<p>Create a <code>Middleware</code> resource for limiting simultaneous connections:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">traefik.io/v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Middleware</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uplink-inflight-limit</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inlets</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inFlightReq</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">amount</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+</code></pre></div>
+<p>To apply the middleware to the client-router Ingress, add the <code>traefik.ingress.kubernetes.io/router.middlewares</code> annotation in your <code>values.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">clientRouter</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">traefik.ingress.kubernetes.io/router.middlewares</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inlets-uplink-rate-limit@kubernetescrd,inlets-uplink-inflight-limit@kubernetescrd</span>
+</code></pre></div>
+<p>The annotation value follows the format <code>&lt;namespace&gt;-&lt;middleware-name&gt;@kubernetescrd</code>. Multiple middleware can be chained with commas.</p>
+<h2 id="ingress-nginx">Ingress NGINX<a class="headerlink" href="#ingress-nginx" title="Permanent link">&para;</a></h2>
+<p>The Kubernetes NGINX Ingress Controller project has announced its retirement in March 2026 and will no longer receive updates or security patches. The uplink chart version 0.5.0 changes the default ingress class from Nginx to Traefik.
+If you want to update to the latest uplink version but have not migrated your ingress controller yet, you need to add the following additional parameters in the values.yaml configuration for the uplink Helm chart.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">class</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nginx&quot;</span>
+
+<span class="nt">clientRouter</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/limit-connections</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;300&quot;</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/limit-rpm</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1000&quot;</span>
+<span class="w">        </span><span class="c1"># 10 minutes for the websocket</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/proxy-read-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3600&quot;</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/proxy-send-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3600&quot;</span>
+<span class="w">        </span><span class="c1"># Up the keepalive timeout to max</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/keepalive-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;350&quot;</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/proxy-buffer-size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128k</span>
+</code></pre></div>
+<p>When you have the data-router deployed you can add these additional rate-limiting annotations as well. They used to be set as defaults by the chart.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">dataRouter</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/limit-connections</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;300&quot;</span>
+<span class="w">        </span><span class="nt">nginx.ingress.kubernetes.io/limit-rpm</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;1000&quot;</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021 OpenFaaS Ltd
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.top"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+    
+  </body>
+</html>
