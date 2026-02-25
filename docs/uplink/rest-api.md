@@ -33,14 +33,28 @@ Add the following parameters to your uplink `values.yaml` file and update the de
 clientApi:
   enable: true
 
-  # Domain used for client API ingress
+  tls:
+    ingress:
+      enabled: true
+```
+
+By default, the client-api will be exposed on the same domain as the client-router under the `/v1` path prefix. For example, if your client-router domain is `uplink.example.com`, the API will be available at `https://uplink.example.com/v1`.
+
+If you prefer to use a separate domain for the client-api, set the `clientApi.domain` field:
+
+```yaml
+clientApi:
+  enable: true
+
+  # Use a dedicated domain for the client API
   domain: clientapi.example.com
 
   tls:
     ingress:
-      # Optionally enable ingress for the Client API
       enabled: true
 ```
+
+When a dedicated domain is set, a separate Ingress resource is created for the client-api.
 
 ## Authentication
 
@@ -80,7 +94,7 @@ curl -S -L -X POST "${IDP_TOKEN_URL}" \
 Use the token as bearer token in the `Authorization` header when making requests to the API.
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 export NAME="acmeco"
 export NAMESPACE="acmeco"
 
@@ -96,7 +110,7 @@ We will be create an tunnel named `acmeco` in the `acmeco` namespace in the API 
 ### Get a tunnel
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 export NAME="acmeco"
 export NAMESPACE="acmeco"
 
@@ -139,7 +153,7 @@ The metrics section includes rx/tx bytes per second and tcp connection rate over
 ### List tunnels
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 export NAMESPACE="acmeco"
 
 curl -i \
@@ -154,7 +168,7 @@ Query parameters:
 ### Create a tunnel
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 
 curl -i \
   -X POST \
@@ -166,7 +180,7 @@ curl -i \
 ### Update a tunnel
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 
 curl -i \
   -X PUT \
@@ -178,7 +192,7 @@ curl -i \
 ### Delete a tunnel
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 export NAME="acmeco"
 export NAMESPACE="acmeco"
 
@@ -206,7 +220,7 @@ The `kube-system` and `inlets` namespace can not be used as tunnel namespaces.
 List all inlets uplink namespaces. This endpoint will list all namespaces with a label `inlets.dev/uplink=1`.
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 
 curl -i \
   -H "Authorization: Bearer ${TOKEN}" \
@@ -216,7 +230,7 @@ curl -i \
 ### Create a namespace
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 
 curl -i \
   -X POST \
@@ -244,7 +258,7 @@ The API supports adding additional namespace labels and annotations:
 ### Delete a namespace
 
 ```sh
-export CLIENT_API="https://clienapi.example.com"
+export CLIENT_API="https://uplink.example.com"
 export NAME="acmeco"
 
 curl -i \
@@ -271,7 +285,7 @@ You can configure any OpenID Connect (OIDC) compatible identity provider for use
 
       # The audience is generally the same as the value of the domain field, however
       # some issuers like keycloak make the audience the client_id of the application/client.
-      audience: "clienapi.example.com"
+      audience: "uplink.example.com"
     ```
 
   The `issuerURL` needs to be set to the url of your provider, eg. `https://accounts.google.com` for google or `https://example.eu.auth0.com/` for Auth0.
