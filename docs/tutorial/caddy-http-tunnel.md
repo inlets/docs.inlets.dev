@@ -93,9 +93,8 @@ Here's an example Caddyfile that will reverse-proxy to the local file-server usi
   acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-service.example.com
-
-reverse_proxy 127.0.0.1:8080 {
+service.example.com {
+  reverse_proxy 127.0.0.1:8080
 }
 ```
 
@@ -119,10 +118,6 @@ If you wanted to expose something else like Grafana, you could simply edit your 
 Caddy also supports multiple domains within the same file, so that you can expose multiple internal or private websites through the same tunnel.
 
 ```Caddyfile
-{
-  email "webmaster@example.com"
-}
-
 blog.example.com {
   reverse_proxy 127.0.0.1:4000
 }
