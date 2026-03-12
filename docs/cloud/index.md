@@ -17,7 +17,6 @@ The following regions are available:
 
 * cambs1 - London, United Kingdom
 * us-east-1 - Virginia, USA
-* ap-southeast-1 - Singapore
 
 If you'd like to request an additional region, send us a message on the Inlets Discord server.
 
