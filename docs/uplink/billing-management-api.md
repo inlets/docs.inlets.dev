@@ -145,7 +145,7 @@ The API returns the billable quantity after applying the current subscription po
 
 ## Fetch license entitlement
 
-Inlets Uplink can use the license entitlement endpoint to fetch the tunnel limit for a license key. This endpoint is authenticated by the inlets Pro or Inlets Uplink license key, not by the billing API key.
+Inlets Uplink can use the license entitlement endpoint to fetch the tunnel limit and subscription identity for a license key. This endpoint is authenticated by the inlets Pro or Inlets Uplink license key, not by the billing API key.
 
 ```http
 GET /v1/license/inlets/entitlement
@@ -165,11 +165,9 @@ Response:
   },
   "subscription": {
     "product_name": "Inlets Uplink",
-    "variant_name": "Provider"
-  },
-  "policy": {
-    "included_quantity": 10,
-    "quantity_step": 5
+    "variant_name": "Provider",
+    "customer_name": "Example Ltd",
+    "customer_email": "ops@example.com"
   }
 }
 ```

@@ -130,6 +130,7 @@ nav:
     - Manage tunnels: uplink/manage-tunnels.md
     - Monitor tunnels: uplink/monitoring-tunnels.md
     - REST API: uplink/rest-api.md
+    - Billing Management API: uplink/billing-management-api.md
     - Troubleshooting: uplink/troubleshooting.md
     - Tutorials:
       - Remote cluster management with ArgoCD: uplink/tutorials/argo-cd.md
@@ -142,7 +143,6 @@ nav:
     - Overview: reference/index.md
     - Inlets Operator: reference/inlets-operator.md
     - inletsctl: reference/inletsctl.md
-    - Billing Management API: reference/billing-management-api.md
 
 extra:
   analytics:
