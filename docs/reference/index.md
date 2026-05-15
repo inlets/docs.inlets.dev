@@ -12,6 +12,12 @@ Learn how to set up the inlets-operator for Kubernetes, which provisions public 
 
 * [inlets-operator reference](/reference/inlets-operator/)
 
+## Billing Management API
+
+Learn how approved customers can update subscription quantities through the Billing Management API.
+
+* [Billing Management API reference](/reference/billing-management-api/)
+
 ## GitHub repositories
 
 * [inlets-pro](https://github.com/inlets/inlets-pro)

@@ -142,6 +142,7 @@ nav:
     - Overview: reference/index.md
     - Inlets Operator: reference/inlets-operator.md
     - inletsctl: reference/inletsctl.md
+    - Billing Management API: reference/billing-management-api.md
 
 extra:
   analytics:
