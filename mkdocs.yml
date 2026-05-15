@@ -133,6 +133,7 @@ nav:
     - Billing Management API: uplink/billing-management-api.md
     - Troubleshooting: uplink/troubleshooting.md
     - Tutorials:
+      - High throughput tunnels: uplink/tutorials/high-throughput-tunnels.md
       - Remote cluster management with ArgoCD: uplink/tutorials/argo-cd.md
 
   - Inlets Cloud:
