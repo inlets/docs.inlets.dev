@@ -157,7 +157,7 @@ done
 
 You should see `h264` three times.
 
-## Connect one client
+## Connect the tunnel client
 
 Get the tunnel token:
 
@@ -166,7 +166,32 @@ inlets-pro tunnel token $TUNNEL \
   --namespace $NS > token.txt
 ```
 
-Run one inlets-pro client with three TCP upstreams:
+You can also use the tunnel plugin to print the client command:
+
+```bash
+inlets-pro tunnel connect $TUNNEL \
+  --namespace $NS \
+  --domain $DOMAIN \
+  --upstream 8551=127.0.0.1:8551 \
+  --upstream 8552=127.0.0.1:8552 \
+  --upstream 8553=127.0.0.1:8553 \
+  --quiet
+```
+
+It prints the `inlets-pro uplink client` command for the tunnel:
+
+```bash
+inlets-pro uplink client \
+  --url=wss://uplink.example.com/streams/mediamtx \
+  --token=<redacted> \
+  --upstream=8551=127.0.0.1:8551 \
+  --upstream=8552=127.0.0.1:8552 \
+  --upstream=8553=127.0.0.1:8553
+```
+
+Run one inlets-pro client with three TCP upstreams. Add `--demux` for this
+RTSP use-case. It is optional, but highly recommended for multiple viewers or
+long-lived TCP connections over the same tunnel.
 
 ```bash
 inlets-pro uplink client \
@@ -180,6 +205,36 @@ inlets-pro uplink client \
 
 The left side of each `--upstream` is the tunnel port in Kubernetes. The right
 side is the private host address.
+
+For a host service, the same plugin can generate a systemd unit:
+
+```bash
+inlets-pro tunnel connect $TUNNEL \
+  --namespace $NS \
+  --domain $DOMAIN \
+  --upstream 8551=127.0.0.1:8551 \
+  --upstream 8552=127.0.0.1:8552 \
+  --upstream 8553=127.0.0.1:8553 \
+  --format systemd > $TUNNEL.service
+```
+
+Add `--demux` to the generated `ExecStart` line before installing the unit.
+
+If the private MediaMTX service is running inside Kubernetes or K3s, generate a
+client Deployment instead:
+
+```bash
+inlets-pro tunnel connect $TUNNEL \
+  --namespace $NS \
+  --domain $DOMAIN \
+  --upstream 8551=mediamtx.default.svc.cluster.local:8551 \
+  --upstream 8552=mediamtx.default.svc.cluster.local:8552 \
+  --upstream 8553=mediamtx.default.svc.cluster.local:8553 \
+  --format k8s_yaml \
+  --inlets-version 0.11.11 > $TUNNEL-client.yaml
+```
+
+Add `--demux` to the generated client args, then apply the file.
 
 ## Test from the cluster
 
