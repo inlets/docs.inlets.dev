@@ -156,7 +156,54 @@ inlets-pro http client \
     --oauth-acl example@gmail.com
 ```
 
-You can control which users are allowed to access the tunnel by providing an email address using the `--oauth-acl` flag. 
+You can control which users are allowed to access the tunnel by providing an email address using the `--oauth-acl` flag.
+
+### Example with Microsoft Entra
+
+> To use the Microsoft Entra provider you need a commercial Inlets license.
+
+1. Sign in to [Microsoft Entra admin center](https://entra.microsoft.com/)
+2. Create an Application for Inlets.
+
+    Browse to *Identity -> Applications -> Enterprise applications -> All Applications*. In the All applications pane, select *New Application*.
+
+    This will let you browse the Microsoft Entra Gallery. Select *Create your own application*.
+
+    Fill out the app name, select the option `Register an application to integrate with Microsoft Entra ID (App you're developing)` and click *Create*
+
+    In the next form select the account types you would want to use. We will configure the redirect URI in the next step so this field can be left out for now. Click *Register* when done.
+
+3. Configure allowed callback URLs for Inlets tunnels.
+
+    Browse to *Identity -> Applications -> App registrations*. In the All application tab select your OpenFaaS application and navigate to *Authentication*. 
+
+    Under Platform configurations click *Add platform* and select Web.
+
+    Enter a redirect URI e.g. `http://tunnel.example.com/_/oauth/callback`. The callback for a tunnel is always available at `/_/oauth/callback`.
+
+    You can add more URIs later once the first one has been registered.
+
+4. Obtain client credentials
+
+    You will need to create a client secret for the Inlets app. Navigate to *Certificates and secrets* for the app registration and add a new client secret. Save it in a convenient place so it can be used when connecting the tunnel.
+    
+To connect the client you will need the client id, client secret and  authority URL from your tenant. The Authority url has the form: `https://login.microsoftonline.com/{tenant}/v2.0`.
+
+Both the Directory (tenant) ID and Application (client) ID can be found in the overview of your app registration in the Microsoft Entra admin center.
+
+Connect the client:
+
+```sh
+inlets-pro http client \
+  --upstream prometheus.demo.welteki.dev=http://127.0.0.1:9090 \
+  --oauth-provider microsoft-entra \
+  --oauth-client-id $(cat ./client-id) \
+  --oauth-client-secret $(cat ./client-secret) \
+  --oauth-authority=https://login.microsoftonline.com/1fe3798478-5987-2564-b4aa-99e587365024/v2.0 \
+  --oauth-acl examplei@outlook.com
+```
+
+You can control which users are allowed to access the tunnel by providing an email address using the `--oauth-acl` flag.
 
 More providers will be added over time, based upon requests from users, so if you want to use Facebook, GitLab, etc, send us an email to help with prioritisation.
 
