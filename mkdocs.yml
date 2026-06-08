@@ -139,6 +139,7 @@ nav:
   - Inlets Cloud:
     - Overview: cloud/index.md
     - Security Groups: cloud/security-groups.md
+    - CLI Reference: cloud/cli.md
 
   - Reference:
     - Overview: reference/index.md
