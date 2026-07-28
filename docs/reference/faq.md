@@ -32,7 +32,8 @@ When compared to VPNs such as Wireguard, Tailscale and OpenVPN, we have to ask w
 
 A traditional VPN is built *to connect hosts and entire IP ranges together*. This can potentially expose a large number of machines and users to each other and requires complex Access Control Lists or authorization rules. If this is your use-case, a traditional VPN is probably the right tool for the job.
 
-Inlets is designed to connect or expose services between networks - either HTTP or TCP.
+Inlets is designed to connect or expose services between networks using HTTP,
+TCP, or UDP.
 
 For example:
 
@@ -50,7 +51,7 @@ Many of the inlets community use a VPN alongside inlets, because they are differ
 
 ## What's the difference between inlets, inletsctl and inlets-operator?
 
-[inlets-pro](https://github.com/inlets/inlets-pro) aka "inlets" is the command-line tool that contains both the client and server required to set up HTTP and TCP tunnels.
+[inlets-pro](https://github.com/inlets/inlets-pro) aka "inlets" is the command-line tool that contains both the client and server required to set up HTTP, TCP, and UDP tunnels.
 
 The inlets-pro server is usually set up on a computer with a public IP address, then the inlets-pro client is run on your own machine, or a separate computer that can reach the service or server you want to expose.
 
@@ -100,6 +101,7 @@ Inlets works at a higher level than traditional VPNs because it is designed to c
 
 * HTTP - Layer 7 of the OSI model, used for web traffic such as websites and RESTful APIs
 * TCP - Layer 4 of the OSI model, used for TCP traffic like SSH, TLS, databases, RDP, etc
+* UDP - Layer 4 datagrams, used for services such as DNS
 
 Because VPNs are designed to connect hosts together over a shared IP space, they also involve tedious IP address management and allocation.
 
@@ -113,7 +115,8 @@ If you're exposing websites, blogs, docs, APIs and webhooks, you should use a HT
 
 For HTTP tunnels, Rate Error and Duration (RED) metrics are collected for any service you expose, even if it doesn't have its own instrumentation support.
 
-For anything that doesn't fit into that model, a TCP tunnel may be a better option.
+For anything that doesn't fit into that model, the `tcp` tunnel mode may be a
+better option. Despite its name, this mode can publish both TCP and UDP ports.
 
 Common examples are: TLS, websockets, RDP, VNC, SSH, database protocols, NATS, or legacy medical protocols such as DiCom.
 
@@ -141,13 +144,95 @@ If your tunnel clients are distributed into different countries or regions, you 
 
 ## Does inlets use TCP or UDP?
 
-Inlets uses a websocket over TCP, so that it can penetrate HTTP proxies, captive portals, firewalls, and other kinds of NAT. As long as the client can make an outbound connection, a tunnel can be established. The use of HTTPS means that inlets will have similar latency and throughput to a HTTPS server or SSH tunnel.
+The inlets control plane uses a WebSocket over TCP so that it can penetrate
+HTTP proxies, captive portals, firewalls and other kinds of NAT. As long as the
+client can make an outbound connection, a tunnel can be established. The use
+of HTTPS means that inlets has similar latency and throughput to an HTTPS
+server or SSH tunnel.
 
-Once you have an inlets tunnel established, you can use it to tunnel traffic to TCP and HTTPS sockets within the private network of the client.
+The data plane can publish HTTP, TCP, or UDP services. UDP support is available
+in inlets Pro 0.11.13 and later through the `tcp` tunnel server and client. The
+name describes the general-purpose tunnel mode; it does not mean that every
+published port must use TCP.
+
+### Publish a DNS server over UDP
+
+DNS servers such as Pi-hole, CoreDNS, and dnsmasq can be made available through
+an inlets tunnel. Start a standard `tcp` tunnel server on the exit node:
+
+```sh
+inlets-pro tcp server \
+  --auto-tls \
+  --auto-tls-san SERVER_IP \
+  --token-file ./token.txt
+```
+
+Then connect a client from the network containing the DNS server. The
+`--upstream` value is the DNS server's IP address or hostname:
+
+```sh
+inlets-pro tcp client \
+  --url wss://SERVER_IP:8123 \
+  --token-file ./token.txt \
+  --upstream 192.168.1.10 \
+  --udp-port 53
+```
+
+Queries sent to UDP port 53 on `SERVER_IP` are forwarded to UDP port 53 on
+`192.168.1.10`. No `--port` or `--ports` value is required, so the tunnel can
+publish UDP without publishing any TCP data-plane ports. `--udp-port` can be
+repeated to publish more than one UDP port. This makes the exit node a reverse
+proxy for UDP DNS while the resolver remains on the client's private network.
+
+For example:
+
+```sh
+dig @SERVER_IP example.com
+```
+
+!!! warning
+    Do not expose an unrestricted recursive DNS server to the public Internet.
+    Use the tunnel server's `--allow-ips` flag and your host or cloud firewall
+    to restrict who can send queries.
+
+Most ordinary DNS queries use UDP. If clients need DNS-over-TCP fallback, zone
+transfers or another TCP-specific DNS feature, publish TCP port 53 separately
+with `--port 53`.
+
+### How UDP forwarding works
+
+The tunnel server opens a UDP socket for each advertised port. It keeps a
+NAT-style flow table keyed by the source address and opens one logical tunnel
+connection for each active flow. Flows are created on the first datagram and
+removed after 60 seconds without traffic.
+
+The tunnel's logical connections carry byte streams, so inlets prefixes each
+UDP datagram with a two-byte length. The client removes this framing before
+sending the original datagram to the upstream DNS server, and applies the same
+framing to the response. This preserves datagram boundaries even when the
+underlying WebSocket splits or combines writes.
+
+Each UDP port is limited to 4,096 active and pending flows. Queues used while a
+new flow is opening are also bounded, preventing a flood of source addresses
+or stalled dials from consuming unlimited memory.
+
+When a client requests a UDP port, it first checks the server's advertised
+capabilities. It fails with an upgrade message instead of connecting to an
+older server that would silently ignore the UDP port.
+
+The implementation was tested with DNS requests sent through an exit server
+and back to a DNS server on the client's network. Coverage included normal
+answers, NXDOMAIN responses, mixed-case names, and TSIG-signed RFC 2136 updates.
+Automated tests cover fragmented and combined frames, flow creation and reuse,
+idle cleanup, flow and pending-queue limits, and end-to-end UDP forwarding.
+
+Once an inlets tunnel is established, it can carry traffic to HTTP, TCP, and UDP
+services within the private network of the client.
 
 Most VPNs tend to use UDP for communication due to its low overhead which results in lower latency and higher throughput. Certain tools and products such as OpenVPN, SSH and Tailscale can be configured to emulate a TCP stack over a TCP connection, this can lead to [unexpected issues](http://sites.inka.de/~bigred/devel/tcp-tcp.html).
 
-Inlets connections send data, rather than emulating a TCP over TCP stack, so doesn't suffer from this problem.
+Inlets connections send application data rather than emulating a TCP stack
+over TCP, so they do not suffer from this problem.
 
 ## Are both remote and local forwarding supported?
 
