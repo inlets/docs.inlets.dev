@@ -84,6 +84,62 @@ kubectl logs -n inlets deploy/uplink-operator -f
 
 The logs will show you if a tunnel did not get reconciled because you reached the maximum number of tunnels allowed by your license.
 
+### Need to update your licence?
+
+The easiest way to update the licence is to delete the existing Secret,
+create a new one, then restart the operator and tunnel servers. Make sure the
+LemonSqueezy key is in upper-case as shown in the
+[installation instructions](installation.md#create-a-namespace-for-the-chart-and-add-the-license-secret).
+
+Replace the Secret in the core namespace:
+
+```bash
+kubectl delete secret -n inlets \
+  inlets-uplink-license
+
+kubectl create secret generic \
+  -n inlets \
+  inlets-uplink-license \
+  --from-file license=$HOME/.inlets/LICENSE_UPLINK
+```
+
+Repeat these commands for each tunnel namespace:
+
+```bash
+export NAMESPACE=tenant1
+
+kubectl delete secret -n $NAMESPACE \
+  inlets-uplink-license
+
+kubectl create secret generic \
+  -n $NAMESPACE \
+  inlets-uplink-license \
+  --from-file license=$HOME/.inlets/LICENSE_UPLINK
+```
+
+Restart the operator so that it loads the new licence:
+
+```bash
+kubectl rollout restart deployment/uplink-operator -n inlets
+```
+
+Scale all tunnel servers to zero, wait for them to stop, then scale them back
+to one replica:
+
+```bash
+kubectl get deployment -A \
+  -l uplink.inlets.dev/managed=true \
+  -o yaml | kubectl scale --replicas=0 -f -
+
+kubectl get deployment -A \
+  -l uplink.inlets.dev/managed=true \
+  -o yaml | kubectl rollout status -f -
+
+kubectl get deployment -A \
+  -l uplink.inlets.dev/managed=true \
+  -o yaml | kubectl scale --replicas=1 -f -
+```
+
 ## Client router
 
 The client router handles incoming WebSocket connections from tunnel clients and routes them to the appropriate tunnel server.
