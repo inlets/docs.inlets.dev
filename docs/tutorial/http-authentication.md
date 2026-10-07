@@ -74,6 +74,8 @@ With OAuth:
 * Avoid managing credentials in your application
 * Use an existing well-known provider for authentication such as GitHub
 
+Supported providers are GitHub, Google and Signet.
+
 The OAuth 2.0 flow requires a web-browser, so if you anticipate mixed use, then you can combine it with Bearer Token Authentication, for headless clients.
 
 The tunnel client currently has three reserved paths for OAuth:
@@ -158,6 +160,53 @@ inlets-pro http client \
 
 You can control which users are allowed to access the tunnel by providing an email address using the `--oauth-acl` flag. 
 
+### Example with Signet
+
+The example below will expose `http://127.0.0.1:3000` using the domain name `tunnel.example.com`, with Signet running at `https://signet.example.com`.
+
+1. Deploy Signet
+
+    Follow the [Signet documentation](https://docs.openfaas.com/signet/overview/) to install Signet and configure its issuer URL. The issuer must use HTTPS and be reachable by both the tunnel client and users' browsers.
+
+2. Create a user and an OAuth client
+
+    Follow [Provisioning identities](https://docs.openfaas.com/signet/overview/#provisioning-identities) to install the Signet CLI and configure its admin credentials. Then create a user and register a client for the tunnel:
+
+    ```bash
+    signet user add alice --groups developers
+    signet client add --redirect-url https://tunnel.example.com/_/oauth/callback inlets-tunnel
+    ```
+
+    Save the generated user password and client secret. The callback URL must match the public URL of your tunnel, followed by `/_/oauth/callback`.
+
+3. Save the client credentials
+
+    Save the client ID (`inlets-tunnel`) in `~/.inlets/oauth-client-id` and the generated client secret in `~/.inlets/oauth-client-secret`.
+
+Connect the client, adding your existing tunnel server `--url` and `--token-file` flags:
+
+```bash
+inlets-pro http client \
+    --upstream tunnel.example.com=http://127.0.0.1:3000 \
+    --oauth-client-id $(cat ~/.inlets/oauth-client-id) \
+    --oauth-client-secret $(cat ~/.inlets/oauth-client-secret) \
+    --oauth-provider signet \
+    --oauth-issuer-url https://signet.example.com \
+    --oauth-acl group:developers
+```
+
+The `--oauth-issuer-url` flag is required for Signet and must match the Signet URL.
+
+You can control which users are allowed to access the tunnel with the `--oauth-acl` flag:
+
+* `--oauth-acl alice@example.com` allows a user with that email address.
+* `--oauth-acl alice` allows a user with that subject (`sub`) claim. For Signet, this is the username.
+* `--oauth-acl group:developers` allows any user in the `developers` group.
+
+Repeat `--oauth-acl` to allow multiple users or groups. A user only needs to match one entry. If no entries are provided, access is denied to all users.
+
+Visit `https://tunnel.example.com` in a web-browser and sign in with the Signet user created above. Once authenticated, users matching the ACL can access the tunneled service.
+
+See [Provisioning identities](https://docs.openfaas.com/signet/overview/#provisioning-identities) for managing users, groups and OAuth clients with the Signet CLI or admin API.
+
 More providers will be added over time, based upon requests from users, so if you want to use Facebook, GitLab, etc, send us an email to help with prioritisation.
-
-
