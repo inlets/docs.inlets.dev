@@ -62,7 +62,7 @@ Common issues:
 
 - The Uplink license has not been copied to the tunnel namespace.
 - The tunnel secret referenced by `tokenRef` in the tunnel spec does not exist.
-- You have reached the maximum number of tunnels allowed by your license.
+- You have reached the maximum number of tunnels allowed by your license. See [Increase your tunnel license limit](#increase-your-tunnel-license-limit).
 
 See [troubleshoot the uplink operator](#uplink-operator) if the deployment or service for the tunnel does not exist.
 
@@ -83,6 +83,12 @@ kubectl logs -n inlets deploy/uplink-operator -f
 ```
 
 The logs will show you if a tunnel did not get reconciled because you reached the maximum number of tunnels allowed by your license.
+
+### Increase your tunnel license limit
+
+To increase the number of tunnels allowed by your Inlets Uplink license, [email the inlets team at support@openfaas.com](mailto:support@openfaas.com) to request more capacity.
+
+For automated self-service capacity management, see the [Billing Management API](billing-management-api.md). API access requires a separate agreement and approval from the inlets team.
 
 ### Need to update your licence?
 

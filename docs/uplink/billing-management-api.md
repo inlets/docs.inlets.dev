@@ -2,6 +2,10 @@
 
 The Billing Management API is available to approved customers who need to update the billable quantity for a subscription from their own automation.
 
+!!! note "Need to increase your Uplink tunnel license limit?"
+
+    To increase the number of tunnels allowed by your Inlets Uplink license, [email the inlets team at support@openfaas.com](mailto:support@openfaas.com). This API is available if you need automated self-service capacity management, with a separate agreement and approval from the team.
+
 Each billing API key is tied to a specific subscription. If you have more than one subscription, request a separate API key for each subscription that needs automated quantity updates.
 
 This API is separate from:
